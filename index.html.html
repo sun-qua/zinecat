@@ -1,0 +1,664 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent2:#1b4332;--accent:#2d6a4f;--accentl:#d8f3dc;
+  --radius:var(--border-radius-md);--mono:'JetBrains Mono',monospace;--serif:'Lora',serif;
+}
+body{font-family:var(--serif);background:var(--color-background-tertiary);color:var(--color-text-primary);padding:0 0 3rem}
+.app-header{background:#1b4332;color:#fff;padding:1.1rem 1.75rem;display:flex;align-items:center;gap:12px}
+.app-header h1{font-size:1.05rem;font-weight:500;letter-spacing:0.02em}
+.app-header .sub{font-size:0.75rem;opacity:0.7;font-style:italic;margin-top:2px}
+.badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:2px 9px;border-radius:20px;font-size:0.68rem;font-family:var(--mono)}
+.main{max-width:980px;margin:0 auto;padding:1.75rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
+.preview-col{position:sticky;top:1rem;align-self:start}
+.section{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);margin-bottom:1.1rem;overflow:hidden}
+.section-head{background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-secondary);padding:0.55rem 0.9rem;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.section-head .tag{font-family:var(--mono);font-size:0.7rem;font-weight:500;background:#1b4332;color:#fff;padding:2px 6px;border-radius:3px}
+.section-head .title{font-size:0.8rem;font-weight:500}
+.section-head .desc{font-size:0.7rem;color:var(--color-text-tertiary);font-family:sans-serif;margin-left:auto;font-style:normal}
+.section-body{padding:0.8rem 0.9rem}
+.field{margin-bottom:0.8rem}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:0.73rem;font-weight:500;color:var(--color-text-secondary);margin-bottom:3px;font-family:sans-serif}
+.marc{font-family:var(--mono);font-size:0.66rem;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-tertiary);margin-right:4px;border:0.5px solid var(--color-border-tertiary)}
+.req{color:#c0392b;margin-left:2px}
+input[type=text],textarea,select{width:100%;padding:6px 9px;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);font-family:var(--serif);font-size:0.87rem;color:var(--color-text-primary);background:var(--color-background-primary);transition:border-color 0.15s,box-shadow 0.15s}
+input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,0.1)}
+textarea{resize:vertical;min-height:58px;line-height:1.5}
+select{cursor:pointer}
+.hint{font-size:0.68rem;color:var(--color-text-tertiary);margin-top:3px;font-family:sans-serif;font-style:italic;line-height:1.4}
+.row{display:grid;gap:8px}
+.row-2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.row-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+.auto-tag{font-size:0.63rem;background:var(--accentl);color:#1b4332;padding:1px 5px;border-radius:10px;font-family:sans-serif;margin-left:5px;font-weight:600}
+.radio-group{display:flex;gap:8px 14px;flex-wrap:wrap;margin-top:2px}
+.radio-group label{display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:sans-serif;color:var(--color-text-primary);font-weight:400;cursor:pointer}
+.radio-group input[type=radio]{width:auto;padding:0;margin:0}
+.check-group{display:flex;gap:6px 14px;flex-wrap:wrap;margin-top:2px}
+.check-group label{display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:sans-serif;color:var(--color-text-primary);font-weight:400;cursor:pointer}
+.check-group input[type=checkbox]{width:auto;padding:0;margin:0}
+.subject-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.subject-row input{flex:1;min-width:0}
+.subject-row select{width:105px;flex-shrink:0}
+.subject-row button{flex-shrink:0;padding:5px 8px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);cursor:pointer;font-size:0.75rem;color:var(--color-text-tertiary);font-family:sans-serif}
+.subject-row button:hover{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.add-btn{background:transparent;border:1px dashed var(--color-border-secondary);border-radius:var(--radius);padding:5px 10px;font-size:0.76rem;color:var(--color-text-tertiary);cursor:pointer;width:100%;margin-top:4px;font-family:sans-serif}
+.add-btn:hover{border-color:#2d6a4f;color:#2d6a4f;background:var(--accentl)}
+.gen-wrap{display:flex;gap:8px;margin-top:0.5rem}
+.gen-btn{flex:1;padding:10px;background:#1b4332;color:#fff;border:none;border-radius:var(--radius);font-size:0.88rem;font-family:var(--serif);cursor:pointer}
+.gen-btn:hover{background:#2d6a4f}
+.reset-btn{padding:10px 13px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);font-size:0.82rem;cursor:pointer;color:var(--color-text-tertiary);font-family:var(--serif)}
+.reset-btn:hover{border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.preview-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);overflow:hidden}
+.preview-head{background:#1b4332;color:#fff;padding:0.55rem 0.9rem;display:flex;align-items:center;justify-content:space-between}
+.preview-head span{font-size:0.8rem;font-weight:500}
+.copy-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:3px 9px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:var(--mono)}
+.copy-btn:hover{background:rgba(255,255,255,0.25)}
+.marc-out{padding:0.9rem;font-family:var(--mono);font-size:0.73rem;line-height:1.9;color:var(--color-text-primary);min-height:180px;white-space:pre-wrap;word-break:break-word}
+.marc-field{display:block}
+.marc-tag{color:#1b4332;font-weight:500}
+.marc-ind{color:var(--color-text-tertiary)}
+.marc-sub{color:#c77c1a}
+.marc-auto{opacity:0.6}
+.empty-state{color:var(--color-text-tertiary);font-style:italic;font-family:var(--serif);font-size:0.83rem;padding:2rem 1rem;text-align:center;display:block}
+.export-row{padding:0.65rem 0.9rem;border-top:0.5px solid var(--color-border-tertiary);display:flex;gap:6px}
+.exp-btn{flex:1;padding:7px;border:0.5px solid var(--color-border-secondary);background:transparent;border-radius:var(--radius);font-size:0.75rem;cursor:pointer;font-family:sans-serif;color:var(--color-text-secondary)}
+.exp-btn:hover{background:var(--color-background-secondary)}
+.exp-btn.primary{background:#1b4332;color:#fff;border-color:#1b4332}
+.exp-btn.primary:hover{background:#2d6a4f}
+.auto-fields{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);padding:0.65rem 0.9rem;margin-bottom:1.1rem}
+.auto-fields h3{font-size:0.7rem;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.5rem;font-family:sans-serif}
+.auto-pill{display:inline-flex;align-items:center;gap:4px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:2px 9px;margin:2px 2px 2px 0;font-size:0.7rem;font-family:var(--mono)}
+.auto-pill .atag{color:#1b4332;font-weight:500}
+.auto-pill .aval{color:var(--color-text-secondary)}
+.note-box{margin-top:1rem;padding:0.65rem 0.9rem;background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--radius);font-size:0.72rem;color:var(--color-text-warning);font-family:sans-serif;line-height:1.6}
+.date-preview{font-family:var(--mono);font-size:0.72rem;color:var(--color-text-secondary);margin-top:4px;padding:4px 7px;background:var(--color-background-secondary);border-radius:var(--radius);border:0.5px solid var(--color-border-tertiary)}
+@media(max-width:680px){.main{grid-template-columns:1fr}.preview-col{position:static}}
+</style>
+
+<div class="app-header">
+  <div>
+    <h1>Zine Cataloging Assistant</h1>
+    <div class="sub">Simplified MARC 21 record creation for student employees</div>
+  </div>
+  <div style="margin-left:auto"><span class="badge">RDA / MARC 21</span></div>
+</div>
+
+<div class="main">
+<div class="form-col">
+
+  <div class="auto-fields">
+    <h3>Auto-generated fixed fields</h3>
+    <span class="auto-pill"><span class="atag">LDR</span><span class="aval">language material</span></span>
+    <span class="auto-pill"><span class="atag">007</span><span class="aval">text / unmediated</span></span>
+    <span class="auto-pill"><span class="atag">008</span><span class="aval">date type + lang</span></span>
+    <span class="auto-pill"><span class="atag">040</span><span class="aval">TFW / rda</span></span>
+    <span class="auto-pill"><span class="atag">336</span><span class="aval">text + still image</span></span>
+    <span class="auto-pill"><span class="atag">337</span><span class="aval">unmediated</span></span>
+    <span class="auto-pill"><span class="atag">338</span><span class="aval">volume</span></span>
+    <span class="auto-pill"><span class="atag">655</span><span class="aval">Zines / lcgft</span></span>
+  </div>
+
+  <!-- Language -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">041</span>
+      <span class="title">Language</span>
+      <span class="desc">also sets 008/35-37</span>
+    </div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label><span class="marc">041 $a</span>Language of text<span class="req">*</span></label>
+          <select id="f041a" onchange="update()">
+            <option value="eng">eng — English</option>
+            <option value="fre">fre — French</option>
+            <option value="spa">spa — Spanish</option>
+            <option value="ger">ger — German</option>
+            <option value="jpn">jpn — Japanese</option>
+            <option value="zho">zho — Chinese</option>
+            <option value="por">por — Portuguese</option>
+            <option value="kor">kor — Korean</option>
+            <option value="ara">ara — Arabic</option>
+            <option value="und">und — Undetermined</option>
+          </select>
+        </div>
+        <div class="field">
+          <label><span class="marc">041 ind1</span>Translation?</label>
+          <select id="f041ind1" onchange="update()">
+            <option value="0">0 — Not a translation</option>
+            <option value="1">1 — Translation</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1XX Creator -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">1XX</span>
+      <span class="title">Creator / main entry</span>
+      <span class="desc">100 or 110</span>
+    </div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label><span class="marc">100 $a</span>Personal name</label>
+          <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
+          <div class="hint">Inverted form: Last, First. Leave blank if corporate body.</div>
+        </div>
+        <div class="field">
+          <label><span class="marc">100 ind1</span>Name type</label>
+          <select id="f100type" onchange="update()">
+            <option value="1">1 — Surname</option>
+            <option value="0">0 — Forename / single name</option>
+            <option value="3">3 — Family name</option>
+          </select>
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label><span class="marc">100 $e</span>Relationship term</label>
+          <select id="f100e" onchange="update()">
+            <option value="author">author</option>
+            <option value="creator">creator</option>
+            <option value="editor">editor</option>
+            <option value="artist">artist</option>
+            <option value="illustrator">illustrator</option>
+            <option value="writer">writer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label><span class="marc">110 $a</span>Corporate / group name</label>
+          <input type="text" id="f110a" placeholder="Use instead of 100 if group" oninput="update()">
+          <div class="hint">Fills 110 ind1=2. Leave blank if individual.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 245 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">245</span>
+      <span class="title">Title statement</span>
+    </div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label><span class="marc">245 $a</span>Title proper<span class="req">*</span></label>
+          <input type="text" id="f245a" placeholder="The complete title" oninput="update245nf();update()">
+        </div>
+        <div class="field">
+          <label><span class="marc">245 $b</span>Subtitle</label>
+          <input type="text" id="f245b" placeholder="subtitle (after colon)" oninput="update()">
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label><span class="marc">245 $n/$p</span>Issue / part</label>
+          <input type="text" id="f245n" placeholder="e.g. no. 3" oninput="update()">
+        </div>
+        <div class="field">
+          <label><span class="marc">245 ind2</span>Nonfiling chars <span class="auto-tag">auto</span></label>
+          <input type="text" id="f245ind2" readonly style="background:var(--color-background-secondary);color:var(--color-text-tertiary)">
+          <div class="hint">Auto-detected from "The ", "A ", "An ", etc.</div>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="marc">245 $c</span>Statement of responsibility<span class="req">*</span></label>
+        <input type="text" id="f245c" placeholder="e.g. by Angela Sun ; illustrations by Robin Park" oninput="update()">
+        <div class="hint">Transcribe exactly as it appears on the source.</div>
+      </div>
+      <div class="field">
+        <label><span class="marc">246 $a</span>Variant / spine title</label>
+        <input type="text" id="f246a" placeholder="abbreviated or spine title" oninput="update()">
+      </div>
+    </div>
+  </div>
+
+  <!-- 250 Edition -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">250</span>
+      <span class="title">Edition statement</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label><span class="marc">250 $a</span>Edition statement</label>
+        <input type="text" id="f250a" placeholder="e.g. 2nd edition, Revised edition" oninput="update()">
+        <div class="hint">Transcribe as found. Leave blank if not stated.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 264 + date type -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">264</span>
+      <span class="title">Publication / date</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>Date situation<span class="req">*</span></label>
+        <div class="radio-group" style="margin-bottom:8px">
+          <label><input type="radio" name="datetype" value="known" checked onchange="updateDateUI()"> Known publication date</label>
+          <label><input type="radio" name="datetype" value="copyright" onchange="updateDateUI()"> Copyright date only</label>
+          <label><input type="radio" name="datetype" value="unknown" onchange="updateDateUI()"> Date unknown</label>
+        </div>
+      </div>
+      <div id="date-known-fields">
+        <div class="row row-3">
+          <div class="field">
+            <label><span class="marc">264 $a</span>Place</label>
+            <input type="text" id="f264a" placeholder="City, State" oninput="update()">
+          </div>
+          <div class="field">
+            <label><span class="marc">264 $b</span>Publisher</label>
+            <input type="text" id="f264b" placeholder="Publisher name" oninput="update()">
+          </div>
+          <div class="field">
+            <label><span class="marc">264 $c</span>Year<span class="req">*</span></label>
+            <input type="text" id="f264c" placeholder="2024" oninput="update()">
+          </div>
+        </div>
+      </div>
+      <div id="date-copyright-fields" style="display:none">
+        <div class="hint" style="margin-bottom:8px;font-size:0.72rem;color:var(--color-text-secondary);font-style:normal">Copyright-only dates generate two 264 fields: one with <code style="font-family:var(--mono);font-size:0.7rem">[year]</code> (ind2=1) and one with <code style="font-family:var(--mono);font-size:0.7rem">©year</code> (ind2=4). 008 uses date type <strong>t</strong> with the same year in both Date1 and Date2.</div>
+        <div class="row row-3">
+          <div class="field">
+            <label><span class="marc">264 $a</span>Place</label>
+            <input type="text" id="f264a-c" placeholder="City, State" oninput="update()">
+          </div>
+          <div class="field">
+            <label><span class="marc">264 $b</span>Publisher</label>
+            <input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()">
+          </div>
+          <div class="field">
+            <label><span class="marc">264 $c</span>Copyright year<span class="req">*</span></label>
+            <input type="text" id="f264c-c" placeholder="2024" oninput="update()">
+          </div>
+        </div>
+        <div id="date-copyright-preview" class="date-preview"></div>
+      </div>
+      <div id="date-unknown-fields" style="display:none">
+        <div class="hint" style="font-size:0.72rem;color:var(--color-text-secondary);font-style:normal">Outputs <code style="font-family:var(--mono);font-size:0.7rem">264 _1 $a ... $b ... $c [date not identified]</code> and sets 008 date type <strong>n</strong>.</div>
+        <div class="row row-2" style="margin-top:8px">
+          <div class="field">
+            <label><span class="marc">264 $a</span>Place</label>
+            <input type="text" id="f264a-u" placeholder="[Place not identified]" oninput="update()">
+          </div>
+          <div class="field">
+            <label><span class="marc">264 $b</span>Publisher</label>
+            <input type="text" id="f264b-u" placeholder="[Publisher not identified]" oninput="update()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 300 Physical -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">300</span>
+      <span class="title">Physical description</span>
+    </div>
+    <div class="section-body">
+      <div class="row row-2" style="margin-bottom:0.8rem">
+        <div class="field">
+          <label><span class="marc">300 $a</span>Number</label>
+          <input type="text" id="f300num" placeholder="e.g. 24" oninput="update()">
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <div class="radio-group" style="padding-top:6px">
+            <label><input type="radio" name="pagetype" value="pages" checked onchange="update()"> pages</label>
+            <label><input type="radio" name="pagetype" value="leaves" onchange="update()"> leaves</label>
+            <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="update()"> unnumbered pages</label>
+            <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="update()"> unnumbered leaves</label>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0.8rem">
+        <label><span class="marc">300 $b</span>Illustrations (select all that apply)</label>
+        <div class="check-group" style="margin-top:4px">
+          <label><input type="checkbox" value="illustrations" onchange="update()"> illustrations</label>
+          <label><input type="checkbox" value="color illustrations" onchange="update()"> color illustrations</label>
+          <label><input type="checkbox" value="photographs" onchange="update()"> photographs</label>
+          <label><input type="checkbox" value="color photographs" onchange="update()"> color photographs</label>
+          <label><input type="checkbox" value="portraits" onchange="update()"> portraits</label>
+          <label><input type="checkbox" value="maps" onchange="update()"> maps</label>
+          <label><input type="checkbox" value="facsimiles" onchange="update()"> facsimiles</label>
+          <label><input type="checkbox" value="charts" onchange="update()"> charts</label>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="marc">300 $c</span>Dimensions</label>
+        <input type="text" id="f300c" placeholder="e.g. 21 cm  or  10 × 16 cm" oninput="update()">
+        <div class="hint">Height in cm (RDA: round up to nearest cm). For non-standard shapes enter height × width, e.g. 10 × 10 cm (square) or 8 × 16 cm (wide/landscape).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5XX Notes -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">5XX</span>
+      <span class="title">Notes</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label><span class="marc">520 $a</span>Summary / description</label>
+        <textarea id="f520" placeholder="Brief description of content, themes, or purpose of the zine..." oninput="update()"></textarea>
+      </div>
+      <div class="field">
+        <label><span class="marc">500 $a</span>General note</label>
+        <input type="text" id="f500a" placeholder="e.g. Staple-bound; hand-lettered; photocopied" oninput="update()">
+      </div>
+      <div class="field">
+        <label><span class="marc">588 $a</span>Source of description</label>
+        <input type="text" id="f588" placeholder="Description based on: cover." oninput="update()">
+        <div class="hint">Leave blank to use default: "Description based on: cover."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6XX Subjects -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">6XX</span>
+      <span class="title">Subject headings</span>
+    </div>
+    <div class="section-body">
+      <div id="subjects-wrap"></div>
+      <button class="add-btn" onclick="addSubject()">+ Add subject heading</button>
+      <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. The 655 Zines (lcgft) heading is added automatically.</div>
+    </div>
+  </div>
+
+  <!-- 7XX -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag">7XX</span>
+      <span class="title">Added entries</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label><span class="marc">700 $a</span>Added entry — person</label>
+        <input type="text" id="f700a" placeholder="Last, First, relationship term." oninput="update()">
+        <div class="hint">e.g. Park, Robin, illustrator.</div>
+      </div>
+      <div class="field">
+        <label><span class="marc">710 $a</span>Added entry — organization</label>
+        <input type="text" id="f710a" placeholder="Organization name." oninput="update()">
+      </div>
+    </div>
+  </div>
+
+  <div class="gen-wrap">
+    <button class="gen-btn" onclick="generateMarc()">Generate MARC record</button>
+    <button class="reset-btn" onclick="resetForm()">Reset</button>
+  </div>
+
+</div>
+
+<div class="preview-col">
+  <div class="preview-box">
+    <div class="preview-head">
+      <span>MARC 21 preview</span>
+      <button class="copy-btn" onclick="copyMarc()">Copy</button>
+    </div>
+    <div class="marc-out" id="marc-preview"><span class="empty-state">Fill in fields to see your MARC record →</span></div>
+    <div class="export-row">
+      <button class="exp-btn" onclick="exportMrk()">Export .mrk</button>
+      <button class="exp-btn" onclick="exportText()">Export .txt</button>
+      <button class="exp-btn primary" onclick="copyMarc()">Copy all</button>
+    </div>
+  </div>
+  <div class="note-box">
+    <strong>Student note:</strong> Fields marked <span style="color:#c0392b">*</span> are required. Dimmed lines in the preview are auto-generated. Always verify subject headings against your authority file before saving.
+  </div>
+</div>
+
+</div>
+
+<script>
+let subjects=[];
+let marcOutput='';
+
+function addSubject(val='',type='650'){
+  subjects.push({id:Date.now()+Math.random(),val,type});
+  renderSubjects();
+}
+
+function renderSubjects(){
+  const wrap=document.getElementById('subjects-wrap');
+  wrap.innerHTML='';
+  subjects.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.className='subject-row';
+    row.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()"><option value="650"${s.type==='650'?' selected':''}>650 topical</option><option value="651"${s.type==='651'?' selected':''}>651 geographic</option><option value="600"${s.type==='600'?' selected':''}>600 personal</option><option value="610"${s.type==='610'?' selected':''}>610 corporate</option><option value="655"${s.type==='655'?' selected':''}>655 genre/form</option></select><input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()"><button onclick="subjects.splice(${i},1);renderSubjects();update()">✕</button>`;
+    wrap.appendChild(row);
+  });
+}
+
+function v(id){return(document.getElementById(id)||{}).value||'';}
+function rv(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+function dateType(){return rv('datetype')||'known';}
+
+function update245nf(){
+  const tl=v('f245a').toLowerCase();
+  const arts={'the ':4,'a ':2,'an ':3,'les ':4,'le ':3,'la ':3,"l'":2,'die ':4,'das ':4,'der ':4,'el ':3,'los ':4,'las ':4};
+  let ind2=0;
+  for(const[a,n]of Object.entries(arts)){if(tl.startsWith(a)){ind2=n;break;}}
+  document.getElementById('f245ind2').value=ind2;
+}
+
+function updateDateUI(){
+  const t=dateType();
+  document.getElementById('date-known-fields').style.display=t==='known'?'block':'none';
+  document.getElementById('date-copyright-fields').style.display=t==='copyright'?'block':'none';
+  document.getElementById('date-unknown-fields').style.display=t==='unknown'?'block':'none';
+  update();
+}
+
+function getIllustrations(){
+  const boxes=document.querySelectorAll('.check-group input[type=checkbox]:checked');
+  return Array.from(boxes).map(b=>b.value);
+}
+
+function build008(dateTypeSt,y4a,y4b,lang){
+  const today=new Date();
+  const yy=String(today.getFullYear()).slice(2);
+  const mm=String(today.getMonth()+1).padStart(2,'0');
+  const dd=String(today.getDate()).padStart(2,'0');
+  const d1=(y4a||'    ').slice(0,4).padEnd(4,' ');
+  const d2=(y4b||'    ').slice(0,4).padEnd(4,' ');
+  return `${yy}${mm}${dd}${dateTypeSt}${d1}${d2}xx            000 0 ${lang} d`;
+}
+
+function buildMarc(){
+  const lines=[];
+  const lang=v('f041a')||'eng';
+  const dt=dateType();
+
+  let pub264a,pub264b,pub264c,dateTypeSt,d1,d2;
+  let extraCopyright264=null;
+
+  if(dt==='known'){
+    pub264a=v('f264a').trim()||'[Place of publication not identified]';
+    pub264b=v('f264b').trim()||'[Publisher not identified]';
+    pub264c=v('f264c').trim()||'[date not identified]';
+    const y=pub264c.replace(/\D/g,'').slice(0,4);
+    d1=y.padEnd(4,' ');d2='    ';dateTypeSt='s';
+  } else if(dt==='copyright'){
+    pub264a=v('f264a-c').trim()||'[Place of publication not identified]';
+    pub264b=v('f264b-c').trim()||'[Publisher not identified]';
+    const cy=v('f264c-c').trim();
+    const y=cy.replace(/\D/g,'').slice(0,4);
+    pub264c=y?`[${y}]`:'[date not identified]';
+    const copyr=y?`\u00a9${y}`:'[date not identified]';
+    d1=y.padEnd(4,' ');d2=y.padEnd(4,' ');dateTypeSt='t';
+    extraCopyright264={a:pub264a,b:pub264b,c:copyr};
+    const prev=document.getElementById('date-copyright-preview');
+    if(prev) prev.textContent=`264 _1  $a ${pub264a} : $b ${pub264b}, $c ${pub264c}.\n264 _4  $c ${copyr}.`;
+  } else {
+    pub264a=v('f264a-u').trim()||'[Place of publication not identified]';
+    pub264b=v('f264b-u').trim()||'[Publisher not identified]';
+    pub264c='[date not identified]';
+    d1='    ';d2='    ';dateTypeSt='n';
+  }
+
+  const today=new Date();
+  const yy=String(today.getFullYear()).slice(2);
+  const mm=String(today.getMonth()+1).padStart(2,'0');
+  const dd=String(today.getDate()).padStart(2,'0');
+
+  lines.push({tag:'LDR',ind:'',val:'00000nam a2200000 i 4500',auto:true});
+  lines.push({tag:'001',ind:'',val:'zine_'+Date.now().toString().slice(-6),auto:true});
+  lines.push({tag:'003',ind:'',val:'TFW',auto:true});
+  lines.push({tag:'005',ind:'',val:`${today.getFullYear()}${mm}${dd}120000.0`,auto:true});
+  lines.push({tag:'007',ind:'',val:'ta',auto:true});
+  lines.push({tag:'008',ind:'',val:build008(dateTypeSt,d1,d2,lang),auto:true});
+  lines.push({tag:'040',ind:'  ',val:'$a TFW $b eng $e rda $c TFW',auto:true});
+  lines.push({tag:'041',ind:`${v('f041ind1')||'0'} `,val:`$a ${lang}`,auto:false});
+
+  const auth=v('f100a').trim();
+  const corp=v('f110a').trim();
+  const rel=v('f100e')||'author';
+  if(corp){
+    lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rel}.`,auto:false});
+  } else if(auth){
+    lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, $e ${rel}.`,auto:false});
+  }
+
+  const title=v('f245a').trim();
+  const sub=v('f245b').trim();
+  const part=v('f245n').trim();
+  const stmtresp=v('f245c').trim();
+  const ind2=v('f245ind2')||'0';
+  const hasCreator=!!(auth||corp);
+  if(title){
+    let tval=`$a ${title}`;
+    if(sub) tval+=` : $b ${sub}`;
+    if(part) tval+=`. $n ${part}`;
+    tval+=' /';
+    if(stmtresp) tval+=` $c ${stmtresp}.`;
+    lines.push({tag:'245',ind:`${hasCreator?'1':'0'}${ind2}`,val:tval,auto:false});
+  }
+
+  const var246=v('f246a').trim();
+  if(var246) lines.push({tag:'246',ind:'3 ',val:`$a ${var246}`,auto:false});
+
+  const ed=v('f250a').trim();
+  if(ed) lines.push({tag:'250',ind:'  ',val:`$a ${ed}.`,auto:false});
+
+  lines.push({tag:'264',ind:' 1',val:`$a ${pub264a} : $b ${pub264b}, $c ${pub264c}.`,auto:false});
+  if(extraCopyright264){
+    lines.push({tag:'264',ind:' 4',val:`$c ${extraCopyright264.c}.`,auto:false});
+  }
+
+  const pagenum=v('f300num').trim();
+  const pagetype=rv('pagetype')||'pages';
+  const ills=getIllustrations();
+  const dim=v('f300c').trim();
+  let phys=pagenum?`$a ${pagenum} ${pagetype}`:'$a 1 volume';
+  if(ills.length) phys+=` : $b ${ills.join(', ')}`;
+  if(dim) phys+=` ; $c ${dim}`;
+  lines.push({tag:'300',ind:'  ',val:phys,auto:false});
+
+  lines.push({tag:'336',ind:'  ',val:'$a text $b txt $2 rdacontent',auto:true});
+  lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent',auto:true});
+  lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia',auto:true});
+  lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier',auto:true});
+
+  const gen1=v('f500a').trim();
+  if(gen1) lines.push({tag:'500',ind:'  ',val:`$a ${gen1}`,auto:false});
+
+  const summ=v('f520').trim();
+  if(summ) lines.push({tag:'520',ind:'  ',val:`$a ${summ}`,auto:false});
+
+  const src=v('f588').trim()||'Description based on: cover.';
+  lines.push({tag:'588',ind:'  ',val:`$a ${src}`,auto:false});
+
+  lines.push({tag:'655',ind:' 7',val:'$a Zines. $2 lcgft',auto:true});
+
+  subjects.forEach(s=>{
+    if(!s.val.trim()) return;
+    const sv=s.val.trim();
+    const endsok=/[.\-)]$/.test(sv);
+    lines.push({tag:s.type,ind:' 0',val:`$a ${sv}${endsok?'':'.'}`,auto:false});
+  });
+
+  const add700=v('f700a').trim();
+  if(add700) lines.push({tag:'700',ind:'1 ',val:`$a ${add700}`,auto:false});
+  const add710=v('f710a').trim();
+  if(add710) lines.push({tag:'710',ind:'2 ',val:`$a ${add710}`,auto:false});
+
+  return lines;
+}
+
+function renderPreview(lines){
+  if(!lines||!lines.length){
+    document.getElementById('marc-preview').innerHTML='<span class="empty-state">Fill in fields to see your MARC record →</span>';
+    return;
+  }
+  const html=lines.map(l=>{
+    const cls=l.auto?'marc-field marc-auto':'marc-field';
+    const ind=l.ind?`<span class="marc-ind">${l.ind.replace(/ /g,'_')}</span>`:'';
+    const val=l.val.replace(/(\$[a-z0-9])/g,'<span class="marc-sub">$1</span>');
+    return `<span class="${cls}"><span class="marc-tag">${l.tag}</span> ${ind} ${val}</span>`;
+  }).join('\n');
+  document.getElementById('marc-preview').innerHTML=html;
+}
+
+function generateMarc(){
+  const lines=buildMarc();
+  marcOutput=lines.map(l=>`${l.tag} ${l.ind||'  '} ${l.val}`).join('\n');
+  renderPreview(lines);
+}
+
+function update(){generateMarc();}
+
+function copyMarc(){
+  if(!marcOutput)generateMarc();
+  navigator.clipboard.writeText(marcOutput).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',1500);
+  });
+}
+
+function exportText(){
+  if(!marcOutput)generateMarc();
+  const b=new Blob([marcOutput],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download='marc_record.txt';a.click();
+}
+
+function exportMrk(){
+  const lines=buildMarc();
+  const mrk=lines.map(l=>`=${l.tag}  ${l.ind||'  '}${l.val.replace(/\$([a-z0-9])/g,'$$$1')}`).join('\n');
+  const b=new Blob([mrk],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download='marc_record.mrk';a.click();
+}
+
+function resetForm(){
+  document.querySelectorAll('input[type=text],textarea').forEach(el=>el.value='');
+  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  document.querySelector('input[name="pagetype"][value="pages"]').checked=true;
+  document.querySelector('input[name="datetype"][value="known"]').checked=true;
+  document.querySelectorAll('.check-group input[type=checkbox]').forEach(c=>c.checked=false);
+  subjects=[];renderSubjects();
+  updateDateUI();
+  document.getElementById('marc-preview').innerHTML='<span class="empty-state">Fill in fields to see your MARC record →</span>';
+  marcOutput='';
+}
+
+addSubject();
+updateDateUI();
+</script>
