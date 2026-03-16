@@ -1,571 +1,636 @@
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --accent2:#1b4332;--accent:#2d6a4f;--accentl:#d8f3dc;
-  --radius:var(--border-radius-md);--mono:'JetBrains Mono',monospace;--serif:'Lora',serif;
+  --rose:#c2427a;--rose-lt:#fce8f0;--rose-md:#e8a0bc;--rose-dk:#8c1a46;
+  --sage:#4a8c6a;--sage-lt:#eaf4ee;--sage-md:#a8d4b8;--sage-dk:#1e4030;
+  --header-bg:#d4eddc;--header-text:#5a1a30;
+  --cream:#fdf9f5;--cream2:#f5ede3;--cream3:#ecddd0;
+  --ink:#1c1a18;--ink2:#4a4540;--ink3:#8a8078;
+  --gold:#b07d10;--gold-lt:#fef6e0;
+  --border:#d4c8bc;--border2:#bfb0a0;
+  --white:#ffffff;
+  --r:7px;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --display:'Playfair Display',serif;
 }
-body{font-family:var(--serif);background:var(--color-background-tertiary);color:var(--color-text-primary);padding:0 0 3rem}
-.app-header{background:#1b4332;color:#fff;padding:1.1rem 1.75rem;display:flex;align-items:center;gap:12px}
-.app-header h1{font-size:1.05rem;font-weight:500;letter-spacing:0.02em}
-.app-header .sub{font-size:0.75rem;opacity:0.7;font-style:italic;margin-top:2px}
-.badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:2px 9px;border-radius:20px;font-size:0.68rem;font-family:var(--mono)}
-.main{max-width:980px;margin:0 auto;padding:1.75rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
-.preview-col{position:sticky;top:1rem;align-self:start}
-.section{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);margin-bottom:1.1rem;overflow:hidden}
-.section-head{background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-secondary);padding:0.55rem 0.9rem;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.section-head .tag{font-family:var(--mono);font-size:0.7rem;font-weight:500;background:#1b4332;color:#fff;padding:2px 6px;border-radius:3px}
-.section-head .title{font-size:0.8rem;font-weight:500}
-.section-head .desc{font-size:0.7rem;color:var(--color-text-tertiary);font-family:sans-serif;margin-left:auto;font-style:normal}
-.section-body{padding:0.8rem 0.9rem}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);padding:0 0 4rem}
+
+.app-header{background:var(--header-bg);color:var(--header-text);padding:1.15rem 2rem;display:flex;align-items:center;gap:16px;border-bottom:3px solid var(--rose)}
+.hlogo{width:36px;height:36px;border-radius:6px;background:rgba(194,66,122,0.15);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.72rem;font-weight:500;flex-shrink:0;border:1px solid rgba(194,66,122,0.3);color:var(--rose-dk)}
+.htitles h1{font-family:var(--display);font-size:1.3rem;font-weight:500;letter-spacing:0.01em;line-height:1.2;color:var(--header-text)}
+.htitles .sub{font-size:0.73rem;color:var(--sage-dk);opacity:0.8;margin-top:2px}
+.hbadge{background:var(--rose);color:#fff;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-family:var(--mono);margin-left:auto;white-space:nowrap}
+
+.main{max-width:1040px;margin:0 auto;padding:1.75rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.preview-col{position:sticky;top:1rem}
+
+.section{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:1rem;overflow:hidden;box-shadow:2px 2px 0 var(--cream3)}
+.sh{background:var(--cream2);border-bottom:1.5px solid var(--border);padding:0.55rem 0.95rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stag{font-family:var(--mono);font-size:0.67rem;font-weight:500;padding:2px 7px;border-radius:4px;letter-spacing:0.04em}
+.stag.grn{background:var(--sage);color:#fff}
+.stag.pnk{background:var(--rose);color:#fff}
+.stag.gld{background:var(--gold);color:#fff}
+.stitle{font-size:0.8rem;font-weight:500;color:var(--sage-dk);font-family:var(--display)}
+.sdesc{font-size:0.68rem;color:var(--ink3);margin-left:auto;font-style:italic}
+.sb{padding:0.85rem 0.95rem}
+
 .field{margin-bottom:0.8rem}
 .field:last-child{margin-bottom:0}
-.field label{display:block;font-size:0.73rem;font-weight:500;color:var(--color-text-secondary);margin-bottom:3px;font-family:sans-serif}
-.marc{font-family:var(--mono);font-size:0.66rem;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-tertiary);margin-right:4px;border:0.5px solid var(--color-border-tertiary)}
-.req{color:#c0392b;margin-left:2px}
-input[type=text],textarea,select{width:100%;padding:6px 9px;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);font-family:var(--serif);font-size:0.87rem;color:var(--color-text-primary);background:var(--color-background-primary);transition:border-color 0.15s,box-shadow 0.15s}
-input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,0.1)}
-textarea{resize:vertical;min-height:58px;line-height:1.5}
-select{cursor:pointer}
-.hint{font-size:0.68rem;color:var(--color-text-tertiary);margin-top:3px;font-family:sans-serif;font-style:italic;line-height:1.4}
+.field>label,.field>div>label{display:block;font-size:0.72rem;font-weight:500;color:var(--ink2);margin-bottom:4px;font-family:var(--sans)}
+.marc{font-family:var(--mono);font-size:0.64rem;background:var(--cream2);padding:1px 5px;border-radius:3px;color:var(--ink3);margin-right:4px;border:1px solid var(--border)}
+.req{color:var(--rose);margin-left:2px}
+.atag{font-size:0.61rem;background:var(--gold-lt);color:var(--gold);padding:1px 5px;border-radius:10px;font-family:var(--mono);margin-left:5px;font-weight:600;border:1px solid #e0c878}
+
+input[type=text],textarea,select{
+  width:100%;padding:7px 10px;
+  border:1.5px solid var(--border2);border-radius:var(--r);
+  font-family:var(--sans);font-size:0.87rem;color:var(--ink);
+  background:var(--cream);transition:border-color 0.15s,box-shadow 0.15s,background 0.15s
+}
+input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--sage);background:var(--white);box-shadow:0 0 0 3px rgba(74,140,106,0.13)}
+input[type=text]::placeholder,textarea::placeholder{color:var(--ink3);font-style:italic}
+input[type=text][readonly]{background:var(--cream2);color:var(--ink3);border-color:var(--border);cursor:default}
+textarea{resize:vertical;min-height:60px;line-height:1.5}
+
+.hint{font-size:0.68rem;color:var(--ink3);margin-top:3px;line-height:1.4;font-style:italic}
 .row{display:grid;gap:8px}
-.row-2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-.row-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
-.auto-tag{font-size:0.63rem;background:var(--accentl);color:#1b4332;padding:1px 5px;border-radius:10px;font-family:sans-serif;margin-left:5px;font-weight:600}
-.radio-group{display:flex;gap:8px 14px;flex-wrap:wrap;margin-top:2px}
-.radio-group label{display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:sans-serif;color:var(--color-text-primary);font-weight:400;cursor:pointer}
-.radio-group input[type=radio]{width:auto;padding:0;margin:0}
-.check-group{display:flex;gap:6px 14px;flex-wrap:wrap;margin-top:2px}
-.check-group label{display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:sans-serif;color:var(--color-text-primary);font-weight:400;cursor:pointer}
-.check-group input[type=checkbox]{width:auto;padding:0;margin:0}
-.subject-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
-.subject-row input{flex:1;min-width:0}
-.subject-row select{width:105px;flex-shrink:0}
-.subject-row button{flex-shrink:0;padding:5px 8px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);cursor:pointer;font-size:0.75rem;color:var(--color-text-tertiary);font-family:sans-serif}
-.subject-row button:hover{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
-.add-btn{background:transparent;border:1px dashed var(--color-border-secondary);border-radius:var(--radius);padding:5px 10px;font-size:0.76rem;color:var(--color-text-tertiary);cursor:pointer;width:100%;margin-top:4px;font-family:sans-serif}
-.add-btn:hover{border-color:#2d6a4f;color:#2d6a4f;background:var(--accentl)}
+.r2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.r3{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+
+.radio-g,.check-g{display:flex;gap:7px 14px;flex-wrap:wrap;margin-top:4px}
+.radio-g label,.check-g label{display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer}
+.radio-g input,.check-g input{width:auto;padding:0;margin:0;accent-color:var(--sage)}
+
+.sub-row{display:flex;gap:6px;margin-bottom:7px;align-items:center}
+.sub-row input{flex:1;min-width:0}
+.sub-row select{width:108px;flex-shrink:0}
+.sub-row .xbtn,.ax-row .xbtn{flex-shrink:0;padding:5px 9px;background:transparent;border:1.5px solid var(--border2);border-radius:var(--r);cursor:pointer;font-size:0.75rem;color:var(--ink3);transition:all 0.12s}
+.sub-row .xbtn:hover,.ax-row .xbtn:hover{background:var(--rose-lt);border-color:var(--rose);color:var(--rose)}
+
+.ax-row{display:flex;gap:6px;margin-bottom:7px;align-items:center}
+.ax-row input{flex:1;min-width:0}
+.ax-row select.rel-sel{width:160px;flex-shrink:0}
+
+.add-btn{background:transparent;border:1.5px dashed var(--border2);border-radius:var(--r);padding:5px 12px;font-size:0.76rem;color:var(--ink3);cursor:pointer;width:100%;margin-top:4px;font-family:var(--sans);transition:all 0.12s}
+.add-btn:hover{border-color:var(--sage);color:var(--sage);background:var(--sage-lt)}
+
 .gen-wrap{display:flex;gap:8px;margin-top:0.5rem}
-.gen-btn{flex:1;padding:10px;background:#1b4332;color:#fff;border:none;border-radius:var(--radius);font-size:0.88rem;font-family:var(--serif);cursor:pointer}
-.gen-btn:hover{background:#2d6a4f}
-.reset-btn{padding:10px 13px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);font-size:0.82rem;cursor:pointer;color:var(--color-text-tertiary);font-family:var(--serif)}
-.reset-btn:hover{border-color:var(--color-border-danger);color:var(--color-text-danger)}
-.preview-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);overflow:hidden}
-.preview-head{background:#1b4332;color:#fff;padding:0.55rem 0.9rem;display:flex;align-items:center;justify-content:space-between}
-.preview-head span{font-size:0.8rem;font-weight:500}
-.copy-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:3px 9px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:var(--mono)}
-.copy-btn:hover{background:rgba(255,255,255,0.25)}
-.marc-out{padding:0.9rem;font-family:var(--mono);font-size:0.73rem;line-height:1.9;color:var(--color-text-primary);min-height:180px;white-space:pre-wrap;word-break:break-word}
-.marc-field{display:block}
-.marc-tag{color:#1b4332;font-weight:500}
-.marc-ind{color:var(--color-text-tertiary)}
-.marc-sub{color:#c77c1a}
-.marc-auto{opacity:0.6}
-.empty-state{color:var(--color-text-tertiary);font-style:italic;font-family:var(--serif);font-size:0.83rem;padding:2rem 1rem;text-align:center;display:block}
-.export-row{padding:0.65rem 0.9rem;border-top:0.5px solid var(--color-border-tertiary);display:flex;gap:6px}
-.exp-btn{flex:1;padding:7px;border:0.5px solid var(--color-border-secondary);background:transparent;border-radius:var(--radius);font-size:0.75rem;cursor:pointer;font-family:sans-serif;color:var(--color-text-secondary)}
-.exp-btn:hover{background:var(--color-background-secondary)}
-.exp-btn.primary{background:#1b4332;color:#fff;border-color:#1b4332}
-.exp-btn.primary:hover{background:#2d6a4f}
-.auto-fields{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--radius);padding:0.65rem 0.9rem;margin-bottom:1.1rem}
-.auto-fields h3{font-size:0.7rem;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.5rem;font-family:sans-serif}
-.auto-pill{display:inline-flex;align-items:center;gap:4px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:2px 9px;margin:2px 2px 2px 0;font-size:0.7rem;font-family:var(--mono)}
-.auto-pill .atag{color:#1b4332;font-weight:500}
-.auto-pill .aval{color:var(--color-text-secondary)}
-.note-box{margin-top:1rem;padding:0.65rem 0.9rem;background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--radius);font-size:0.72rem;color:var(--color-text-warning);font-family:sans-serif;line-height:1.6}
-.date-preview{font-family:var(--mono);font-size:0.72rem;color:var(--color-text-secondary);margin-top:4px;padding:4px 7px;background:var(--color-background-secondary);border-radius:var(--radius);border:0.5px solid var(--color-border-tertiary)}
-@media(max-width:680px){.main{grid-template-columns:1fr}.preview-col{position:static}}
+.gen-btn{flex:1;padding:11px;background:var(--rose);color:#fff;border:none;border-radius:var(--r);font-size:0.92rem;font-family:var(--display);cursor:pointer;transition:background 0.15s}
+.gen-btn:hover{background:var(--rose-dk)}
+.rst-btn{padding:11px 14px;background:transparent;border:1.5px solid var(--border2);border-radius:var(--r);font-size:0.83rem;cursor:pointer;color:var(--ink3);font-family:var(--sans);transition:all 0.12s}
+.rst-btn:hover{border-color:var(--rose);color:var(--rose)}
+
+.preview-box{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:2px 2px 0 var(--cream3)}
+.prev-head{background:var(--header-bg);color:var(--header-text);padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--rose)}
+.prev-head span{font-size:0.85rem;font-weight:500;font-family:var(--display);color:var(--header-text)}
+.cp-btn{background:rgba(194,66,122,0.12);border:1px solid rgba(194,66,122,0.35);color:var(--rose-dk);padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:var(--mono);transition:background 0.12s}
+.cp-btn:hover{background:rgba(194,66,122,0.22)}
+.marc-out{padding:1rem;font-family:var(--mono);font-size:0.72rem;line-height:1.9;color:var(--ink);min-height:200px;white-space:pre-wrap;word-break:break-word}
+.mf{display:block}.mt{color:var(--sage-dk);font-weight:500}.mi{color:var(--ink3)}.ms{color:var(--gold)}.ma{opacity:0.55}
+.empty-st{color:var(--ink3);font-style:italic;font-size:0.84rem;padding:2.5rem 1rem;text-align:center;display:block;font-family:var(--display)}
+
+.exp-row{padding:0.65rem 1rem;border-top:1.5px solid var(--border);display:flex;gap:6px;background:var(--cream2)}
+.ebtn{flex:1;padding:7px;border:1.5px solid var(--border2);background:var(--white);border-radius:var(--r);font-size:0.74rem;cursor:pointer;font-family:var(--sans);color:var(--ink2);transition:all 0.12s}
+.ebtn:hover{background:var(--sage-lt);border-color:var(--sage)}
+.ebtn.pk{background:var(--rose);color:#fff;border-color:var(--rose)}
+.ebtn.pk:hover{background:var(--rose-dk)}
+.ebtn.grn{background:var(--sage);color:#fff;border-color:var(--sage)}
+.ebtn.grn:hover{background:var(--sage-dk)}
+
+.auto-pills{background:var(--sage-lt);border:1.5px solid var(--border);border-radius:var(--r);padding:0.65rem 0.95rem;margin-bottom:1rem}
+.auto-pills h3{font-size:0.67rem;font-weight:500;color:var(--sage);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.45rem;font-family:var(--sans)}
+.ap{display:inline-flex;align-items:center;gap:4px;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:2px 8px;margin:2px 2px 2px 0;font-size:0.67rem;font-family:var(--mono)}
+.ap .at{color:var(--sage-dk);font-weight:500}.ap .av{color:var(--ink2)}
+
+.note-box{margin-top:1rem;padding:0.65rem 0.95rem;background:var(--sage-lt);border:1.5px solid var(--sage-md);border-radius:var(--r);font-size:0.71rem;color:var(--sage-dk);line-height:1.6}
+.dt-preview{font-family:var(--mono);font-size:0.7rem;color:var(--sage-dk);margin-top:5px;padding:6px 9px;background:var(--sage-lt);border-radius:var(--r);border:1px solid var(--border);line-height:1.7}
+
+@media(max-width:700px){.main{grid-template-columns:1fr}.preview-col{position:static}}
 </style>
 
 <div class="app-header">
-  <div>
+  <div class="hlogo">TFW</div>
+  <div class="htitles">
     <h1>Zine Cataloging Assistant</h1>
-    <div class="sub">Simplified MARC 21 record creation for student employees</div>
+    <div class="sub">RDA / MARC 21 — Thomas Fisher Rare Book Library</div>
   </div>
-  <div style="margin-left:auto"><span class="badge">RDA / MARC 21</span></div>
+  <span class="hbadge">MARC 21</span>
 </div>
 
 <div class="main">
 <div class="form-col">
 
-  <div class="auto-fields">
-    <h3>Auto-generated fixed fields</h3>
-    <span class="auto-pill"><span class="atag">LDR</span><span class="aval">language material</span></span>
-    <span class="auto-pill"><span class="atag">007</span><span class="aval">text / unmediated</span></span>
-    <span class="auto-pill"><span class="atag">008</span><span class="aval">date type + lang</span></span>
-    <span class="auto-pill"><span class="atag">040</span><span class="aval">TFW / rda</span></span>
-    <span class="auto-pill"><span class="atag">336</span><span class="aval">text + still image</span></span>
-    <span class="auto-pill"><span class="atag">337</span><span class="aval">unmediated</span></span>
-    <span class="auto-pill"><span class="atag">338</span><span class="aval">volume</span></span>
-    <span class="auto-pill"><span class="atag">655</span><span class="aval">Zines / lcgft</span></span>
-  </div>
+<div class="auto-pills">
+  <h3>Auto-generated fields</h3>
+  <span class="ap"><span class="at">LDR</span><span class="av">from inputs</span></span>
+  <span class="ap"><span class="at">007</span><span class="av">ta</span></span>
+  <span class="ap"><span class="at">008</span><span class="av">date + lang + ctry</span></span>
+  <span class="ap"><span class="at">040</span><span class="av">TFW / rda</span></span>
+  <span class="ap"><span class="at">336–338</span><span class="av">RDA content/media/carrier</span></span>
+  <span class="ap"><span class="at">655</span><span class="av">Zines / lcgft</span></span>
+</div>
 
-  <!-- Language -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">041</span>
-      <span class="title">Language</span>
-      <span class="desc">also sets 008/35-37</span>
-    </div>
-    <div class="section-body">
-      <div class="row row-2">
-        <div class="field">
-          <label><span class="marc">041 $a</span>Language of text<span class="req">*</span></label>
-          <select id="f041a" onchange="update()">
-            <option value="eng">eng — English</option>
-            <option value="fre">fre — French</option>
-            <option value="spa">spa — Spanish</option>
-            <option value="ger">ger — German</option>
-            <option value="jpn">jpn — Japanese</option>
-            <option value="zho">zho — Chinese</option>
-            <option value="por">por — Portuguese</option>
-            <option value="kor">kor — Korean</option>
-            <option value="ara">ara — Arabic</option>
-            <option value="und">und — Undetermined</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="marc">041 ind1</span>Translation?</label>
-          <select id="f041ind1" onchange="update()">
-            <option value="0">0 — Not a translation</option>
-            <option value="1">1 — Translation</option>
-          </select>
-        </div>
-      </div>
+<div class="section">
+  <div class="sh"><span class="stag gld">020</span><span class="stitle">ISBN</span></div>
+  <div class="sb">
+    <div class="field">
+      <label><span class="marc">020 $a</span>ISBN (if present on item)</label>
+      <input type="text" id="f020" placeholder="e.g. 9781234567890 — leave blank if none" oninput="update()">
+      <div class="hint">Zines rarely have ISBNs. Only enter if printed on the item.</div>
     </div>
   </div>
+</div>
 
-  <!-- 1XX Creator -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">1XX</span>
-      <span class="title">Creator / main entry</span>
-      <span class="desc">100 or 110</span>
+<div class="section">
+  <div class="sh"><span class="stag grn">041</span><span class="stitle">Language</span><span class="sdesc">sets 008/35-37</span></div>
+  <div class="sb">
+    <div class="field">
+      <label>Primary language<span class="req">*</span></label>
+      <select id="f041a" onchange="update()">
+        <option value="eng">English (eng)</option>
+        <option value="fre">French (fre)</option>
+        <option value="spa">Spanish (spa)</option>
+        <option value="ger">German (ger)</option>
+        <option value="jpn">Japanese (jpn)</option>
+        <option value="zho">Chinese (zho)</option>
+        <option value="por">Portuguese (por)</option>
+        <option value="kor">Korean (kor)</option>
+        <option value="ara">Arabic (ara)</option>
+        <option value="und">Undetermined (und)</option>
+      </select>
+      <div class="hint">Always select the primary language. This populates 008/35-37. A 041 field is only output when needed (see below).</div>
     </div>
-    <div class="section-body">
-      <div class="row row-2">
-        <div class="field">
-          <label><span class="marc">100 $a</span>Personal name</label>
-          <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
-          <div class="hint">Inverted form: Last, First. Leave blank if corporate body.</div>
-        </div>
-        <div class="field">
-          <label><span class="marc">100 ind1</span>Name type</label>
-          <select id="f100type" onchange="update()">
-            <option value="1">1 — Surname</option>
-            <option value="0">0 — Forename / single name</option>
-            <option value="3">3 — Family name</option>
-          </select>
-        </div>
+    <div class="field">
+      <label>041 situations — check if applicable</label>
+      <div class="check-g">
+        <label><input type="checkbox" id="is-translation" onchange="toggle041();update()"> This is a translation</label>
+        <label><input type="checkbox" id="is-multilang" onchange="toggle041();update()"> Contains text in more than one language</label>
       </div>
-      <div class="row row-2">
-        <div class="field">
-          <label><span class="marc">100 $e</span>Relationship term</label>
-          <select id="f100e" onchange="update()">
-            <option value="author">author</option>
-            <option value="creator">creator</option>
-            <option value="editor">editor</option>
-            <option value="artist">artist</option>
-            <option value="illustrator">illustrator</option>
-            <option value="writer">writer</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="marc">110 $a</span>Corporate / group name</label>
-          <input type="text" id="f110a" placeholder="Use instead of 100 if group" oninput="update()">
-          <div class="hint">Fills 110 ind1=2. Leave blank if individual.</div>
-        </div>
+      <div class="hint">If neither applies, no 041 field is output — just the language code goes into 008.</div>
+    </div>
+    <div id="multilang-extra" style="display:none;margin-top:8px">
+      <div class="field">
+        <label><span class="marc">041 $a</span>Additional language(s)</label>
+        <input type="text" id="f041-extra" placeholder="e.g. spa fre — space-separated MARC codes" oninput="update()">
+        <div class="hint">Each code becomes its own $a subfield.</div>
+      </div>
+    </div>
+    <div id="translation-extra" style="display:none;margin-top:8px">
+      <div class="field">
+        <label><span class="marc">041 $h</span>Language translated from</label>
+        <select id="f041h" onchange="update()">
+          <option value="">— select —</option>
+          <option value="eng">English (eng)</option>
+          <option value="fre">French (fre)</option>
+          <option value="spa">Spanish (spa)</option>
+          <option value="ger">German (ger)</option>
+          <option value="jpn">Japanese (jpn)</option>
+          <option value="zho">Chinese (zho)</option>
+          <option value="por">Portuguese (por)</option>
+          <option value="kor">Korean (kor)</option>
+          <option value="ara">Arabic (ara)</option>
+        </select>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 245 -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">245</span>
-      <span class="title">Title statement</span>
+<div class="section">
+  <div class="sh"><span class="stag grn">008/15</span><span class="stitle">Country of publication</span></div>
+  <div class="sb">
+    <div class="field">
+      <label>Country / state<span class="req">*</span></label>
+      <select id="fctry" onchange="update()">
+        <optgroup label="United States — by state">
+          <option value="alu">Alabama</option><option value="aku">Alaska</option><option value="azu">Arizona</option>
+          <option value="aru">Arkansas</option><option value="cau">California</option><option value="cou">Colorado</option>
+          <option value="ctu">Connecticut</option><option value="deu">Delaware</option><option value="dcu">District of Columbia</option>
+          <option value="flu">Florida</option><option value="gau">Georgia</option><option value="hiu">Hawaii</option>
+          <option value="idu">Idaho</option><option value="ilu">Illinois</option><option value="inu">Indiana</option>
+          <option value="iau">Iowa</option><option value="ksu">Kansas</option><option value="kyu">Kentucky</option>
+          <option value="lau">Louisiana</option><option value="meu">Maine</option><option value="mdu">Maryland</option>
+          <option value="mau">Massachusetts</option><option value="miu">Michigan</option><option value="mnu">Minnesota</option>
+          <option value="msu">Mississippi</option><option value="mou">Missouri</option><option value="mtu">Montana</option>
+          <option value="nbu">Nebraska</option><option value="nvu">Nevada</option><option value="nhu">New Hampshire</option>
+          <option value="nju">New Jersey</option><option value="nmu">New Mexico</option><option value="nyu">New York</option>
+          <option value="ncu">North Carolina</option><option value="ndu">North Dakota</option><option value="ohu">Ohio</option>
+          <option value="oku">Oklahoma</option><option value="oru">Oregon</option><option value="pau">Pennsylvania</option>
+          <option value="riu">Rhode Island</option><option value="scu">South Carolina</option><option value="sdu">South Dakota</option>
+          <option value="tnu">Tennessee</option><option value="txu">Texas</option><option value="utu">Utah</option>
+          <option value="vtu">Vermont</option><option value="vau">Virginia</option><option value="wau">Washington</option>
+          <option value="wvu">West Virginia</option><option value="wiu">Wisconsin</option><option value="wyu">Wyoming</option>
+        </optgroup>
+        <optgroup label="Canada — by province">
+          <option value="abc">Alberta</option><option value="bcc">British Columbia</option><option value="mbc">Manitoba</option>
+          <option value="nbc">New Brunswick</option><option value="nfc">Newfoundland and Labrador</option>
+          <option value="nsc">Nova Scotia</option><option value="onc">Ontario</option><option value="pic">Prince Edward Island</option>
+          <option value="quc">Quebec</option><option value="snc">Saskatchewan</option>
+        </optgroup>
+        <optgroup label="Other countries">
+          <option value="enk">England</option><option value="stk">Scotland</option><option value="wlk">Wales</option>
+          <option value="ie ">Ireland</option><option value="au ">Australia</option><option value="nz ">New Zealand</option>
+          <option value="fr ">France</option><option value="gw ">Germany</option><option value="sp ">Spain</option>
+          <option value="ja ">Japan</option><option value="mx ">Mexico</option><option value="bl ">Brazil</option>
+          <option value="xx ">Unknown</option>
+        </optgroup>
+      </select>
     </div>
-    <div class="section-body">
-      <div class="row row-2">
-        <div class="field">
-          <label><span class="marc">245 $a</span>Title proper<span class="req">*</span></label>
-          <input type="text" id="f245a" placeholder="The complete title" oninput="update245nf();update()">
-        </div>
-        <div class="field">
-          <label><span class="marc">245 $b</span>Subtitle</label>
-          <input type="text" id="f245b" placeholder="subtitle (after colon)" oninput="update()">
-        </div>
-      </div>
-      <div class="row row-2">
-        <div class="field">
-          <label><span class="marc">245 $n/$p</span>Issue / part</label>
-          <input type="text" id="f245n" placeholder="e.g. no. 3" oninput="update()">
-        </div>
-        <div class="field">
-          <label><span class="marc">245 ind2</span>Nonfiling chars <span class="auto-tag">auto</span></label>
-          <input type="text" id="f245ind2" readonly style="background:var(--color-background-secondary);color:var(--color-text-tertiary)">
-          <div class="hint">Auto-detected from "The ", "A ", "An ", etc.</div>
-        </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag grn">1XX</span><span class="stitle">Creator / main entry</span></div>
+  <div class="sb">
+    <div class="row r2">
+      <div class="field">
+        <label><span class="marc">100 $a</span>Personal name</label>
+        <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
+        <div class="hint">Inverted form. Leave blank if corporate body.</div>
       </div>
       <div class="field">
-        <label><span class="marc">245 $c</span>Statement of responsibility<span class="req">*</span></label>
-        <input type="text" id="f245c" placeholder="e.g. by Angela Sun ; illustrations by Robin Park" oninput="update()">
-        <div class="hint">Transcribe exactly as it appears on the source.</div>
-      </div>
-      <div class="field">
-        <label><span class="marc">246 $a</span>Variant / spine title</label>
-        <input type="text" id="f246a" placeholder="abbreviated or spine title" oninput="update()">
+        <label><span class="marc">100 ind1</span>Name type</label>
+        <select id="f100type" onchange="update()">
+          <option value="1">1 — Surname</option>
+          <option value="0">0 — Forename / single name</option>
+          <option value="3">3 — Family name</option>
+        </select>
       </div>
     </div>
-  </div>
-
-  <!-- 250 Edition -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">250</span>
-      <span class="title">Edition statement</span>
-    </div>
-    <div class="section-body">
+    <div class="row r2">
       <div class="field">
-        <label><span class="marc">250 $a</span>Edition statement</label>
-        <input type="text" id="f250a" placeholder="e.g. 2nd edition, Revised edition" oninput="update()">
-        <div class="hint">Transcribe as found. Leave blank if not stated.</div>
+        <label><span class="marc">100 $e</span>Relator term</label>
+        <select id="f100e" onchange="update()"><option value="artist">artist</option><option value="author">author</option><option value="cartographer">cartographer</option><option value="colorist">colorist</option><option value="compiler">compiler</option><option value="composer">composer</option><option value="designer">designer</option><option value="editor">editor</option><option value="illustrator">illustrator</option><option value="letterer">letterer</option><option value="photographer">photographer</option><option value="printmaker">printmaker</option><option value="translator">translator</option><option value="writer of introduction">writer of introduction</option><option value="writer of preface">writer of preface</option></select>
+      </div>
+      <div class="field">
+        <label><span class="marc">110 $a</span>Corporate / group name</label>
+        <input type="text" id="f110a" placeholder="Use instead of 100 if group" oninput="update()">
+        <div class="hint">Fills 110 ind1=2. Leave blank if individual.</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 264 + date type -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">264</span>
-      <span class="title">Publication / date</span>
-    </div>
-    <div class="section-body">
+<div class="section">
+  <div class="sh"><span class="stag grn">245</span><span class="stitle">Title statement</span></div>
+  <div class="sb">
+    <div class="row r2">
       <div class="field">
-        <label>Date situation<span class="req">*</span></label>
-        <div class="radio-group" style="margin-bottom:8px">
-          <label><input type="radio" name="datetype" value="known" checked onchange="updateDateUI()"> Known publication date</label>
-          <label><input type="radio" name="datetype" value="copyright" onchange="updateDateUI()"> Copyright date only</label>
-          <label><input type="radio" name="datetype" value="unknown" onchange="updateDateUI()"> Date unknown</label>
+        <label><span class="marc">245 $a</span>Title proper<span class="req">*</span></label>
+        <input type="text" id="f245a" placeholder="The complete title" oninput="calc245nf();update()">
+      </div>
+      <div class="field">
+        <label><span class="marc">245 $b</span>Subtitle</label>
+        <input type="text" id="f245b" placeholder="subtitle" oninput="update()">
+      </div>
+    </div>
+    <div class="row r2">
+      <div class="field">
+        <label><span class="marc">245 $n/$p</span>Issue / part</label>
+        <input type="text" id="f245n" placeholder="e.g. no. 3" oninput="update()">
+      </div>
+      <div class="field">
+        <label><span class="marc">245 ind2</span>Nonfiling chars <span class="atag">auto</span></label>
+        <input type="text" id="f245ind2" readonly>
+      </div>
+    </div>
+    <div class="field">
+      <label><span class="marc">245 $c</span>Statement of responsibility<span class="req">*</span></label>
+      <input type="text" id="f245c" placeholder="e.g. by Angela Sun ; illustrations by Robin Park" oninput="update()">
+      <div class="hint">Transcribe exactly as it appears on the source.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag grn">250</span><span class="stitle">Edition statement</span></div>
+  <div class="sb">
+    <div class="field">
+      <label><span class="marc">250 $a</span>Edition statement</label>
+      <input type="text" id="f250a" placeholder="e.g. 2nd edition, Revised edition" oninput="update()">
+      <div class="hint">Transcribe as found. Leave blank if not stated.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag grn">264</span><span class="stitle">Publication / date</span></div>
+  <div class="sb">
+    <div class="field">
+      <label>Date situation<span class="req">*</span></label>
+      <div class="radio-g" style="margin-bottom:10px">
+        <label><input type="radio" name="datetype" value="known" checked onchange="updateDateUI()"> Known publication date</label>
+        <label><input type="radio" name="datetype" value="copyright" onchange="updateDateUI()"> Copyright date only</label>
+        <label><input type="radio" name="datetype" value="unknown" onchange="updateDateUI()"> Date unknown</label>
+      </div>
+    </div>
+    <div id="date-known">
+      <div class="row r3">
+        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a" placeholder="City, State" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b" placeholder="Publisher name" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $c</span>Year<span class="req">*</span></label><input type="text" id="f264c" placeholder="2024" oninput="update()"></div>
+      </div>
+    </div>
+    <div id="date-copyright" style="display:none">
+      <div class="hint" style="font-style:normal;color:var(--ink2);margin-bottom:8px">Generates 264 _1 with [year] and 264 _4 with ©year. Sets 008 date type <strong>t</strong>.</div>
+      <div class="row r3">
+        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a-c" placeholder="City, State" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $c</span>Copyright year<span class="req">*</span></label><input type="text" id="f264c-c" placeholder="2024" oninput="update()"></div>
+      </div>
+      <div id="dt-cr-prev" class="dt-preview"></div>
+    </div>
+    <div id="date-unknown" style="display:none">
+      <div class="hint" style="font-style:normal;color:var(--ink2);margin-bottom:8px">Sets [date not identified] and 008 date type <strong>n</strong>.</div>
+      <div class="row r2">
+        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a-u" placeholder="[Place not identified]" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b-u" placeholder="[Publisher not identified]" oninput="update()"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag grn">300</span><span class="stitle">Physical description</span></div>
+  <div class="sb">
+    <div class="row r2" style="margin-bottom:0.8rem">
+      <div class="field">
+        <label><span class="marc">300 $a</span>Number</label>
+        <input type="text" id="f300num" placeholder="e.g. 24" oninput="update()">
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <div class="radio-g" style="padding-top:6px">
+          <label><input type="radio" name="pagetype" value="pages" checked onchange="update()"> pages</label>
+          <label><input type="radio" name="pagetype" value="leaves" onchange="update()"> leaves</label>
+          <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="update()"> unnumbered pages</label>
+          <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="update()"> unnumbered leaves</label>
         </div>
       </div>
-      <div id="date-known-fields">
-        <div class="row row-3">
-          <div class="field">
-            <label><span class="marc">264 $a</span>Place</label>
-            <input type="text" id="f264a" placeholder="City, State" oninput="update()">
-          </div>
-          <div class="field">
-            <label><span class="marc">264 $b</span>Publisher</label>
-            <input type="text" id="f264b" placeholder="Publisher name" oninput="update()">
-          </div>
-          <div class="field">
-            <label><span class="marc">264 $c</span>Year<span class="req">*</span></label>
-            <input type="text" id="f264c" placeholder="2024" oninput="update()">
-          </div>
-        </div>
+    </div>
+    <div class="field" style="margin-bottom:0.8rem">
+      <label><span class="marc">300 $b</span>Illustrations (select all that apply)</label>
+      <div class="check-g" id="ill-checks" style="margin-top:5px">
+        <label><input type="checkbox" value="illustrations" onchange="update()"> illustrations</label>
+        <label><input type="checkbox" value="color illustrations" onchange="update()"> color illustrations</label>
+        <label><input type="checkbox" value="portraits" onchange="update()"> portraits</label>
+        <label><input type="checkbox" value="maps" onchange="update()"> maps</label>
+        <label><input type="checkbox" value="facsimiles" onchange="update()"> facsimiles</label>
+        <label><input type="checkbox" value="charts" onchange="update()"> charts</label>
       </div>
-      <div id="date-copyright-fields" style="display:none">
-        <div class="hint" style="margin-bottom:8px;font-size:0.72rem;color:var(--color-text-secondary);font-style:normal">Copyright-only dates generate two 264 fields: one with <code style="font-family:var(--mono);font-size:0.7rem">[year]</code> (ind2=1) and one with <code style="font-family:var(--mono);font-size:0.7rem">©year</code> (ind2=4). 008 uses date type <strong>t</strong> with the same year in both Date1 and Date2.</div>
-        <div class="row row-3">
-          <div class="field">
-            <label><span class="marc">264 $a</span>Place</label>
-            <input type="text" id="f264a-c" placeholder="City, State" oninput="update()">
-          </div>
-          <div class="field">
-            <label><span class="marc">264 $b</span>Publisher</label>
-            <input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()">
-          </div>
-          <div class="field">
-            <label><span class="marc">264 $c</span>Copyright year<span class="req">*</span></label>
-            <input type="text" id="f264c-c" placeholder="2024" oninput="update()">
-          </div>
-        </div>
-        <div id="date-copyright-preview" class="date-preview"></div>
+    </div>
+    <div class="field">
+      <label><span class="marc">300 $c</span>Dimensions</label>
+      <input type="text" id="f300c" placeholder="e.g. 21 cm  or  10 × 16 cm" oninput="update()">
+      <div class="hint">Height in cm (RDA: round up to nearest cm). Non-standard: H × W, e.g. 10 × 10 cm or 8 × 16 cm.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag pnk">LDR / 008</span><span class="stitle">Fixed field options</span></div>
+  <div class="sb">
+    <div class="field">
+      <label>008/24-27 Cont — contents</label>
+      <div class="check-g">
+        <label><input type="checkbox" id="cont-bib" onchange="update()"> Bibliography (b)</label>
+        <label><input type="checkbox" id="cont-idx" onchange="update()"> Index (i)</label>
       </div>
-      <div id="date-unknown-fields" style="display:none">
-        <div class="hint" style="font-size:0.72rem;color:var(--color-text-secondary);font-style:normal">Outputs <code style="font-family:var(--mono);font-size:0.7rem">264 _1 $a ... $b ... $c [date not identified]</code> and sets 008 date type <strong>n</strong>.</div>
-        <div class="row row-2" style="margin-top:8px">
-          <div class="field">
-            <label><span class="marc">264 $a</span>Place</label>
-            <input type="text" id="f264a-u" placeholder="[Place not identified]" oninput="update()">
-          </div>
-          <div class="field">
-            <label><span class="marc">264 $b</span>Publisher</label>
-            <input type="text" id="f264b-u" placeholder="[Publisher not identified]" oninput="update()">
-          </div>
-        </div>
+      <div class="hint">Controls 504 note and Cont positions in 008.</div>
+    </div>
+    <div class="field" style="margin-top:0.6rem">
+      <label>008/18-21 Ills — illustrations coded in 008</label>
+      <div class="check-g">
+        <label><input type="checkbox" id="ills-a" onchange="update()"> Illustrations (a)</label>
+        <label><input type="checkbox" id="ills-b" onchange="update()"> Maps (b)</label>
+        <label><input type="checkbox" id="ills-c" onchange="update()"> Portraits (c)</label>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 300 Physical -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">300</span>
-      <span class="title">Physical description</span>
+<div class="section">
+  <div class="sh"><span class="stag grn">5XX</span><span class="stitle">Notes</span></div>
+  <div class="sb">
+    <div class="field">
+      <label><span class="marc">520 $a</span>Summary / description</label>
+      <textarea id="f520" placeholder="Brief description of content, themes, or purpose of the zine..." oninput="update()"></textarea>
     </div>
-    <div class="section-body">
-      <div class="row row-2" style="margin-bottom:0.8rem">
-        <div class="field">
-          <label><span class="marc">300 $a</span>Number</label>
-          <input type="text" id="f300num" placeholder="e.g. 24" oninput="update()">
-        </div>
-        <div class="field">
-          <label>&nbsp;</label>
-          <div class="radio-group" style="padding-top:6px">
-            <label><input type="radio" name="pagetype" value="pages" checked onchange="update()"> pages</label>
-            <label><input type="radio" name="pagetype" value="leaves" onchange="update()"> leaves</label>
-            <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="update()"> unnumbered pages</label>
-            <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="update()"> unnumbered leaves</label>
-          </div>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:0.8rem">
-        <label><span class="marc">300 $b</span>Illustrations (select all that apply)</label>
-        <div class="check-group" style="margin-top:4px">
-          <label><input type="checkbox" value="illustrations" onchange="update()"> illustrations</label>
-          <label><input type="checkbox" value="color illustrations" onchange="update()"> color illustrations</label>
-          <label><input type="checkbox" value="photographs" onchange="update()"> photographs</label>
-          <label><input type="checkbox" value="color photographs" onchange="update()"> color photographs</label>
-          <label><input type="checkbox" value="portraits" onchange="update()"> portraits</label>
-          <label><input type="checkbox" value="maps" onchange="update()"> maps</label>
-          <label><input type="checkbox" value="facsimiles" onchange="update()"> facsimiles</label>
-          <label><input type="checkbox" value="charts" onchange="update()"> charts</label>
-        </div>
-      </div>
-      <div class="field">
-        <label><span class="marc">300 $c</span>Dimensions</label>
-        <input type="text" id="f300c" placeholder="e.g. 21 cm  or  10 × 16 cm" oninput="update()">
-        <div class="hint">Height in cm (RDA: round up to nearest cm). For non-standard shapes enter height × width, e.g. 10 × 10 cm (square) or 8 × 16 cm (wide/landscape).</div>
-      </div>
+    <div class="field">
+      <label><span class="marc">500 $a</span>General note</label>
+      <input type="text" id="f500a" placeholder="e.g. Staple-bound; hand-lettered; photocopied" oninput="update()">
+    </div>
+    <div class="field">
+      <label><span class="marc">504 $a</span>Bibliography / index note <span class="atag">auto</span></label>
+      <input type="text" id="f504prev" readonly placeholder="Auto-filled from Cont checkboxes above">
     </div>
   </div>
+</div>
 
-  <!-- 5XX Notes -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">5XX</span>
-      <span class="title">Notes</span>
+<div class="section">
+  <div class="sh"><span class="stag grn">6XX</span><span class="stitle">Subject headings</span></div>
+  <div class="sb">
+    <div id="subjects-wrap"></div>
+    <button class="add-btn" onclick="addSubject()">+ Add subject heading</button>
+    <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. Zines (lcgft) added automatically. Verify all headings against LC authority file.</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sh"><span class="stag grn">7XX</span><span class="stitle">Added entries</span></div>
+  <div class="sb">
+    <div class="field">
+      <label><span class="marc">700</span>Added entry — person(s)</label>
+      <div id="ax700-wrap"></div>
+      <button class="add-btn" onclick="addAx700()">+ Add person</button>
     </div>
-    <div class="section-body">
-      <div class="field">
-        <label><span class="marc">520 $a</span>Summary / description</label>
-        <textarea id="f520" placeholder="Brief description of content, themes, or purpose of the zine..." oninput="update()"></textarea>
-      </div>
-      <div class="field">
-        <label><span class="marc">500 $a</span>General note</label>
-        <input type="text" id="f500a" placeholder="e.g. Staple-bound; hand-lettered; photocopied" oninput="update()">
-      </div>
-      <div class="field">
-        <label><span class="marc">588 $a</span>Source of description</label>
-        <input type="text" id="f588" placeholder="Description based on: cover." oninput="update()">
-        <div class="hint">Leave blank to use default: "Description based on: cover."</div>
-      </div>
+    <div class="field" style="margin-top:0.6rem">
+      <label><span class="marc">710</span>Added entry — organization(s)</label>
+      <div id="ax710-wrap"></div>
+      <button class="add-btn" onclick="addAx710()">+ Add organization</button>
     </div>
   </div>
+</div>
 
-  <!-- 6XX Subjects -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">6XX</span>
-      <span class="title">Subject headings</span>
-    </div>
-    <div class="section-body">
-      <div id="subjects-wrap"></div>
-      <button class="add-btn" onclick="addSubject()">+ Add subject heading</button>
-      <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. The 655 Zines (lcgft) heading is added automatically.</div>
-    </div>
-  </div>
-
-  <!-- 7XX -->
-  <div class="section">
-    <div class="section-head">
-      <span class="tag">7XX</span>
-      <span class="title">Added entries</span>
-    </div>
-    <div class="section-body">
-      <div class="field">
-        <label><span class="marc">700 $a</span>Added entry — person</label>
-        <input type="text" id="f700a" placeholder="Last, First, relationship term." oninput="update()">
-        <div class="hint">e.g. Park, Robin, illustrator.</div>
-      </div>
-      <div class="field">
-        <label><span class="marc">710 $a</span>Added entry — organization</label>
-        <input type="text" id="f710a" placeholder="Organization name." oninput="update()">
-      </div>
-    </div>
-  </div>
-
-  <div class="gen-wrap">
-    <button class="gen-btn" onclick="generateMarc()">Generate MARC record</button>
-    <button class="reset-btn" onclick="resetForm()">Reset</button>
-  </div>
-
+<div class="gen-wrap">
+  <button class="gen-btn" onclick="generateMarc()">Generate MARC record</button>
+  <button class="rst-btn" onclick="resetForm()">Reset</button>
+</div>
 </div>
 
 <div class="preview-col">
   <div class="preview-box">
-    <div class="preview-head">
+    <div class="prev-head">
       <span>MARC 21 preview</span>
-      <button class="copy-btn" onclick="copyMarc()">Copy</button>
+      <button class="cp-btn" onclick="copyMarc()">Copy text</button>
     </div>
-    <div class="marc-out" id="marc-preview"><span class="empty-state">Fill in fields to see your MARC record →</span></div>
-    <div class="export-row">
-      <button class="exp-btn" onclick="exportMrk()">Export .mrk</button>
-      <button class="exp-btn" onclick="exportText()">Export .txt</button>
-      <button class="exp-btn primary" onclick="copyMarc()">Copy all</button>
+    <div class="marc-out" id="marc-preview"><span class="empty-st">Fill in fields to preview your record</span></div>
+    <div class="exp-row">
+      <button class="ebtn" onclick="exportMrk()">Export .mrk (MARCMaker)</button>
+      <button class="ebtn grn" onclick="exportMrc()">Export binary .mrc (OCLC)</button>
     </div>
   </div>
-  <div class="note-box">
-    <strong>Student note:</strong> Fields marked <span style="color:#c0392b">*</span> are required. Dimmed lines in the preview are auto-generated. Always verify subject headings against your authority file before saving.
+  <div class="note-box" style="margin-top:1rem">
+    <strong>Exporting to OCLC Connexion:</strong> Use "Export binary .mrc" to download a file ready for direct import into Connexion via File &gt; Import Records. The .mrk export is a human-readable MARCMaker backup that can also be converted via MARCEdit if needed.
+    <br><br>
+    <strong>Student note:</strong> Fields marked <span style="color:var(--rose)">*</span> are required. Dimmed lines in the preview are auto-generated. Verify all subject headings against the LC authority file before saving.
   </div>
 </div>
-
 </div>
 
 <script>
-let subjects=[];
-let marcOutput='';
+const RELATORS=[['artist','artist'],['author','author'],['cartographer','cartographer'],['colorist','colorist'],['compiler','compiler'],['composer','composer'],['designer','designer'],['editor','editor'],['illustrator','illustrator'],['letterer','letterer'],['photographer','photographer'],['printmaker','printmaker'],['translator','translator'],['writer of introduction','writer of introduction'],['writer of preface','writer of preface']];
 
-function addSubject(val='',type='650'){
-  subjects.push({id:Date.now()+Math.random(),val,type});
-  renderSubjects();
-}
+let subjects=[],ax700=[],ax710=[],marcOutput='';
 
+function relOpts(sel=''){return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');}
+
+function addSubject(val='',type='650'){subjects.push({id:Date.now()+Math.random(),val,type});renderSubjects();}
 function renderSubjects(){
-  const wrap=document.getElementById('subjects-wrap');
-  wrap.innerHTML='';
+  const w=document.getElementById('subjects-wrap');w.innerHTML='';
   subjects.forEach((s,i)=>{
-    const row=document.createElement('div');
-    row.className='subject-row';
-    row.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()"><option value="650"${s.type==='650'?' selected':''}>650 topical</option><option value="651"${s.type==='651'?' selected':''}>651 geographic</option><option value="600"${s.type==='600'?' selected':''}>600 personal</option><option value="610"${s.type==='610'?' selected':''}>610 corporate</option><option value="655"${s.type==='655'?' selected':''}>655 genre/form</option></select><input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()"><button onclick="subjects.splice(${i},1);renderSubjects();update()">✕</button>`;
-    wrap.appendChild(row);
+    const r=document.createElement('div');r.className='sub-row';
+    r.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()"><option value="650"${s.type==='650'?' selected':''}>650 topical</option><option value="651"${s.type==='651'?' selected':''}>651 geo</option><option value="600"${s.type==='600'?' selected':''}>600 personal</option><option value="610"${s.type==='610'?' selected':''}>610 corp</option><option value="655"${s.type==='655'?' selected':''}>655 genre</option></select><input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()"><button class="xbtn" onclick="subjects.splice(${i},1);renderSubjects();update()">&#x2715;</button>`;
+    w.appendChild(r);
+  });
+}
+function addAx700(name='',rel='illustrator'){ax700.push({id:Date.now()+Math.random(),name,rel});renderAx700();}
+function renderAx700(){
+  const w=document.getElementById('ax700-wrap');w.innerHTML='';
+  ax700.forEach((a,i)=>{
+    const r=document.createElement('div');r.className='ax-row';
+    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Last, First" oninput="ax700[${i}].name=this.value;update()"><select class="rel-sel" onchange="ax700[${i}].rel=this.value;update()">${relOpts(a.rel)}</select><button class="xbtn" onclick="ax700.splice(${i},1);renderAx700();update()">&#x2715;</button>`;
+    w.appendChild(r);
+  });
+}
+function addAx710(name='',rel=''){ax710.push({id:Date.now()+Math.random(),name,rel});renderAx710();}
+function renderAx710(){
+  const w=document.getElementById('ax710-wrap');w.innerHTML='';
+  ax710.forEach((a,i)=>{
+    const r=document.createElement('div');r.className='ax-row';
+    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Organization name" oninput="ax710[${i}].name=this.value;update()"><select class="rel-sel" onchange="ax710[${i}].rel=this.value;update()">${relOpts(a.rel)}</select><button class="xbtn" onclick="ax710.splice(${i},1);renderAx710();update()">&#x2715;</button>`;
+    w.appendChild(r);
   });
 }
 
 function v(id){return(document.getElementById(id)||{}).value||'';}
-function rv(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+function rv(name){const e=document.querySelector(`input[name="${name}"]:checked`);return e?e.value:'';}
+function cb(id){const e=document.getElementById(id);return!!(e&&e.checked);}
 function dateType(){return rv('datetype')||'known';}
 
-function update245nf(){
-  const tl=v('f245a').toLowerCase();
-  const arts={'the ':4,'a ':2,'an ':3,'les ':4,'le ':3,'la ':3,"l'":2,'die ':4,'das ':4,'der ':4,'el ':3,'los ':4,'las ':4};
-  let ind2=0;
-  for(const[a,n]of Object.entries(arts)){if(tl.startsWith(a)){ind2=n;break;}}
-  document.getElementById('f245ind2').value=ind2;
-}
-
-function updateDateUI(){
-  const t=dateType();
-  document.getElementById('date-known-fields').style.display=t==='known'?'block':'none';
-  document.getElementById('date-copyright-fields').style.display=t==='copyright'?'block':'none';
-  document.getElementById('date-unknown-fields').style.display=t==='unknown'?'block':'none';
+function toggle041(){
+  document.getElementById('translation-extra').style.display=cb('is-translation')?'block':'none';
+  document.getElementById('multilang-extra').style.display=cb('is-multilang')?'block':'none';
   update();
 }
+function calc245nf(){
+  const tl=v('f245a').toLowerCase();
+  const arts={'the ':4,'a ':2,'an ':3,'les ':4,'le ':3,'la ':3,"l'":2,'die ':4,'das ':4,'der ':4,'el ':3,'los ':4,'las ':4};
+  let n=0;for(const[a,c] of Object.entries(arts)){if(tl.startsWith(a)){n=c;break;}}
+  document.getElementById('f245ind2').value=n;
+}
+function updateDateUI(){
+  const t=dateType();
+  document.getElementById('date-known').style.display=t==='known'?'block':'none';
+  document.getElementById('date-copyright').style.display=t==='copyright'?'block':'none';
+  document.getElementById('date-unknown').style.display=t==='unknown'?'block':'none';
+  update();
+}
+function getIlls(){return Array.from(document.querySelectorAll('#ill-checks input:checked')).map(c=>c.value);}
 
-function getIllustrations(){
-  const boxes=document.querySelectorAll('.check-group input[type=checkbox]:checked');
-  return Array.from(boxes).map(b=>b.value);
+function build008(dts,d1,d2,lang,ctry,ills008,cont008,hasIdx){
+  const t=new Date();
+  const yy=String(t.getFullYear()).slice(2);
+  const mm=String(t.getMonth()+1).padStart(2,'0');
+  const dd=String(t.getDate()).padStart(2,'0');
+  return `${yy}${mm}${dd}${dts}${(d1||'    ').slice(0,4).padEnd(4,' ')}${(d2||'    ').slice(0,4).padEnd(4,' ')}${(ctry||'xx ').slice(0,3).padEnd(3,' ')}${ills008.padEnd(4,' ').slice(0,4)}${cont008.padEnd(4,' ').slice(0,4)}  000 ${hasIdx?'1':'0'} ${(lang||'eng').slice(0,3)} d`;
 }
 
-function build008(dateTypeSt,y4a,y4b,lang){
-  const today=new Date();
-  const yy=String(today.getFullYear()).slice(2);
-  const mm=String(today.getMonth()+1).padStart(2,'0');
-  const dd=String(today.getDate()).padStart(2,'0');
-  const d1=(y4a||'    ').slice(0,4).padEnd(4,' ');
-  const d2=(y4b||'    ').slice(0,4).padEnd(4,' ');
-  return `${yy}${mm}${dd}${dateTypeSt}${d1}${d2}xx            000 0 ${lang} d`;
-}
-
-function buildMarc(){
-  const lines=[];
+function buildLines(){
   const lang=v('f041a')||'eng';
+  const ctry=v('fctry')||'xxu';
   const dt=dateType();
+  const hasBib=cb('cont-bib'),hasIdx=cb('cont-idx');
+  const cont008=(hasBib?'b':' ')+(hasIdx?'i':' ')+'  ';
+  const ills008=[(cb('ills-a')?'a':' '),(cb('ills-b')?'b':' '),(cb('ills-c')?'c':' '),' '].join('');
+  const isT=cb('is-translation'),isM=cb('is-multilang');
 
-  let pub264a,pub264b,pub264c,dateTypeSt,d1,d2;
-  let extraCopyright264=null;
-
+  let pa,pb,pc,dts,d1,d2,extraCR=null;
   if(dt==='known'){
-    pub264a=v('f264a').trim()||'[Place of publication not identified]';
-    pub264b=v('f264b').trim()||'[Publisher not identified]';
-    pub264c=v('f264c').trim()||'[date not identified]';
-    const y=pub264c.replace(/\D/g,'').slice(0,4);
-    d1=y.padEnd(4,' ');d2='    ';dateTypeSt='s';
+    pa=v('f264a').trim()||'[Place of publication not identified]';
+    pb=v('f264b').trim()||'[Publisher not identified]';
+    pc=v('f264c').trim()||'[date not identified]';
+    const y=pc.replace(/\D/g,'').slice(0,4);
+    d1=y.padEnd(4,' ');d2='    ';dts='s';
   } else if(dt==='copyright'){
-    pub264a=v('f264a-c').trim()||'[Place of publication not identified]';
-    pub264b=v('f264b-c').trim()||'[Publisher not identified]';
+    pa=v('f264a-c').trim()||'[Place of publication not identified]';
+    pb=v('f264b-c').trim()||'[Publisher not identified]';
     const cy=v('f264c-c').trim();
     const y=cy.replace(/\D/g,'').slice(0,4);
-    pub264c=y?`[${y}]`:'[date not identified]';
-    const copyr=y?`\u00a9${y}`:'[date not identified]';
-    d1=y.padEnd(4,' ');d2=y.padEnd(4,' ');dateTypeSt='t';
-    extraCopyright264={a:pub264a,b:pub264b,c:copyr};
-    const prev=document.getElementById('date-copyright-preview');
-    if(prev) prev.textContent=`264 _1  $a ${pub264a} : $b ${pub264b}, $c ${pub264c}.\n264 _4  $c ${copyr}.`;
+    pc=y?`[${y}]`:'[date not identified]';
+    const copyr=y?`\u00a9${y}`:'[copyright date not identified]';
+    d1=y.padEnd(4,' ');d2=y.padEnd(4,' ');dts='t';
+    extraCR={c:copyr};
+    const pr=document.getElementById('dt-cr-prev');
+    if(pr) pr.textContent=`264 _1  $a ${pa} : $b ${pb}, $c ${pc}.\n264 _4  $c ${copyr}.`;
   } else {
-    pub264a=v('f264a-u').trim()||'[Place of publication not identified]';
-    pub264b=v('f264b-u').trim()||'[Publisher not identified]';
-    pub264c='[date not identified]';
-    d1='    ';d2='    ';dateTypeSt='n';
+    pa=v('f264a-u').trim()||'[Place of publication not identified]';
+    pb=v('f264b-u').trim()||'[Publisher not identified]';
+    pc='[date not identified]';
+    d1='    ';d2='    ';dts='n';
   }
 
   const today=new Date();
-  const yy=String(today.getFullYear()).slice(2);
-  const mm=String(today.getMonth()+1).padStart(2,'0');
-  const dd=String(today.getDate()).padStart(2,'0');
+  const mm2=String(today.getMonth()+1).padStart(2,'0');
+  const dd2=String(today.getDate()).padStart(2,'0');
+  const lines=[];
 
   lines.push({tag:'LDR',ind:'',val:'00000nam a2200000 i 4500',auto:true});
-  lines.push({tag:'001',ind:'',val:'zine_'+Date.now().toString().slice(-6),auto:true});
-  lines.push({tag:'003',ind:'',val:'TFW',auto:true});
-  lines.push({tag:'005',ind:'',val:`${today.getFullYear()}${mm}${dd}120000.0`,auto:true});
-  lines.push({tag:'007',ind:'',val:'ta',auto:true});
-  lines.push({tag:'008',ind:'',val:build008(dateTypeSt,d1,d2,lang),auto:true});
-  lines.push({tag:'040',ind:'  ',val:'$a TFW $b eng $e rda $c TFW',auto:true});
-  lines.push({tag:'041',ind:`${v('f041ind1')||'0'} `,val:`$a ${lang}`,auto:false});
+  lines.push({tag:'003',ind:'  ',val:'TFW',auto:true});
+  lines.push({tag:'005',ind:'  ',val:`${today.getFullYear()}${mm2}${dd2}120000.0`,auto:true});
+  lines.push({tag:'007',ind:'  ',val:'ta',auto:true});
+  lines.push({tag:'008',ind:'  ',val:build008(dts,d1,d2,lang,ctry,ills008,cont008,hasIdx),auto:true});
 
-  const auth=v('f100a').trim();
-  const corp=v('f110a').trim();
-  const rel=v('f100e')||'author';
-  if(corp){
-    lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rel}.`,auto:false});
-  } else if(auth){
-    lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, $e ${rel}.`,auto:false});
+  const isbn=v('f020').trim();
+  if(isbn) lines.push({tag:'020',ind:'  ',val:`$a ${isbn}`,auto:false});
+
+  lines.push({tag:'040',ind:'  ',val:'$a TFW $b eng $e rda $c TFW',auto:true});
+
+  if(isT||isM){
+    const ind1=isT?'1':'0';
+    let aval=`$a ${lang}`;
+    if(isM){(v('f041-extra')||'').trim().split(/\s+/).filter(Boolean).forEach(c=>{aval+=` $a ${c}`;});}
+    if(isT){const h=v('f041h');if(h) aval+=` $h ${h}`;}
+    lines.push({tag:'041',ind:`${ind1} `,val:aval,auto:false});
   }
 
-  const title=v('f245a').trim();
-  const sub=v('f245b').trim();
-  const part=v('f245n').trim();
-  const stmtresp=v('f245c').trim();
+  const auth=v('f100a').trim(),corp=v('f110a').trim(),rel=v('f100e')||'author';
+  if(corp) lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rel}.`,auto:false});
+  else if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, $e ${rel}.`,auto:false});
+
+  const title=v('f245a').trim(),sub=v('f245b').trim(),part=v('f245n').trim(),stmtresp=v('f245c').trim();
   const ind2=v('f245ind2')||'0';
   const hasCreator=!!(auth||corp);
   if(title){
-    let tval=`$a ${title}`;
-    if(sub) tval+=` : $b ${sub}`;
-    if(part) tval+=`. $n ${part}`;
-    tval+=' /';
-    if(stmtresp) tval+=` $c ${stmtresp}.`;
-    lines.push({tag:'245',ind:`${hasCreator?'1':'0'}${ind2}`,val:tval,auto:false});
+    let tv=`$a ${title}`;
+    if(sub) tv+=` : $b ${sub}`;
+    if(part) tv+=`. $n ${part}`;
+    tv+=' /';
+    if(stmtresp) tv+=` $c ${stmtresp}.`;
+    lines.push({tag:'245',ind:`${hasCreator?'1':'0'}${ind2}`,val:tv,auto:false});
   }
-
-  const var246=v('f246a').trim();
-  if(var246) lines.push({tag:'246',ind:'3 ',val:`$a ${var246}`,auto:false});
 
   const ed=v('f250a').trim();
   if(ed) lines.push({tag:'250',ind:'  ',val:`$a ${ed}.`,auto:false});
 
-  lines.push({tag:'264',ind:' 1',val:`$a ${pub264a} : $b ${pub264b}, $c ${pub264c}.`,auto:false});
-  if(extraCopyright264){
-    lines.push({tag:'264',ind:' 4',val:`$c ${extraCopyright264.c}.`,auto:false});
-  }
+  lines.push({tag:'264',ind:' 1',val:`$a ${pa} : $b ${pb}, $c ${pc}.`,auto:false});
+  if(extraCR) lines.push({tag:'264',ind:' 4',val:`$c ${extraCR.c}.`,auto:false});
 
-  const pagenum=v('f300num').trim();
-  const pagetype=rv('pagetype')||'pages';
-  const ills=getIllustrations();
-  const dim=v('f300c').trim();
-  let phys=pagenum?`$a ${pagenum} ${pagetype}`:'$a 1 volume';
+  const pn=v('f300num').trim(),pt=rv('pagetype')||'pages';
+  const ills=getIlls(),dim=v('f300c').trim();
+  let phys=pn?`$a ${pn} ${pt}`:'$a 1 volume';
   if(ills.length) phys+=` : $b ${ills.join(', ')}`;
   if(dim) phys+=` ; $c ${dim}`;
   lines.push({tag:'300',ind:'  ',val:phys,auto:false});
@@ -575,87 +640,192 @@ function buildMarc(){
   lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia',auto:true});
   lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier',auto:true});
 
-  const gen1=v('f500a').trim();
-  if(gen1) lines.push({tag:'500',ind:'  ',val:`$a ${gen1}`,auto:false});
+  const g1=v('f500a').trim();
+  if(g1) lines.push({tag:'500',ind:'  ',val:`$a ${g1}`,auto:false});
+
+  if(hasBib||hasIdx){
+    let n504='Includes ';
+    if(hasBib&&hasIdx) n504+='bibliographical references and index.';
+    else if(hasBib) n504+='bibliographical references.';
+    else n504+='index.';
+    lines.push({tag:'504',ind:'  ',val:`$a ${n504}`,auto:true});
+    document.getElementById('f504prev').value=n504;
+  } else {
+    document.getElementById('f504prev').value='';
+  }
 
   const summ=v('f520').trim();
   if(summ) lines.push({tag:'520',ind:'  ',val:`$a ${summ}`,auto:false});
-
-  const src=v('f588').trim()||'Description based on: cover.';
-  lines.push({tag:'588',ind:'  ',val:`$a ${src}`,auto:false});
 
   lines.push({tag:'655',ind:' 7',val:'$a Zines. $2 lcgft',auto:true});
 
   subjects.forEach(s=>{
     if(!s.val.trim()) return;
     const sv=s.val.trim();
-    const endsok=/[.\-)]$/.test(sv);
-    lines.push({tag:s.type,ind:' 0',val:`$a ${sv}${endsok?'':'.'}`,auto:false});
+    lines.push({tag:s.type,ind:' 0',val:`$a ${sv}${/[.\-)]$/.test(sv)?'':'.'}`,auto:false});
   });
 
-  const add700=v('f700a').trim();
-  if(add700) lines.push({tag:'700',ind:'1 ',val:`$a ${add700}`,auto:false});
-  const add710=v('f710a').trim();
-  if(add710) lines.push({tag:'710',ind:'2 ',val:`$a ${add710}`,auto:false});
+  ax700.forEach(a=>{
+    if(!a.name.trim()) return;
+    lines.push({tag:'700',ind:'1 ',val:`$a ${a.name.trim()}, $e ${a.rel||'contributor'}.`,auto:false});
+  });
+  ax710.forEach(a=>{
+    if(!a.name.trim()) return;
+    const rs=a.rel?` $e ${a.rel}.`:'';
+    lines.push({tag:'710',ind:'2 ',val:`$a ${a.name.trim()},${rs}`,auto:false});
+  });
 
   return lines;
 }
 
 function renderPreview(lines){
-  if(!lines||!lines.length){
-    document.getElementById('marc-preview').innerHTML='<span class="empty-state">Fill in fields to see your MARC record →</span>';
-    return;
-  }
-  const html=lines.map(l=>{
-    const cls=l.auto?'marc-field marc-auto':'marc-field';
-    const ind=l.ind?`<span class="marc-ind">${l.ind.replace(/ /g,'_')}</span>`:'';
-    const val=l.val.replace(/(\$[a-z0-9])/g,'<span class="marc-sub">$1</span>');
-    return `<span class="${cls}"><span class="marc-tag">${l.tag}</span> ${ind} ${val}</span>`;
+  if(!lines||!lines.length){document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';return;}
+  document.getElementById('marc-preview').innerHTML=lines.map(l=>{
+    const cls='mf'+(l.auto?' ma':'');
+    const ind=l.ind?`<span class="mi">${l.ind.replace(/ /g,'_')}</span>`:'';
+    const val=l.val.replace(/(\$[a-z0-9])/g,'<span class="ms">$1</span>');
+    return `<span class="${cls}"><span class="mt">${l.tag}</span> ${ind} ${val}</span>`;
   }).join('\n');
-  document.getElementById('marc-preview').innerHTML=html;
 }
 
 function generateMarc(){
-  const lines=buildMarc();
+  const lines=buildLines();
   marcOutput=lines.map(l=>`${l.tag} ${l.ind||'  '} ${l.val}`).join('\n');
   renderPreview(lines);
+  return lines;
 }
-
 function update(){generateMarc();}
 
 function copyMarc(){
   if(!marcOutput)generateMarc();
   navigator.clipboard.writeText(marcOutput).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    btn.textContent='Copied!';
-    setTimeout(()=>btn.textContent='Copy',1500);
+    const b=document.querySelector('.cp-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy text',1500);
   });
 }
 
-function exportText(){
-  if(!marcOutput)generateMarc();
-  const b=new Blob([marcOutput],{type:'text/plain'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(b);a.download='marc_record.txt';a.click();
+function toMrkLine(l){
+  return `=${l.tag}  ${l.ind||'  '}${l.val.replace(/\$([a-z0-9])/g,'$$$1')}`;
+}
+function exportMrk(){
+  const lines=buildLines();
+  if(!lines.length) return;
+  const mrk=lines.map(toMrkLine).join('\r\n');
+  dlBlob(mrk,'text/plain;charset=utf-8','marc_record.mrk');
 }
 
-function exportMrk(){
-  const lines=buildMarc();
-  const mrk=lines.map(l=>`=${l.tag}  ${l.ind||'  '}${l.val.replace(/\$([a-z0-9])/g,'$$$1')}`).join('\n');
-  const b=new Blob([mrk],{type:'text/plain'});
+function encodeStr(str){
+  const bytes=[];
+  for(let i=0;i<str.length;i++){
+    const c=str.charCodeAt(i);
+    if(c<128) bytes.push(c);
+    else if(c<2048){bytes.push(0xC0|(c>>6));bytes.push(0x80|(c&0x3F));}
+    else{bytes.push(0xE0|(c>>12));bytes.push(0x80|((c>>6)&0x3F));bytes.push(0x80|(c&0x3F));}
+  }
+  return bytes;
+}
+
+function exportMrc(){
+  const lines=buildLines();
+  if(!lines.length) return;
+
+  const SUBFLD=0x1F,FLDTERM=0x1E,RECTERM=0x1D;
+  const LEADER_BASE_LEN=24;
+
+  const fields=[];
+  for(const l of lines){
+    const tag=l.tag;
+    if(tag==='LDR') continue;
+    let dataBytes=[];
+    if(parseInt(tag)<10){
+      dataBytes=encodeStr(l.val);
+      dataBytes.push(FLDTERM);
+      fields.push({tag,ind1:' ',ind2:' ',dataBytes,isCtrl:true});
+    } else {
+      const ind1=l.ind&&l.ind[0]?l.ind[0]:' ';
+      const ind2=l.ind&&l.ind[1]?l.ind[1]:' ';
+      dataBytes.push(ind1.charCodeAt(0));
+      dataBytes.push(ind2.charCodeAt(0));
+      const rawVal=l.val;
+      const parts=rawVal.split(/(\$[a-z0-9])/);
+      for(let i=0;i<parts.length;i++){
+        const p=parts[i];
+        if(/^\$[a-z0-9]$/.test(p)){
+          dataBytes.push(SUBFLD);
+          dataBytes.push(p.charCodeAt(1));
+        } else {
+          dataBytes.push(...encodeStr(p));
+        }
+      }
+      dataBytes.push(FLDTERM);
+      fields.push({tag,ind1,ind2,dataBytes,isCtrl:false});
+    }
+  }
+
+  let dirLen=fields.length*12;
+  let dataOffset=LEADER_BASE_LEN+dirLen+1;
+  let dataLen=fields.reduce((a,f)=>a+f.dataBytes.length,0)+1;
+  let recLen=dataOffset+dataLen;
+
+  const ldrRaw=lines.find(l=>l.tag==='LDR');
+  const ldrVal=ldrRaw?ldrRaw.val:'00000nam a2200000 i 4500';
+  let ldr=ldrVal.split('');
+  const rl=String(recLen).padStart(5,'0');
+  const ba=String(dataOffset).padStart(5,'0');
+  for(let i=0;i<5;i++) ldr[i]=rl[i];
+  ldr[5]='n';
+  ldr[6]='a';
+  ldr[7]='m';
+  ldr[8]='a';
+  ldr[9]='2';
+  for(let i=0;i<5;i++) ldr[12+i]=ba[i];
+  ldr[20]='4';
+  ldr[21]='5';
+  ldr[22]='0';
+  ldr[23]='0';
+  const ldrBytes=encodeStr(ldr.join(''));
+
+  let dir=[];
+  let offset=0;
+  for(const f of fields){
+    dir.push(...encodeStr(f.tag));
+    dir.push(...encodeStr(String(f.dataBytes.length).padStart(4,'0')));
+    dir.push(...encodeStr(String(offset).padStart(5,'0')));
+    offset+=f.dataBytes.length;
+  }
+  dir.push(FLDTERM);
+
+  const dataSection=[];
+  for(const f of fields) dataSection.push(...f.dataBytes);
+  dataSection.push(RECTERM);
+
+  const all=new Uint8Array([...ldrBytes,...dir,...dataSection]);
+  const blob=new Blob([all],{type:'application/octet-stream'});
+  dlBlob(blob,'application/octet-stream','marc_record.mrc',true);
+}
+
+function dlBlob(content,type,filename,isBin=false){
+  const blob=isBin?content:new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(b);a.download='marc_record.mrk';a.click();
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},300);
 }
 
 function resetForm(){
-  document.querySelectorAll('input[type=text],textarea').forEach(el=>el.value='');
-  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  document.querySelectorAll('input[type=text]:not([readonly]),textarea').forEach(e=>e.value='');
+  document.querySelectorAll('select').forEach(e=>e.selectedIndex=0);
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(e=>e.checked=false);
   document.querySelector('input[name="pagetype"][value="pages"]').checked=true;
   document.querySelector('input[name="datetype"][value="known"]').checked=true;
-  document.querySelectorAll('.check-group input[type=checkbox]').forEach(c=>c.checked=false);
-  subjects=[];renderSubjects();
+  document.getElementById('f245ind2').value='';
+  document.getElementById('f504prev').value='';
+  document.getElementById('multilang-extra').style.display='none';
+  document.getElementById('translation-extra').style.display='none';
+  subjects=[];ax700=[];ax710=[];
+  renderSubjects();renderAx700();renderAx710();
   updateDateUI();
-  document.getElementById('marc-preview').innerHTML='<span class="empty-state">Fill in fields to see your MARC record →</span>';
+  document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';
   marcOutput='';
 }
 
