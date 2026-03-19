@@ -1,4 +1,9 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zine Cataloging Assistant — TFW</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -110,12 +115,14 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 
 @media(max-width:700px){.main{grid-template-columns:1fr}.preview-col{position:static}}
 </style>
+</head>
+<body>
 
 <div class="app-header">
   <div class="hlogo">TFW</div>
   <div class="htitles">
     <h1>Zine Cataloging Assistant</h1>
-    <div class="sub">RDA / MARC 21 — Tufts University SMFA Library</div>
+    <div class="sub">RDA / MARC 21 — Thomas Fisher Rare Book Library</div>
   </div>
   <span class="hbadge">MARC 21</span>
 </div>
@@ -125,14 +132,15 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 
 <div class="auto-pills">
   <h3>Auto-generated fields</h3>
-  <span class="ap"><span class="at">LDR</span><span class="av">from inputs</span></span>
+  <span class="ap"><span class="at">LDR</span><span class="av">Type a, Blvl m, Elvl 7, Desc i</span></span>
   <span class="ap"><span class="at">007</span><span class="av">ta</span></span>
-  <span class="ap"><span class="at">008</span><span class="av">date + lang + ctry</span></span>
+  <span class="ap"><span class="at">008</span><span class="av">date + lang + ctry + fixed</span></span>
   <span class="ap"><span class="at">040</span><span class="av">TFW / rda</span></span>
   <span class="ap"><span class="at">336–338</span><span class="av">RDA content/media/carrier</span></span>
   <span class="ap"><span class="at">655</span><span class="av">Zines / lcgft</span></span>
 </div>
 
+<!-- 020 -->
 <div class="section">
   <div class="sh"><span class="stag gld">020</span><span class="stitle">ISBN</span></div>
   <div class="sb">
@@ -144,6 +152,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- Language / 041 -->
 <div class="section">
   <div class="sh"><span class="stag grn">041</span><span class="stitle">Language</span><span class="sdesc">sets 008/35-37</span></div>
   <div class="sb">
@@ -155,13 +164,18 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <option value="spa">Spanish (spa)</option>
         <option value="ger">German (ger)</option>
         <option value="jpn">Japanese (jpn)</option>
-        <option value="zho">Chinese (zho)</option>
+        <option value="chi">Chinese (chi)</option>
         <option value="por">Portuguese (por)</option>
         <option value="kor">Korean (kor)</option>
         <option value="ara">Arabic (ara)</option>
+        <option value="vie">Vietnamese (vie)</option>
+        <option value="tha">Thai (tha)</option>
+        <option value="rus">Russian (rus)</option>
+        <option value="ita">Italian (ita)</option>
+        <option value="pol">Polish (pol)</option>
         <option value="und">Undetermined (und)</option>
       </select>
-      <div class="hint">Always select the primary language. This populates 008/35-37. A 041 field is only output when needed (see below).</div>
+      <div class="hint">Always select the primary language. Populates 008/35-37. A 041 field is only output when needed (see below).</div>
     </div>
     <div class="field">
       <label>041 situations — check if applicable</label>
@@ -188,7 +202,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
           <option value="spa">Spanish (spa)</option>
           <option value="ger">German (ger)</option>
           <option value="jpn">Japanese (jpn)</option>
-          <option value="zho">Chinese (zho)</option>
+          <option value="chi">Chinese (chi)</option>
           <option value="por">Portuguese (por)</option>
           <option value="kor">Korean (kor)</option>
           <option value="ara">Arabic (ara)</option>
@@ -198,8 +212,9 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- Country -->
 <div class="section">
-  <div class="sh"><span class="stag grn">008/15</span><span class="stitle">Country of publication</span></div>
+  <div class="sh"><span class="stag grn">008/15-17</span><span class="stitle">Country of publication</span></div>
   <div class="sb">
     <div class="field">
       <label>Country / state<span class="req">*</span></label>
@@ -234,13 +249,15 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
           <option value="ie ">Ireland</option><option value="au ">Australia</option><option value="nz ">New Zealand</option>
           <option value="fr ">France</option><option value="gw ">Germany</option><option value="sp ">Spain</option>
           <option value="ja ">Japan</option><option value="mx ">Mexico</option><option value="bl ">Brazil</option>
-          <option value="xx ">Unknown</option>
+          <option value="it ">Italy</option><option value="pl ">Poland</option><option value="ko ">Korea</option>
+          <option value="vn ">Vietnam</option><option value="xx ">Unknown</option>
         </optgroup>
       </select>
     </div>
   </div>
 </div>
 
+<!-- 1XX -->
 <div class="section">
   <div class="sh"><span class="stag grn">1XX</span><span class="stitle">Creator / main entry</span></div>
   <div class="sb">
@@ -262,7 +279,17 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div class="row r2">
       <div class="field">
         <label><span class="marc">100 $e</span>Relator term</label>
-        <select id="f100e" onchange="update()"><option value="artist">artist</option><option value="author">author</option><option value="cartographer">cartographer</option><option value="colorist">colorist</option><option value="compiler">compiler</option><option value="composer">composer</option><option value="designer">designer</option><option value="editor">editor</option><option value="illustrator">illustrator</option><option value="letterer">letterer</option><option value="photographer">photographer</option><option value="printmaker">printmaker</option><option value="translator">translator</option><option value="writer of introduction">writer of introduction</option><option value="writer of preface">writer of preface</option></select>
+        <select id="f100e" onchange="update()">
+          <option value="artist">artist</option><option value="author">author</option>
+          <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
+          <option value="compiler">compiler</option><option value="composer">composer</option>
+          <option value="designer">designer</option><option value="editor">editor</option>
+          <option value="illustrator">illustrator</option><option value="letterer">letterer</option>
+          <option value="photographer">photographer</option><option value="printmaker">printmaker</option>
+          <option value="translator">translator</option>
+          <option value="writer of introduction">writer of introduction</option>
+          <option value="writer of preface">writer of preface</option>
+        </select>
       </div>
       <div class="field">
         <label><span class="marc">110 $a</span>Corporate / group name</label>
@@ -273,9 +300,13 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- 245 -->
 <div class="section">
   <div class="sh"><span class="stag grn">245</span><span class="stitle">Title statement</span></div>
   <div class="sb">
+    <div style="background:var(--gold-lt);border:1px solid #e0c878;border-radius:var(--r);padding:6px 10px;margin-bottom:10px;font-size:0.7rem;font-family:var(--sans);color:#7a5800;line-height:1.5">
+      <strong>Library case:</strong> Capitalize only the first word of the title and any proper nouns. All other words are lowercase. Example: <em>The radical joy of being human</em> not <em>The Radical Joy of Being Human</em>.
+    </div>
     <div class="row r2">
       <div class="field">
         <label><span class="marc">245 $a</span>Title proper<span class="req">*</span></label>
@@ -283,7 +314,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       </div>
       <div class="field">
         <label><span class="marc">245 $b</span>Subtitle</label>
-        <input type="text" id="f245b" placeholder="subtitle" oninput="update()">
+        <input type="text" id="f245b" placeholder="subtitle (library case)" oninput="update()">
       </div>
     </div>
     <div class="row r2">
@@ -299,11 +330,12 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div class="field">
       <label><span class="marc">245 $c</span>Statement of responsibility<span class="req">*</span></label>
       <input type="text" id="f245c" placeholder="e.g. by Angela Sun ; illustrations by Robin Park" oninput="update()">
-      <div class="hint">Transcribe exactly as it appears on the source.</div>
+      <div class="hint">Transcribe exactly as it appears on the source. Do not apply library case here — copy the source verbatim.</div>
     </div>
   </div>
 </div>
 
+<!-- 250 -->
 <div class="section">
   <div class="sh"><span class="stag grn">250</span><span class="stitle">Edition statement</span></div>
   <div class="sb">
@@ -315,6 +347,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- 264 -->
 <div class="section">
   <div class="sh"><span class="stag grn">264</span><span class="stitle">Publication / date</span></div>
   <div class="sb">
@@ -334,7 +367,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       </div>
     </div>
     <div id="date-copyright" style="display:none">
-      <div class="hint" style="font-style:normal;color:var(--ink2);margin-bottom:8px">Generates 264 _1 with [year] and 264 _4 with ©year. Sets 008 date type <strong>t</strong>.</div>
+      <div class="hint" style="font-style:normal;color:var(--ink2);margin-bottom:8px">Generates 264 _1 with [year] and 264 _4 with &#169;year. Sets 008 date type <strong>t</strong>.</div>
       <div class="row r3">
         <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a-c" placeholder="City, State" oninput="update()"></div>
         <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()"></div>
@@ -352,6 +385,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- 300 -->
 <div class="section">
   <div class="sh"><span class="stag grn">300</span><span class="stitle">Physical description</span></div>
   <div class="sb">
@@ -359,14 +393,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="field">
         <label><span class="marc">300 $a</span>Number</label>
         <input type="text" id="f300num" placeholder="e.g. 24" oninput="update()">
+        <div class="hint">Leave blank if selecting "1 volume (unpaged)".</div>
       </div>
       <div class="field">
         <label>&nbsp;</label>
         <div class="radio-g" style="padding-top:6px">
-          <label><input type="radio" name="pagetype" value="pages" checked onchange="update()"> pages</label>
-          <label><input type="radio" name="pagetype" value="leaves" onchange="update()"> leaves</label>
-          <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="update()"> unnumbered pages</label>
-          <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="update()"> unnumbered leaves</label>
+          <label><input type="radio" name="pagetype" value="pages" checked onchange="togglePageNum();update()"> pages</label>
+          <label><input type="radio" name="pagetype" value="leaves" onchange="togglePageNum();update()"> leaves</label>
+          <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="togglePageNum();update()"> unnumbered pages</label>
+          <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="togglePageNum();update()"> unnumbered leaves</label>
+          <label><input type="radio" name="pagetype" value="unpaged" onchange="togglePageNum();update()"> 1 volume (unpaged)</label>
         </div>
       </div>
     </div>
@@ -383,22 +419,28 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <div class="field">
       <label><span class="marc">300 $c</span>Dimensions</label>
-      <input type="text" id="f300c" placeholder="e.g. 21 cm  or  10 × 16 cm" oninput="update()">
-      <div class="hint">Height in cm (RDA: round up to nearest cm). Non-standard: H × W, e.g. 10 × 10 cm or 8 × 16 cm.</div>
+      <input type="text" id="f300c" placeholder="e.g. 21 cm  or  10 &#xD7; 16 cm" oninput="update()">
+      <div class="hint">Height in cm (RDA: round up to nearest cm). Non-standard: H &#xD7; W, e.g. 10 &#xD7; 10 cm or 8 &#xD7; 16 cm.</div>
     </div>
   </div>
 </div>
 
+<!-- LDR/008 fixed -->
 <div class="section">
   <div class="sh"><span class="stag pnk">LDR / 008</span><span class="stitle">Fixed field options</span></div>
   <div class="sb">
     <div class="field">
-      <label>008/24-27 Cont — contents</label>
+      <label>008/24 Cont — bibliography</label>
       <div class="check-g">
-        <label><input type="checkbox" id="cont-bib" onchange="update()"> Bibliography (b)</label>
-        <label><input type="checkbox" id="cont-idx" onchange="update()"> Index (i)</label>
+        <label><input type="checkbox" id="cont-bib" onchange="update()"> Includes bibliography (codes "b" in Cont/008/24)</label>
       </div>
-      <div class="hint">Controls 504 note and Cont positions in 008.</div>
+    </div>
+    <div class="field" style="margin-top:0.6rem">
+      <label>008/31 Indx — index</label>
+      <div class="check-g">
+        <label><input type="checkbox" id="has-indx" onchange="update()"> Includes index (codes "1" in Indx/008/31)</label>
+      </div>
+      <div class="hint">Bibliography and index are tracked separately: bibliography goes in Cont (008/24), index goes in Indx (008/31). Both also control the 504 note.</div>
     </div>
     <div class="field" style="margin-top:0.6rem">
       <label>008/18-21 Ills — illustrations coded in 008</label>
@@ -411,6 +453,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
+<!-- 5XX Notes -->
 <div class="section">
   <div class="sh"><span class="stag grn">5XX</span><span class="stitle">Notes</span></div>
   <div class="sb">
@@ -423,21 +466,114 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <input type="text" id="f500a" placeholder="e.g. Staple-bound; hand-lettered; photocopied" oninput="update()">
     </div>
     <div class="field">
-      <label><span class="marc">504 $a</span>Bibliography / index note <span class="atag">auto</span></label>
-      <input type="text" id="f504prev" readonly placeholder="Auto-filled from Cont checkboxes above">
+      <label><span class="marc">500 $a</span>Artist / creator website</label>
+      <input type="text" id="f500-website" placeholder="e.g. https://artistname.com" oninput="update()">
+      <div class="hint">Outputs as: Creator's website: [url]</div>
+    </div>
+    <div class="field">
+      <label><span class="marc">500 $a</span>Class project note (SMFA / Tufts)</label>
+      <div class="hint" style="margin-bottom:6px;font-style:normal;color:var(--ink2)">Fill in if this zine was created as part of a course. Leave all blank if not applicable.</div>
+      <div class="row r2" style="margin-bottom:8px">
+        <div class="field">
+          <label>Instructor name</label>
+          <input type="text" id="f500-instructor" placeholder="e.g. Prof. Jane Smith" oninput="update()">
+        </div>
+        <div class="field">
+          <label>Class name and course number</label>
+          <input type="text" id="f500-classname" placeholder="e.g. Bookmaking and Publication SMFA-0101" oninput="update()">
+        </div>
+      </div>
+      <div class="row r2" style="margin-bottom:8px">
+        <div class="field">
+          <label>Semester / year</label>
+          <input type="text" id="f500-semester" placeholder="e.g. Spring 2024" oninput="update()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Brief description of project</label>
+        <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
+      </div>
+      <div class="hint">Outputs as a single 500 note: "Created for [class name and number], taught by [instructor], [semester]. [description]"</div>
+    </div>
+    <div class="field">
+      <label><span class="marc">504/500 $a</span>Bibliography / index note <span class="atag">auto</span></label>
+      <input type="text" id="f504prev" readonly placeholder="Auto-filled from fixed field checkboxes above">
+      <div class="hint">Bib refs alone or with index → 504. Index alone → 500.</div>
     </div>
   </div>
 </div>
 
+<!-- 6XX -->
 <div class="section">
   <div class="sh"><span class="stag grn">6XX</span><span class="stitle">Subject headings</span></div>
   <div class="sb">
+    <div class="field">
+      <label>Select topics (hold Ctrl / Cmd to select multiple)</label>
+      <select id="preset-subjects" multiple size="10" onchange="applyPresets()" style="min-height:160px;font-family:var(--sans);font-size:0.84rem">
+        <option value="Abstraction">Abstraction</option>
+        <option value="Activism">Activism</option>
+        <option value="Animals">Animals</option>
+        <option value="Biography">Biography</option>
+        <option value="Boston/New England">Boston/New England</option>
+        <option value="Collage">Collage</option>
+        <option value="Comics">Comics</option>
+        <option value="Current events">Current events</option>
+        <option value="Disability">Disability</option>
+        <option value="Drawing">Drawing</option>
+        <option value="Dreams">Dreams</option>
+        <option value="Drugs/alcohol">Drugs/alcohol</option>
+        <option value="Ecology/environment">Ecology/environment</option>
+        <option value="Education/instruction">Education/instruction</option>
+        <option value="Ethnicity">Ethnicity</option>
+        <option value="Fashion">Fashion</option>
+        <option value="Feminism">Feminism</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Food">Food</option>
+        <option value="Gender">Gender</option>
+        <option value="Health">Health</option>
+        <option value="How to/DIY">How to/DIY</option>
+        <option value="Humor">Humor</option>
+        <option value="Internet/social media">Internet/social media</option>
+        <option value="Intersectionality">Intersectionality</option>
+        <option value="LGBTQIA">LGBTQIA</option>
+        <option value="Media">Media</option>
+        <option value="Mental health">Mental health</option>
+        <option value="Music">Music</option>
+        <option value="Performance">Performance</option>
+        <option value="Photography">Photography</option>
+        <option value="Plants">Plants</option>
+        <option value="Poetry">Poetry</option>
+        <option value="Politics">Politics</option>
+        <option value="Race">Race</option>
+        <option value="Relationships/love">Relationships/love</option>
+        <option value="Religion/spirituality">Religion/spirituality</option>
+        <option value="Sex/erotica">Sex/erotica</option>
+        <option value="Social justice">Social justice</option>
+        <option value="Theory/criticism">Theory/criticism</option>
+        <option value="Transgender">Transgender</option>
+        <option value="Travel/places">Travel/places</option>
+        <option value="Typography">Typography</option>
+        <option value="Writing">Writing</option>
+        <option value="Other">Other (opens free-text field)</option>
+      </select>
+      <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple. Selections map to LCSH headings automatically.</div>
+    </div>
+    <div id="preset-pills" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px"></div>
+    <div id="other-subject-wrap" style="display:none;margin-top:8px">
+      <div class="field">
+        <label><span class="marc">650 $a</span>Other — custom heading</label>
+        <input type="text" id="other-subject-val" placeholder="Enter LCSH heading (library case)" oninput="update()">
+        <div class="hint">Verify against LC authority file. Will output as 650 _0.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;margin-bottom:4px;font-size:0.72rem;font-weight:500;color:var(--ink2);font-family:var(--sans)">Additional subject headings (free text)</div>
     <div id="subjects-wrap"></div>
-    <button class="add-btn" onclick="addSubject()">+ Add subject heading</button>
-    <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. Zines (lcgft) added automatically. Verify all headings against LC authority file.</div>
+    <button class="add-btn" onclick="addSubject()">+ Add additional heading</button>
+    <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. The Zines (lcgft) 655 is added automatically. Verify all headings against the LC authority file.</div>
   </div>
 </div>
 
+<!-- 7XX -->
 <div class="section">
   <div class="sh"><span class="stag grn">7XX</span><span class="stitle">Added entries</span></div>
   <div class="sb">
@@ -481,36 +617,141 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 </div>
 
 <script>
-const RELATORS=[['artist','artist'],['author','author'],['cartographer','cartographer'],['colorist','colorist'],['compiler','compiler'],['composer','composer'],['designer','designer'],['editor','editor'],['illustrator','illustrator'],['letterer','letterer'],['photographer','photographer'],['printmaker','printmaker'],['translator','translator'],['writer of introduction','writer of introduction'],['writer of preface','writer of preface']];
+const RELATORS=[
+  ['artist','artist'],['author','author'],['cartographer','cartographer'],
+  ['colorist','colorist'],['compiler','compiler'],['composer','composer'],
+  ['designer','designer'],['editor','editor'],['illustrator','illustrator'],
+  ['letterer','letterer'],['photographer','photographer'],['printmaker','printmaker'],
+  ['translator','translator'],['writer of introduction','writer of introduction'],
+  ['writer of preface','writer of preface']
+];
 
 let subjects=[],ax700=[],ax710=[],marcOutput='';
 
-function relOpts(sel=''){return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');}
+function relOpts(sel=''){
+  return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');
+}
 
-function addSubject(val='',type='650'){subjects.push({id:Date.now()+Math.random(),val,type});renderSubjects();}
+// ─── Preset subject → LCSH/LCGFT mapping ──────────────────────────────────
+// Each value is an array of one or more field entries: [heading, tag, ind2, vocab]
+// vocab: 'lcsh' → ind2=0, 'lcgft' → ind2=7 $2 lcgft
+// Terms that are both topical AND genre get two entries (650 + 655)
+const PRESET_MAP = {
+  'Abstraction':           [['Abstraction in art','650','0','lcsh']],
+  'Activism':              [['Political activists','650','0','lcsh']],
+  'Animals':               [['Animals','650','0','lcsh']],
+  'Biography':             [['Biography','650','0','lcsh'],['Biographies','655','7','lcgft']],
+  'Boston/New England':    [['New England','651','0','lcsh']],
+  'Collage':               [['Collage','650','0','lcsh']],
+  'Comics':                [['Comic books, strips, etc.','650','0','lcsh'],['Comics (Graphic works)','655','7','lcgft']],
+  'Current events':        [['Current events','650','0','lcsh']],
+  'Disability':            [['People with disabilities','650','0','lcsh']],
+  'Drawing':               [['Drawing','650','0','lcsh']],
+  'Dreams':                [['Dreams','650','0','lcsh']],
+  'Drugs/alcohol':         [['Substance abuse','650','0','lcsh']],
+  'Ecology/environment':   [['Human ecology','650','0','lcsh']],
+  'Education/instruction': [['Education','650','0','lcsh']],
+  'Ethnicity':             [['Ethnicity','650','0','lcsh']],
+  'Fashion':               [['Fashion','650','0','lcsh']],
+  'Feminism':              [['Feminism','650','0','lcsh']],
+  'Fiction':               [['Fiction','650','0','lcsh'],['Fiction','655','7','lcgft']],
+  'Food':                  [['Food','650','0','lcsh']],
+  'Gender':                [['Gender identity','650','0','lcsh']],
+  'Health':                [['Health','650','0','lcsh']],
+  'How to/DIY':            [['Do-it-yourself work','650','0','lcsh']],
+  'Humor':                 [['Wit and humor','650','0','lcsh'],['Humorous works','655','7','lcgft']],
+  'Internet/social media': [['Social media','650','0','lcsh']],
+  'Intersectionality':     [['Intersectionality (Sociology)','650','0','lcsh']],
+  'LGBTQIA':               [['Sexual minorities','650','0','lcsh']],
+  'Media':                 [['Mass media','650','0','lcsh']],
+  'Mental health':         [['Mental health','650','0','lcsh']],
+  'Music':                 [['Music','650','0','lcsh']],
+  'Performance':           [['Performance art','650','0','lcsh']],
+  'Photography':           [['Photography, Artistic','650','0','lcsh']],
+  'Plants':                [['Plants','650','0','lcsh']],
+  'Poetry':                [['Poetry','650','0','lcsh'],['Poetry','655','7','lcgft']],
+  'Politics':              [['Politics and culture','650','0','lcsh']],
+  'Race':                  [['Race','650','0','lcsh']],
+  'Relationships/love':    [['Love','650','0','lcsh']],
+  'Religion/spirituality': [['Spirituality','650','0','lcsh']],
+  'Sex/erotica':           [['Sex','650','0','lcsh'],['Erotic literature','655','7','lcgft']],
+  'Social justice':        [['Social justice','650','0','lcsh']],
+  'Theory/criticism':      [['Criticism (Philosophy)','650','0','lcsh']],
+  'Transgender':           [['Transgender people','650','0','lcsh']],
+  'Travel/places':         [['Travel','650','0','lcsh']],
+  'Typography':            [['Typography','650','0','lcsh']],
+  'Writing':               [['Authorship','650','0','lcsh']],
+  'Other':                 null,
+};
+
+let presetSelections = new Set();
+
+function applyPresets(){
+  const sel=document.getElementById('preset-subjects');
+  presetSelections=new Set(Array.from(sel.selectedOptions).map(o=>o.value));
+  document.getElementById('other-subject-wrap').style.display=presetSelections.has('Other')?'block':'none';
+  renderPresetPills();
+  update();
+}
+
+function renderPresetPills(){
+  const wrap=document.getElementById('preset-pills');
+  wrap.innerHTML='';
+  presetSelections.forEach(key=>{
+    const pill=document.createElement('span');
+    pill.style.cssText='display:inline-flex;align-items:center;gap:4px;background:var(--sage-lt);border:1px solid var(--sage-md);border-radius:20px;padding:2px 8px 2px 10px;font-size:0.72rem;font-family:var(--sans);color:var(--sage-dk)';
+    pill.innerHTML=`${key} <button onclick="removePreset('${key.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:none;border:none;cursor:pointer;color:var(--sage);font-size:0.75rem;padding:0 2px;line-height:1">&#x2715;</button>`;
+    wrap.appendChild(pill);
+  });
+}
+
+function removePreset(key){
+  presetSelections.delete(key);
+  const sel=document.getElementById('preset-subjects');
+  Array.from(sel.options).forEach(o=>{if(o.value===key) o.selected=false;});
+  if(key==='Other') document.getElementById('other-subject-wrap').style.display='none';
+  renderPresetPills();
+  update();
+}
+
+
 function renderSubjects(){
   const w=document.getElementById('subjects-wrap');w.innerHTML='';
   subjects.forEach((s,i)=>{
     const r=document.createElement('div');r.className='sub-row';
-    r.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()"><option value="650"${s.type==='650'?' selected':''}>650 topical</option><option value="651"${s.type==='651'?' selected':''}>651 geo</option><option value="600"${s.type==='600'?' selected':''}>600 personal</option><option value="610"${s.type==='610'?' selected':''}>610 corp</option><option value="655"${s.type==='655'?' selected':''}>655 genre</option></select><input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()"><button class="xbtn" onclick="subjects.splice(${i},1);renderSubjects();update()">&#x2715;</button>`;
+    r.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()">
+      <option value="650"${s.type==='650'?' selected':''}>650 topical</option>
+      <option value="651"${s.type==='651'?' selected':''}>651 geo</option>
+      <option value="600"${s.type==='600'?' selected':''}>600 personal</option>
+      <option value="610"${s.type==='610'?' selected':''}>610 corp</option>
+      <option value="655"${s.type==='655'?' selected':''}>655 genre</option>
+    </select>
+    <input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()">
+    <button class="xbtn" onclick="subjects.splice(${i},1);renderSubjects();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
 }
+
 function addAx700(name='',rel='illustrator'){ax700.push({id:Date.now()+Math.random(),name,rel});renderAx700();}
 function renderAx700(){
   const w=document.getElementById('ax700-wrap');w.innerHTML='';
   ax700.forEach((a,i)=>{
     const r=document.createElement('div');r.className='ax-row';
-    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Last, First" oninput="ax700[${i}].name=this.value;update()"><select class="rel-sel" onchange="ax700[${i}].rel=this.value;update()">${relOpts(a.rel)}</select><button class="xbtn" onclick="ax700.splice(${i},1);renderAx700();update()">&#x2715;</button>`;
+    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Last, First" oninput="ax700[${i}].name=this.value;update()">
+    <select class="rel-sel" onchange="ax700[${i}].rel=this.value;update()">${relOpts(a.rel)}</select>
+    <button class="xbtn" onclick="ax700.splice(${i},1);renderAx700();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
 }
+
 function addAx710(name='',rel=''){ax710.push({id:Date.now()+Math.random(),name,rel});renderAx710();}
 function renderAx710(){
   const w=document.getElementById('ax710-wrap');w.innerHTML='';
   ax710.forEach((a,i)=>{
     const r=document.createElement('div');r.className='ax-row';
-    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Organization name" oninput="ax710[${i}].name=this.value;update()"><select class="rel-sel" onchange="ax710[${i}].rel=this.value;update()">${relOpts(a.rel)}</select><button class="xbtn" onclick="ax710.splice(${i},1);renderAx710();update()">&#x2715;</button>`;
+    r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Organization name" oninput="ax710[${i}].name=this.value;update()">
+    <select class="rel-sel" onchange="ax710[${i}].rel=this.value;update()">${relOpts(a.rel)}</select>
+    <button class="xbtn" onclick="ax710.splice(${i},1);renderAx710();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
 }
@@ -525,12 +766,24 @@ function toggle041(){
   document.getElementById('multilang-extra').style.display=cb('is-multilang')?'block':'none';
   update();
 }
+
+function togglePageNum(){
+  const pt=rv('pagetype')||'pages';
+  const numField=document.getElementById('f300num');
+  if(numField){
+    numField.disabled=pt==='unpaged';
+    numField.style.opacity=pt==='unpaged'?'0.4':'1';
+  }
+  update();
+}
+
 function calc245nf(){
   const tl=v('f245a').toLowerCase();
   const arts={'the ':4,'a ':2,'an ':3,'les ':4,'le ':3,'la ':3,"l'":2,'die ':4,'das ':4,'der ':4,'el ':3,'los ':4,'las ':4};
   let n=0;for(const[a,c] of Object.entries(arts)){if(tl.startsWith(a)){n=c;break;}}
   document.getElementById('f245ind2').value=n;
 }
+
 function updateDateUI(){
   const t=dateType();
   document.getElementById('date-known').style.display=t==='known'?'block':'none';
@@ -538,22 +791,85 @@ function updateDateUI(){
   document.getElementById('date-unknown').style.display=t==='unknown'?'block':'none';
   update();
 }
+
 function getIlls(){return Array.from(document.querySelectorAll('#ill-checks input:checked')).map(c=>c.value);}
 
-function build008(dts,d1,d2,lang,ctry,ills008,cont008,hasIdx){
+// ─── 008 builder ───────────────────────────────────────────────────────────
+// Positions per MARC 21 Books format (008):
+// 00-05  Date entered
+// 06     Type of date (DtSt)
+// 07-10  Date 1
+// 11-14  Date 2
+// 15-17  Place of publication (Ctry)
+// 18-21  Illustrations (Ills)
+// 22     Target audience (Audn) — blank
+// 23     Form of item (Form) — blank
+// 24-27  Nature of contents (Cont)
+// 28     Government publication (GPub) — blank
+// 29     Conference publication (Conf) — 0
+// 30     Festschrift (Fest) — 0
+// 31     Index (Indx) — 0 or 1
+// 32     Undefined — blank
+// 33     Literary form — 0
+// 34     Biography (Biog) — blank
+// 35-37  Language (Lang)
+// 38     Modified record (Mrec) — blank
+// 39     Cataloging source (Srce) — d
+function build008(dts,d1,d2,lang,ctry,ills4,hasBib,hasIndx){
   const t=new Date();
   const yy=String(t.getFullYear()).slice(2);
   const mm=String(t.getMonth()+1).padStart(2,'0');
   const dd=String(t.getDate()).padStart(2,'0');
-  return `${yy}${mm}${dd}${dts}${(d1||'    ').slice(0,4).padEnd(4,' ')}${(d2||'    ').slice(0,4).padEnd(4,' ')}${(ctry||'xx ').slice(0,3).padEnd(3,' ')}${ills008.padEnd(4,' ').slice(0,4)}${cont008.padEnd(4,' ').slice(0,4)}  000 ${hasIdx?'1':'0'} ${(lang||'eng').slice(0,3)} d`;
+
+  const dateEntered=yy+mm+dd;                         // 00-05
+  const dtst=dts;                                      // 06
+  const date1=(d1||'    ').slice(0,4).padEnd(4,' ');  // 07-10
+  const date2=(d2||'    ').slice(0,4).padEnd(4,' ');  // 11-14
+  const ctry3=(ctry||'xxu').slice(0,3).padEnd(3,' '); // 15-17
+  const ills=ills4.padEnd(4,' ').slice(0,4);           // 18-21
+  const audn=' ';                                      // 22 Audn blank
+  const form=' ';                                      // 23 Form blank
+  // 24-27 Cont: up to 4 chars, b=bibliography, rest blank
+  const cont=(hasBib?'b':' ')+'   ';                  // 24-27
+  const gpub=' ';                                      // 28 GPub blank
+  const conf='0';                                      // 29 Conf
+  const fest='0';                                      // 30 Fest
+  const indx=hasIndx?'1':'0';                          // 31 Indx
+  const undef=' ';                                     // 32 undefined
+  const litf='0';                                      // 33 Literary form
+  const biog=' ';                                      // 34 Biog blank
+  const lang3=(lang||'eng').slice(0,3);                // 35-37 Lang
+  const mrec=' ';                                      // 38 Mrec blank
+  const srce='d';                                      // 39 Srce
+
+  return dateEntered+dtst+date1+date2+ctry3+ills+audn+form+cont+gpub+conf+fest+indx+undef+litf+biog+lang3+mrec+srce;
+}
+
+// ─── LDR builder ───────────────────────────────────────────────────────────
+// Positions:
+// 05     Record status: n (new)
+// 06     Type of record: a (language material)
+// 07     Bibliographic level: m (monograph)
+// 08     Type of control: blank
+// 09     Character coding scheme: a (Unicode)
+// 17     Encoding level: 7
+// 18     Descriptive cataloging form: i (ISBD)
+// 19     Multipart resource record level: blank
+function buildLDR(recLen,baseAddr){
+  const rl=String(recLen).padStart(5,'0');
+  const ba=String(baseAddr).padStart(5,'0');
+  // LDR: 00-04 reclen, 05 status, 06 type, 07 blvl, 08 ctrl, 09 charenc,
+  //      10 ind count (2), 11 sf code count (2), 12-16 base addr data,
+  //      17 elvl, 18 desc, 19 multipart, 20 len of length (4), 21 len of offset (5), 22-23 (00)
+  return rl+'n'+'a'+'m'+' '+'a'+'22'+ba+'7'+'i'+' '+'4500';
 }
 
 function buildLines(){
   const lang=v('f041a')||'eng';
   const ctry=v('fctry')||'xxu';
   const dt=dateType();
-  const hasBib=cb('cont-bib'),hasIdx=cb('cont-idx');
-  const cont008=(hasBib?'b':' ')+(hasIdx?'i':' ')+'  ';
+  const hasBib=cb('cont-bib');
+  const hasIndx=cb('has-indx');
   const ills008=[(cb('ills-a')?'a':' '),(cb('ills-b')?'b':' '),(cb('ills-c')?'c':' '),' '].join('');
   const isT=cb('is-translation'),isM=cb('is-multilang');
 
@@ -582,16 +898,13 @@ function buildLines(){
     d1='    ';d2='    ';dts='n';
   }
 
-  const today=new Date();
-  const mm2=String(today.getMonth()+1).padStart(2,'0');
-  const dd2=String(today.getDate()).padStart(2,'0');
   const lines=[];
-
-  lines.push({tag:'LDR',ind:'',val:'00000nam a2200000 i 4500',auto:true});
+  // LDR placeholder — will be recalculated in binary export; preview uses fixed string
+  lines.push({tag:'LDR',ind:'',val:'00000nam a2200000 7i 4500',auto:true});
   lines.push({tag:'003',ind:'  ',val:'TFW',auto:true});
-  lines.push({tag:'005',ind:'  ',val:`${today.getFullYear()}${mm2}${dd2}120000.0`,auto:true});
+  lines.push({tag:'005',ind:'  ',val:(()=>{const t=new Date();return `${t.getFullYear()}${String(t.getMonth()+1).padStart(2,'0')}${String(t.getDate()).padStart(2,'0')}120000.0`;})(),auto:true});
   lines.push({tag:'007',ind:'  ',val:'ta',auto:true});
-  lines.push({tag:'008',ind:'  ',val:build008(dts,d1,d2,lang,ctry,ills008,cont008,hasIdx),auto:true});
+  lines.push({tag:'008',ind:'  ',val:build008(dts,d1,d2,lang,ctry,ills008,hasBib,hasIndx),auto:true});
 
   const isbn=v('f020').trim();
   if(isbn) lines.push({tag:'020',ind:'  ',val:`$a ${isbn}`,auto:false});
@@ -630,41 +943,99 @@ function buildLines(){
 
   const pn=v('f300num').trim(),pt=rv('pagetype')||'pages';
   const ills=getIlls(),dim=v('f300c').trim();
-  let phys=pn?`$a ${pn} ${pt}`:'$a 1 volume';
+  let phys;
+  if(pt==='unpaged'){
+    phys='$a 1 volume (unpaged)';
+  } else {
+    phys=pn?`$a ${pn} ${pt}`:'$a 1 volume';
+  }
   if(ills.length) phys+=` : $b ${ills.join(', ')}`;
   if(dim) phys+=` ; $c ${dim}`;
   lines.push({tag:'300',ind:'  ',val:phys,auto:false});
 
-  lines.push({tag:'336',ind:'  ',val:'$a text $b txt $2 rdacontent',auto:true});
-  lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent',auto:true});
-  lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia',auto:true});
-  lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier',auto:true});
+  lines.push({tag:'336',ind:'  ',val:'$a text $b txt $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/txt',auto:true});
+  lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/sti',auto:true});
+  lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia $0 http://id.loc.gov/vocabulary/mediaTypes/n',auto:true});
+  lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
 
+  // 500 general note
   const g1=v('f500a').trim();
   if(g1) lines.push({tag:'500',ind:'  ',val:`$a ${g1}`,auto:false});
 
-  if(hasBib||hasIdx){
-    let n504='Includes ';
-    if(hasBib&&hasIdx) n504+='bibliographical references and index.';
-    else if(hasBib) n504+='bibliographical references.';
-    else n504+='index.';
-    lines.push({tag:'504',ind:'  ',val:`$a ${n504}`,auto:true});
-    document.getElementById('f504prev').value=n504;
+  // 500 artist website
+  const website=v('f500-website').trim();
+  if(website) lines.push({tag:'500',ind:'  ',val:`$a Creator's website: ${website}`,auto:false});
+
+  // 500 class project note
+  const instructor=v('f500-instructor').trim();
+  const classname=v('f500-classname').trim();
+  const semester=v('f500-semester').trim();
+  const classdesc=v('f500-classdesc').trim();
+  if(instructor||classname||semester){
+    let classNote='Created for';
+    if(classname) classNote+=` ${classname},`;
+    if(instructor) classNote+=` taught by ${instructor},`;
+    if(semester) classNote+=` ${semester}.`;
+    else classNote=classNote.replace(/,$/,'.');
+    if(classdesc) classNote+=` ${classdesc}`;
+    if(!/[.!?]$/.test(classNote)) classNote+='.';
+    lines.push({tag:'500',ind:'  ',val:`$a ${classNote}`,auto:false});
+  }
+
+  // 504 / 500 bibliography and index notes
+  // 504 = bibliographical references (alone or with index)
+  // 500 = index only (no bib refs)
+  if(hasBib&&hasIndx){
+    const n='Includes bibliographical references and index.';
+    lines.push({tag:'504',ind:'  ',val:`$a ${n}`,auto:true});
+    document.getElementById('f504prev').value=n;
+  } else if(hasBib){
+    const n='Includes bibliographical references.';
+    lines.push({tag:'504',ind:'  ',val:`$a ${n}`,auto:true});
+    document.getElementById('f504prev').value=n;
+  } else if(hasIndx){
+    const n='Includes index.';
+    lines.push({tag:'500',ind:'  ',val:`$a ${n}`,auto:true});
+    document.getElementById('f504prev').value=n+' (→ 500)';
   } else {
     document.getElementById('f504prev').value='';
   }
 
+  // 520 summary
   const summ=v('f520').trim();
   if(summ) lines.push({tag:'520',ind:'  ',val:`$a ${summ}`,auto:false});
 
+  // 655 Zines lcgft — always
   lines.push({tag:'655',ind:' 7',val:'$a Zines. $2 lcgft',auto:true});
 
+  // 6XX preset subjects from dropdown
+  presetSelections.forEach(key=>{
+    if(key==='Other'){
+      const oval=(document.getElementById('other-subject-val')||{}).value||'';
+      if(oval.trim()){
+        const sv=oval.trim();
+        lines.push({tag:'650',ind:' 0',val:`$a ${sv}${/[.\-)]$/.test(sv)?'':'.'}`,auto:false});
+      }
+      return;
+    }
+    const entries=PRESET_MAP[key];
+    if(!entries) return;
+    entries.forEach(([heading,tag,ind2,vocab])=>{
+      const ind=` ${ind2}`;
+      const hVal=heading.endsWith('.')?heading:heading+'.';
+      const vocabStr=vocab==='lcgft'?' $2 lcgft':'';
+      lines.push({tag,ind,val:`$a ${hVal}${vocabStr}`,auto:false});
+    });
+  });
+
+  // 6XX free-text subject headings
   subjects.forEach(s=>{
     if(!s.val.trim()) return;
     const sv=s.val.trim();
     lines.push({tag:s.type,ind:' 0',val:`$a ${sv}${/[.\-)]$/.test(sv)?'':'.'}`,auto:false});
   });
 
+  // 700 / 710
   ax700.forEach(a=>{
     if(!a.name.trim()) return;
     lines.push({tag:'700',ind:'1 ',val:`$a ${a.name.trim()}, $e ${a.rel||'contributor'}.`,auto:false});
@@ -679,7 +1050,10 @@ function buildLines(){
 }
 
 function renderPreview(lines){
-  if(!lines||!lines.length){document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';return;}
+  if(!lines||!lines.length){
+    document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';
+    return;
+  }
   document.getElementById('marc-preview').innerHTML=lines.map(l=>{
     const cls='mf'+(l.auto?' ma':'');
     const ind=l.ind?`<span class="mi">${l.ind.replace(/ /g,'_')}</span>`:'';
@@ -697,9 +1071,10 @@ function generateMarc(){
 function update(){generateMarc();}
 
 function copyMarc(){
-  if(!marcOutput)generateMarc();
+  if(!marcOutput) generateMarc();
   navigator.clipboard.writeText(marcOutput).then(()=>{
-    const b=document.querySelector('.cp-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy text',1500);
+    const b=document.querySelector('.cp-btn');
+    b.textContent='Copied!';setTimeout(()=>b.textContent='Copy text',1500);
   });
 }
 
@@ -707,10 +1082,9 @@ function toMrkLine(l){
   return `=${l.tag}  ${l.ind||'  '}${l.val.replace(/\$([a-z0-9])/g,'$$$1')}`;
 }
 function exportMrk(){
-  const lines=buildLines();
-  if(!lines.length) return;
+  const lines=buildLines();if(!lines.length) return;
   const mrk=lines.map(toMrkLine).join('\r\n');
-  dlBlob(mrk,'text/plain;charset=utf-8','marc_record.mrk');
+  dlBlob(new Blob([mrk],{type:'text/plain;charset=utf-8'}),'marc_record.mrk');
 }
 
 function encodeStr(str){
@@ -725,86 +1099,59 @@ function encodeStr(str){
 }
 
 function exportMrc(){
-  const lines=buildLines();
-  if(!lines.length) return;
-
+  const lines=buildLines();if(!lines.length) return;
   const SUBFLD=0x1F,FLDTERM=0x1E,RECTERM=0x1D;
-  const LEADER_BASE_LEN=24;
-
   const fields=[];
   for(const l of lines){
-    const tag=l.tag;
-    if(tag==='LDR') continue;
+    if(l.tag==='LDR') continue;
     let dataBytes=[];
-    if(parseInt(tag)<10){
-      dataBytes=encodeStr(l.val);
-      dataBytes.push(FLDTERM);
-      fields.push({tag,ind1:' ',ind2:' ',dataBytes,isCtrl:true});
+    const tagNum=parseInt(l.tag);
+    if(tagNum<10){
+      dataBytes=[...encodeStr(l.val),FLDTERM];
+      fields.push({tag:l.tag,dataBytes});
     } else {
-      const ind1=l.ind&&l.ind[0]?l.ind[0]:' ';
-      const ind2=l.ind&&l.ind[1]?l.ind[1]:' ';
-      dataBytes.push(ind1.charCodeAt(0));
-      dataBytes.push(ind2.charCodeAt(0));
-      const rawVal=l.val;
-      const parts=rawVal.split(/(\$[a-z0-9])/);
-      for(let i=0;i<parts.length;i++){
-        const p=parts[i];
-        if(/^\$[a-z0-9]$/.test(p)){
-          dataBytes.push(SUBFLD);
-          dataBytes.push(p.charCodeAt(1));
-        } else {
-          dataBytes.push(...encodeStr(p));
-        }
+      const ind1=(l.ind&&l.ind[0]?l.ind[0]:' ').charCodeAt(0);
+      const ind2=(l.ind&&l.ind[1]?l.ind[1]:' ').charCodeAt(0);
+      dataBytes=[ind1,ind2];
+      const parts=l.val.split(/(\$[a-z0-9])/);
+      for(const p of parts){
+        if(/^\$[a-z0-9]$/.test(p)){dataBytes.push(SUBFLD);dataBytes.push(p.charCodeAt(1));}
+        else dataBytes.push(...encodeStr(p));
       }
       dataBytes.push(FLDTERM);
-      fields.push({tag,ind1,ind2,dataBytes,isCtrl:false});
+      fields.push({tag:l.tag,dataBytes});
     }
   }
 
-  let dirLen=fields.length*12;
-  let dataOffset=LEADER_BASE_LEN+dirLen+1;
-  let dataLen=fields.reduce((a,f)=>a+f.dataBytes.length,0)+1;
-  let recLen=dataOffset+dataLen;
-
-  const ldrRaw=lines.find(l=>l.tag==='LDR');
-  const ldrVal=ldrRaw?ldrRaw.val:'00000nam a2200000 i 4500';
-  let ldr=ldrVal.split('');
-  const rl=String(recLen).padStart(5,'0');
-  const ba=String(dataOffset).padStart(5,'0');
-  for(let i=0;i<5;i++) ldr[i]=rl[i];
-  ldr[5]='n';
-  ldr[6]='a';
-  ldr[7]='m';
-  ldr[8]='a';
-  ldr[9]='2';
-  for(let i=0;i<5;i++) ldr[12+i]=ba[i];
-  ldr[20]='4';
-  ldr[21]='5';
-  ldr[22]='0';
-  ldr[23]='0';
-  const ldrBytes=encodeStr(ldr.join(''));
-
-  let dir=[];
   let offset=0;
-  for(const f of fields){
-    dir.push(...encodeStr(f.tag));
-    dir.push(...encodeStr(String(f.dataBytes.length).padStart(4,'0')));
-    dir.push(...encodeStr(String(offset).padStart(5,'0')));
+  const dirEntries=fields.map(f=>{
+    const e={tag:f.tag,len:f.dataBytes.length,offset};
     offset+=f.dataBytes.length;
+    return e;
+  });
+
+  const dirBytes=[];
+  for(const e of dirEntries){
+    dirBytes.push(...encodeStr(e.tag));
+    dirBytes.push(...encodeStr(String(e.len).padStart(4,'0')));
+    dirBytes.push(...encodeStr(String(e.offset).padStart(5,'0')));
   }
-  dir.push(FLDTERM);
+  dirBytes.push(FLDTERM);
 
-  const dataSection=[];
-  for(const f of fields) dataSection.push(...f.dataBytes);
-  dataSection.push(RECTERM);
+  const dataBytes=[];
+  for(const f of fields) dataBytes.push(...f.dataBytes);
+  dataBytes.push(RECTERM);
 
-  const all=new Uint8Array([...ldrBytes,...dir,...dataSection]);
-  const blob=new Blob([all],{type:'application/octet-stream'});
-  dlBlob(blob,'application/octet-stream','marc_record.mrc',true);
+  const baseAddr=24+dirBytes.length;
+  const recLen=baseAddr+dataBytes.length;
+  const ldrStr=buildLDR(recLen,baseAddr);
+  const ldrBytes=encodeStr(ldrStr);
+
+  const all=new Uint8Array([...ldrBytes,...dirBytes,...dataBytes]);
+  dlBlob(new Blob([all],{type:'application/octet-stream'}),'marc_record.mrc');
 }
 
-function dlBlob(content,type,filename,isBin=false){
-  const blob=isBin?content:new Blob([content],{type});
+function dlBlob(blob,filename){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;a.download=filename;
@@ -822,6 +1169,13 @@ function resetForm(){
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
   document.getElementById('translation-extra').style.display='none';
+  presetSelections=new Set();
+  const psel=document.getElementById('preset-subjects');
+  if(psel) Array.from(psel.options).forEach(o=>o.selected=false);
+  document.getElementById('preset-pills').innerHTML='';
+  document.getElementById('other-subject-wrap').style.display='none';
+  const ov=document.getElementById('other-subject-val');
+  if(ov) ov.value='';
   subjects=[];ax700=[];ax710=[];
   renderSubjects();renderAx700();renderAx710();
   updateDateUI();
@@ -832,3 +1186,5 @@ function resetForm(){
 addSubject();
 updateDateUI();
 </script>
+</body>
+</html>
