@@ -122,7 +122,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   <div class="hlogo">TFW</div>
   <div class="htitles">
     <h1>Zine Cataloging Assistant</h1>
-    <div class="sub">RDA / MARC 21 — Thomas Fisher Rare Book Library</div>
+    <div class="sub">RDA / MARC 21 — SMFA Library at Tuft University</div>
   </div>
   <span class="hbadge">MARC 21</span>
 </div>
@@ -259,7 +259,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 
 <!-- 1XX -->
 <div class="section">
-  <div class="sh"><span class="stag grn">1XX</span><span class="stitle">Creator / main entry</span></div>
+  <div class="sh"><span class="stag grn">1XX</span><span class="stitle">Creator / author <span style="font-family:var(--sans);font-weight:400;font-size:0.72rem;color:var(--ink3)">(main entry)</span></span></div>
   <div class="sb">
     <div class="row r2">
       <div class="field">
@@ -296,6 +296,24 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <input type="text" id="f110a" placeholder="Use instead of 100 if group" oninput="update()">
         <div class="hint">Fills 110 ind1=2. Leave blank if individual.</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7XX -->
+<div class="section">
+  <div class="sh"><span class="stag grn">7XX</span><span class="stitle">Additional creators <span style="font-family:var(--sans);font-weight:400;font-size:0.72rem;color:var(--ink3)">(added entries)</span></span></div>
+  <div class="sb">
+    <div class="field">
+      <label><span class="marc">700</span>Additional person(s)</label>
+      <div id="ax700-wrap"></div>
+      <button class="add-btn" onclick="addAx700()">+ Add person</button>
+      <div class="hint" style="margin-top:6px">Use for collaborators, illustrators, editors, or any other individual who contributed to the zine but is not the primary creator.</div>
+    </div>
+    <div class="field" style="margin-top:0.6rem">
+      <label><span class="marc">710</span>Additional organization(s)</label>
+      <div id="ax710-wrap"></div>
+      <button class="add-btn" onclick="addAx710()">+ Add organization</button>
     </div>
   </div>
 </div>
@@ -361,16 +379,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <div id="date-known">
       <div class="row r3">
-        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a" placeholder="City, State" oninput="update()"></div>
-        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b" placeholder="Publisher name" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a" placeholder="City, State" oninput="update()"><div class="hint">Leave blank if unknown — outputs [Place not identified]</div></div>
+        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b" placeholder="Publisher name" oninput="update()"><div class="hint">Leave blank if unknown — outputs [Publisher not identified]</div></div>
         <div class="field"><label><span class="marc">264 $c</span>Year<span class="req">*</span></label><input type="text" id="f264c" placeholder="2024" oninput="update()"></div>
       </div>
     </div>
     <div id="date-copyright" style="display:none">
       <div class="hint" style="font-style:normal;color:var(--ink2);margin-bottom:8px">Generates 264 _1 with [year] and 264 _4 with &#169;year. Sets 008 date type <strong>t</strong>.</div>
       <div class="row r3">
-        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a-c" placeholder="City, State" oninput="update()"></div>
-        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()"></div>
+        <div class="field"><label><span class="marc">264 $a</span>Place</label><input type="text" id="f264a-c" placeholder="City, State" oninput="update()"><div class="hint">Leave blank if unknown</div></div>
+        <div class="field"><label><span class="marc">264 $b</span>Publisher</label><input type="text" id="f264b-c" placeholder="Publisher name" oninput="update()"><div class="hint">Leave blank if unknown</div></div>
         <div class="field"><label><span class="marc">264 $c</span>Copyright year<span class="req">*</span></label><input type="text" id="f264c-c" placeholder="2024" oninput="update()"></div>
       </div>
       <div id="dt-cr-prev" class="dt-preview"></div>
@@ -434,13 +452,14 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="check-g">
         <label><input type="checkbox" id="cont-bib" onchange="update()"> Includes bibliography (codes "b" in Cont/008/24)</label>
       </div>
+      <div class="hint">Uncommon in zines — check only if the zine includes a list of references or sources.</div>
     </div>
     <div class="field" style="margin-top:0.6rem">
       <label>008/31 Indx — index</label>
       <div class="check-g">
         <label><input type="checkbox" id="has-indx" onchange="update()"> Includes index (codes "1" in Indx/008/31)</label>
       </div>
-      <div class="hint">Bibliography and index are tracked separately: bibliography goes in Cont (008/24), index goes in Indx (008/31). Both also control the 504 note.</div>
+      <div class="hint">Uncommon in zines — check only if the zine has a formal index. Bibliography goes in Cont (008/24); index goes here in Indx (008/31). Both also control the 504/500 note.</div>
     </div>
     <div class="field" style="margin-top:0.6rem">
       <label>008/18-21 Ills — illustrations coded in 008</label>
@@ -463,7 +482,8 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <div class="field">
       <label><span class="marc">500 $a</span>General note</label>
-      <input type="text" id="f500a" placeholder="e.g. Staple-bound; hand-lettered; photocopied" oninput="update()">
+      <input type="text" id="f500a" placeholder="e.g. Title from cover; issued as part of a series; includes colophon; printed in an edition of 50" oninput="update()">
+      <div class="hint">Use for anything worth noting that doesn't fit another field — source of title, edition context, colophon details, distribution notes, etc.</div>
     </div>
     <div class="field">
       <label><span class="marc">500 $a</span>Artist / creator website</label>
@@ -507,88 +527,17 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 <div class="section">
   <div class="sh"><span class="stag grn">6XX</span><span class="stitle">Subject headings</span></div>
   <div class="sb">
-    <div class="field">
-      <label>Select topics (hold Ctrl / Cmd to select multiple)</label>
-      <select id="preset-subjects" multiple size="10" onchange="applyPresets()" style="min-height:160px;font-family:var(--sans);font-size:0.84rem">
-        <option value="Abstraction">Abstraction</option>
-        <option value="Activism">Activism</option>
-        <option value="Animals">Animals</option>
-        <option value="Biography">Biography</option>
-        <option value="Boston/New England">Boston/New England</option>
-        <option value="Collage">Collage</option>
-        <option value="Comics">Comics</option>
-        <option value="Current events">Current events</option>
-        <option value="Disability">Disability</option>
-        <option value="Drawing">Drawing</option>
-        <option value="Dreams">Dreams</option>
-        <option value="Drugs/alcohol">Drugs/alcohol</option>
-        <option value="Ecology/environment">Ecology/environment</option>
-        <option value="Education/instruction">Education/instruction</option>
-        <option value="Ethnicity">Ethnicity</option>
-        <option value="Fashion">Fashion</option>
-        <option value="Feminism">Feminism</option>
-        <option value="Fiction">Fiction</option>
-        <option value="Food">Food</option>
-        <option value="Gender">Gender</option>
-        <option value="Health">Health</option>
-        <option value="How to/DIY">How to/DIY</option>
-        <option value="Humor">Humor</option>
-        <option value="Internet/social media">Internet/social media</option>
-        <option value="Intersectionality">Intersectionality</option>
-        <option value="LGBTQIA">LGBTQIA</option>
-        <option value="Media">Media</option>
-        <option value="Mental health">Mental health</option>
-        <option value="Music">Music</option>
-        <option value="Performance">Performance</option>
-        <option value="Photography">Photography</option>
-        <option value="Plants">Plants</option>
-        <option value="Poetry">Poetry</option>
-        <option value="Politics">Politics</option>
-        <option value="Race">Race</option>
-        <option value="Relationships/love">Relationships/love</option>
-        <option value="Religion/spirituality">Religion/spirituality</option>
-        <option value="Sex/erotica">Sex/erotica</option>
-        <option value="Social justice">Social justice</option>
-        <option value="Theory/criticism">Theory/criticism</option>
-        <option value="Transgender">Transgender</option>
-        <option value="Travel/places">Travel/places</option>
-        <option value="Typography">Typography</option>
-        <option value="Writing">Writing</option>
-        <option value="Other">Other (opens free-text field)</option>
-      </select>
-      <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple. Selections map to LCSH headings automatically.</div>
+    <div style="background:var(--sage-lt);border:1.5px solid var(--sage-md);border-radius:var(--r);padding:10px 12px;margin-bottom:12px">
+      <div style="font-size:0.78rem;font-weight:500;color:var(--sage-dk);font-family:var(--sans);margin-bottom:6px">How to assign subject headings</div>
+      <div style="font-size:0.75rem;color:var(--ink2);font-family:var(--sans);line-height:1.6;margin-bottom:10px">Note any keywords from the donation form, the zine's summary, cover, or table of contents. Then look up matching terms in the Zine Subject Thesaurus and copy them into the fields below. LCSH headings will be added by cataloging staff during review.</div>
+      <a href="https://anchorarchive.org/subject-thesaurus" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--rose);color:#fff;text-decoration:none;padding:7px 14px;border-radius:var(--r);font-size:0.78rem;font-family:var(--sans);font-weight:500;transition:background 0.15s" onmouseover="this.style.background='var(--rose-dk)'" onmouseout="this.style.background='var(--rose)'">Open Zine Subject Thesaurus &#8599;</a>
     </div>
-    <div id="preset-pills" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px"></div>
-    <div id="other-subject-wrap" style="display:none;margin-top:8px">
-      <div class="field">
-        <label><span class="marc">650 $a</span>Other — custom heading</label>
-        <input type="text" id="other-subject-val" placeholder="Enter LCSH heading (library case)" oninput="update()">
-        <div class="hint">Verify against LC authority file. Will output as 650 _0.</div>
-      </div>
-    </div>
-    <div style="margin-top:10px;margin-bottom:4px;font-size:0.72rem;font-weight:500;color:var(--ink2);font-family:var(--sans)">Additional subject headings (free text)</div>
-    <div id="subjects-wrap"></div>
-    <button class="add-btn" onclick="addSubject()">+ Add additional heading</button>
-    <div class="hint" style="margin-top:6px">650 topical, 651 geographic, 600 personal, 610 corporate, 655 genre/form. The Zines (lcgft) 655 is added automatically. Verify all headings against the LC authority file.</div>
+    <div id="zst-wrap"></div>
+    <button class="add-btn" onclick="addZst()">+ Add subject term</button>
+    <div class="hint" style="margin-top:6px">The <em>Zines</em> genre heading is added automatically. Each term you enter here outputs as <code style="font-family:var(--mono);font-size:0.65rem">650 _7 $2 zst</code>.</div>
   </div>
 </div>
 
-<!-- 7XX -->
-<div class="section">
-  <div class="sh"><span class="stag grn">7XX</span><span class="stitle">Added entries</span></div>
-  <div class="sb">
-    <div class="field">
-      <label><span class="marc">700</span>Added entry — person(s)</label>
-      <div id="ax700-wrap"></div>
-      <button class="add-btn" onclick="addAx700()">+ Add person</button>
-    </div>
-    <div class="field" style="margin-top:0.6rem">
-      <label><span class="marc">710</span>Added entry — organization(s)</label>
-      <div id="ax710-wrap"></div>
-      <button class="add-btn" onclick="addAx710()">+ Add organization</button>
-    </div>
-  </div>
-</div>
 
 <div class="gen-wrap">
   <button class="gen-btn" onclick="generateMarc()">Generate MARC record</button>
@@ -626,111 +575,24 @@ const RELATORS=[
   ['writer of preface','writer of preface']
 ];
 
-let subjects=[],ax700=[],ax710=[],marcOutput='';
+let subjects=[],zstTerms=[],ax700=[],ax710=[],marcOutput='';
 
 function relOpts(sel=''){
   return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');
 }
 
-// ─── Preset subject → LCSH/LCGFT mapping ──────────────────────────────────
-// Each value is an array of one or more field entries: [heading, tag, ind2, vocab]
-// vocab: 'lcsh' → ind2=0, 'lcgft' → ind2=7 $2 lcgft
-// Terms that are both topical AND genre get two entries (650 + 655)
-const PRESET_MAP = {
-  'Abstraction':           [['Abstraction in art','650','0','lcsh']],
-  'Activism':              [['Political activists','650','0','lcsh']],
-  'Animals':               [['Animals','650','0','lcsh']],
-  'Biography':             [['Biography','650','0','lcsh'],['Biographies','655','7','lcgft']],
-  'Boston/New England':    [['New England','651','0','lcsh']],
-  'Collage':               [['Collage','650','0','lcsh']],
-  'Comics':                [['Comic books, strips, etc.','650','0','lcsh'],['Comics (Graphic works)','655','7','lcgft']],
-  'Current events':        [['Current events','650','0','lcsh']],
-  'Disability':            [['People with disabilities','650','0','lcsh']],
-  'Drawing':               [['Drawing','650','0','lcsh']],
-  'Dreams':                [['Dreams','650','0','lcsh']],
-  'Drugs/alcohol':         [['Substance abuse','650','0','lcsh']],
-  'Ecology/environment':   [['Human ecology','650','0','lcsh']],
-  'Education/instruction': [['Education','650','0','lcsh']],
-  'Ethnicity':             [['Ethnicity','650','0','lcsh']],
-  'Fashion':               [['Fashion','650','0','lcsh']],
-  'Feminism':              [['Feminism','650','0','lcsh']],
-  'Fiction':               [['Fiction','650','0','lcsh'],['Fiction','655','7','lcgft']],
-  'Food':                  [['Food','650','0','lcsh']],
-  'Gender':                [['Gender identity','650','0','lcsh']],
-  'Health':                [['Health','650','0','lcsh']],
-  'How to/DIY':            [['Do-it-yourself work','650','0','lcsh']],
-  'Humor':                 [['Wit and humor','650','0','lcsh'],['Humorous works','655','7','lcgft']],
-  'Internet/social media': [['Social media','650','0','lcsh']],
-  'Intersectionality':     [['Intersectionality (Sociology)','650','0','lcsh']],
-  'LGBTQIA':               [['Sexual minorities','650','0','lcsh']],
-  'Media':                 [['Mass media','650','0','lcsh']],
-  'Mental health':         [['Mental health','650','0','lcsh']],
-  'Music':                 [['Music','650','0','lcsh']],
-  'Performance':           [['Performance art','650','0','lcsh']],
-  'Photography':           [['Photography, Artistic','650','0','lcsh']],
-  'Plants':                [['Plants','650','0','lcsh']],
-  'Poetry':                [['Poetry','650','0','lcsh'],['Poetry','655','7','lcgft']],
-  'Politics':              [['Politics and culture','650','0','lcsh']],
-  'Race':                  [['Race','650','0','lcsh']],
-  'Relationships/love':    [['Love','650','0','lcsh']],
-  'Religion/spirituality': [['Spirituality','650','0','lcsh']],
-  'Sex/erotica':           [['Sex','650','0','lcsh'],['Erotic literature','655','7','lcgft']],
-  'Social justice':        [['Social justice','650','0','lcsh']],
-  'Theory/criticism':      [['Criticism (Philosophy)','650','0','lcsh']],
-  'Transgender':           [['Transgender people','650','0','lcsh']],
-  'Travel/places':         [['Travel','650','0','lcsh']],
-  'Typography':            [['Typography','650','0','lcsh']],
-  'Writing':               [['Authorship','650','0','lcsh']],
-  'Other':                 null,
-};
-
-let presetSelections = new Set();
-
-function applyPresets(){
-  const sel=document.getElementById('preset-subjects');
-  presetSelections=new Set(Array.from(sel.selectedOptions).map(o=>o.value));
-  document.getElementById('other-subject-wrap').style.display=presetSelections.has('Other')?'block':'none';
-  renderPresetPills();
-  update();
-}
-
-function renderPresetPills(){
-  const wrap=document.getElementById('preset-pills');
-  wrap.innerHTML='';
-  presetSelections.forEach(key=>{
-    const pill=document.createElement('span');
-    pill.style.cssText='display:inline-flex;align-items:center;gap:4px;background:var(--sage-lt);border:1px solid var(--sage-md);border-radius:20px;padding:2px 8px 2px 10px;font-size:0.72rem;font-family:var(--sans);color:var(--sage-dk)';
-    pill.innerHTML=`${key} <button onclick="removePreset('${key.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:none;border:none;cursor:pointer;color:var(--sage);font-size:0.75rem;padding:0 2px;line-height:1">&#x2715;</button>`;
-    wrap.appendChild(pill);
-  });
-}
-
-function removePreset(key){
-  presetSelections.delete(key);
-  const sel=document.getElementById('preset-subjects');
-  Array.from(sel.options).forEach(o=>{if(o.value===key) o.selected=false;});
-  if(key==='Other') document.getElementById('other-subject-wrap').style.display='none';
-  renderPresetPills();
-  update();
-}
-
-
-function renderSubjects(){
-  const w=document.getElementById('subjects-wrap');w.innerHTML='';
-  subjects.forEach((s,i)=>{
+function addZst(val=''){zstTerms.push({id:Date.now()+Math.random(),val});renderZst();}
+function renderZst(){
+  const w=document.getElementById('zst-wrap');w.innerHTML='';
+  zstTerms.forEach((s,i)=>{
     const r=document.createElement('div');r.className='sub-row';
-    r.innerHTML=`<select onchange="subjects[${i}].type=this.value;update()">
-      <option value="650"${s.type==='650'?' selected':''}>650 topical</option>
-      <option value="651"${s.type==='651'?' selected':''}>651 geo</option>
-      <option value="600"${s.type==='600'?' selected':''}>600 personal</option>
-      <option value="610"${s.type==='610'?' selected':''}>610 corp</option>
-      <option value="655"${s.type==='655'?' selected':''}>655 genre</option>
-    </select>
-    <input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Subject heading" oninput="subjects[${i}].val=this.value;update()">
-    <button class="xbtn" onclick="subjects.splice(${i},1);renderSubjects();update()">&#x2715;</button>`;
+    r.innerHTML=`<input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="e.g. Feminism" oninput="zstTerms[${i}].val=this.value;update()" style="flex:1">
+    <button class="xbtn" onclick="zstTerms.splice(${i},1);renderZst();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
 }
+
+function renderSubjects(){}
 
 function addAx700(name='',rel='illustrator'){ax700.push({id:Date.now()+Math.random(),name,rel});renderAx700();}
 function renderAx700(){
@@ -1008,31 +870,12 @@ function buildLines(){
   // 655 Zines lcgft — always
   lines.push({tag:'655',ind:' 7',val:'$a Zines. $2 lcgft',auto:true});
 
-  // 6XX preset subjects from dropdown
-  presetSelections.forEach(key=>{
-    if(key==='Other'){
-      const oval=(document.getElementById('other-subject-val')||{}).value||'';
-      if(oval.trim()){
-        const sv=oval.trim();
-        lines.push({tag:'650',ind:' 0',val:`$a ${sv}${/[.\-)]$/.test(sv)?'':'.'}`,auto:false});
-      }
-      return;
-    }
-    const entries=PRESET_MAP[key];
-    if(!entries) return;
-    entries.forEach(([heading,tag,ind2,vocab])=>{
-      const ind=` ${ind2}`;
-      const hVal=heading.endsWith('.')?heading:heading+'.';
-      const vocabStr=vocab==='lcgft'?' $2 lcgft':'';
-      lines.push({tag,ind,val:`$a ${hVal}${vocabStr}`,auto:false});
-    });
-  });
-
-  // 6XX free-text subject headings
-  subjects.forEach(s=>{
+  // 650 _7 ZST subject terms entered by student
+  zstTerms.forEach(s=>{
     if(!s.val.trim()) return;
     const sv=s.val.trim();
-    lines.push({tag:s.type,ind:' 0',val:`$a ${sv}${/[.\-)]$/.test(sv)?'':'.'}`,auto:false});
+    const hVal=sv.endsWith('.')?sv:sv+'.';
+    lines.push({tag:'650',ind:' 7',val:`$a ${hVal} $2 zst`,auto:false});
   });
 
   // 700 / 710
@@ -1169,21 +1012,14 @@ function resetForm(){
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
   document.getElementById('translation-extra').style.display='none';
-  presetSelections=new Set();
-  const psel=document.getElementById('preset-subjects');
-  if(psel) Array.from(psel.options).forEach(o=>o.selected=false);
-  document.getElementById('preset-pills').innerHTML='';
-  document.getElementById('other-subject-wrap').style.display='none';
-  const ov=document.getElementById('other-subject-val');
-  if(ov) ov.value='';
-  subjects=[];ax700=[];ax710=[];
-  renderSubjects();renderAx700();renderAx710();
+  zstTerms=[];ax700=[];ax710=[];subjects=[];
+  renderZst();renderAx700();renderAx710();
   updateDateUI();
   document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';
   marcOutput='';
 }
 
-addSubject();
+addZst();
 updateDateUI();
 </script>
 </body>
