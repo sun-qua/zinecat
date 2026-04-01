@@ -2,9 +2,9 @@
 
 **A browser-based MARC 21 record creation tool for zine collections**
 
-ZineCat is a browser-based MARC 21 record creation tool purpose-built for the zine collection at the SMFA Library at Tufts University. It is designed to be used by student employees who have little or no formal cataloging training, guiding them through the process of original cataloging and creating a MARC 21 bibliographic record that can be exported and imported directly into OCLC Connexion. 
+ZineCat is a browser-based MARC 21 record creation tool built for the zine collection at the SMFA Library at Tufts University. It is designed to be used by student employees who have little or no formal cataloging training. This tool guides them through the process of original cataloging and creating a MARC 21 bibliographic record that can be imported directly into OCLC Connexion. 
 
-The name reflects both its subject focus (zines) and its function as a cataloging assistant. ZineCat lives as a static HTML file that can be hosted on GitHub Pages or any web server, requiring no backend infrastructure, no login, and no dependencies beyond a modern browser.
+The name ZineCat reflects both its subject focus (zines) and its function as a cataloging assistant. The tool lives as a static HTML file that can be hosted on GitHub Pages or any web server, requiring no backend infrastructure, no login, and no dependencies beyond a modern browser. Our iteration of ZineCat is accessible here: https://sun-qua.github.io/zinecat/.
 
 ---
 
@@ -22,15 +22,14 @@ ZineCat solves this by meeting students where they are:
 
 - **Presents only the fields relevant to zine cataloging**, in plain language with contextual guidance
 - **Auto-generates technically complex fixed fields** (LDR, 007, 008, 040, 336/337/338) from the student's input
-- **Provides a predefined subject heading list** mapped to vetted LCSH and LCGFT terms
-- **Enforces local cataloging conventions** — library case, MARC relator terms, SMFA/Tufts organization code — by design, not by instruction
+- **Allowing students to perform subject analysis** with a more user-friendly vocabulary by the Zine Subject Thesaurus
+- **Enforces local cataloging conventions** by design (curated relator terms, specific 5XX notes) 
 - **Exports a standards-compliant binary MARC 21 file** (`.mrc`) ready for direct import into OCLC Connexion
 
 ---
 
 ## Usage
-
-Open `index.html` in any modern browser — no installation required.
+Open `index.html` in any modern browser — no installation required. Also hosted on github.io: https://sun-qua.github.io/zinecat/ 
 
 Fill in the form fields from top to bottom. The MARC 21 record preview updates in real time as you type. When the record is complete, use **Export binary .mrc (OCLC)** to download a file ready for import into OCLC Connexion via File > Import Records. A MARCMaker `.mrk` export is also available for use with MARCEdit.
 
@@ -56,7 +55,7 @@ Fill in the form fields from top to bottom. The MARC 21 record preview updates i
 | 504/500 | Bibliography/index note | Auto-generated from checkboxes; 504 for bib refs, 500 for index only |
 | 520 | Summary | Free-text description |
 | 655 | Genre/form | `Zines. $2 lcgft` always present; additional terms from subject list |
-| 6XX | Subject headings | Predefined list of 44 topics mapped to LCSH and LCGFT; free-text rows for additional headings |
+| 6XX | Subject headings | Uses the Zine Subject Thesaurus and an additional field for source unspecified |
 | 700/710 | Added entries | Personal and corporate contributors with relator terms |
 
 ---
@@ -65,9 +64,8 @@ Fill in the form fields from top to bottom. The MARC 21 record preview updates i
 
 ZineCat encodes the following SMFA Library / Tisch Metadata Services practices:
 
-- **Organization code** `TFW` in 003 and 040
+- **Organization code** `TFW` 
 - **Encoding level 7** (minimal, Srce d) — appropriate for student-created original records pending professional review
-- **Library case** for title transcription — first word and proper nouns capitalized, all other words lowercase
 - **655 Zines (lcgft)** present on every record
 - **500 artist website note** — `Creator's website: [url]`
 - **500 class project note** — for zines created as coursework at SMFA at Tufts or Tufts University
@@ -78,6 +76,7 @@ ZineCat encodes the following SMFA Library / Tisch Metadata Services practices:
 ## Limitations
 
 - Single-item print zines only (monographic, Blvl m)
+- Copy cataloging (deriving from or editing an existing OCLC record), as ZineCat is made specifically as an original cataloging tool
 - No real-time authority control — name and subject headings must be verified manually against LC authority files
 - No holdings, item records, or call number assignment (handled in the ILS after import)
 - Does not support non-Latin scripts
