@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zine Cataloging Assistant — TFW</title>
+<title>Zine Cataloging Assistant — SMFA Library at Tufts University</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -122,7 +122,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   <div class="hlogo">TFW</div>
   <div class="htitles">
     <h1>Zine Cataloging Assistant</h1>
-    <div class="sub">RDA / MARC 21 — SMFA Library at Tuft University</div>
+    <div class="sub">RDA / MARC 21 — SMFA Library at Tufts University</div>
   </div>
   <span class="hbadge">MARC 21</span>
 </div>
@@ -135,7 +135,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   <span class="ap"><span class="at">LDR</span><span class="av">Type a, Blvl m, Elvl 7, Desc i</span></span>
   <span class="ap"><span class="at">007</span><span class="av">ta</span></span>
   <span class="ap"><span class="at">008</span><span class="av">date + lang + ctry + fixed</span></span>
-  <span class="ap"><span class="at">040</span><span class="av">TFW / rda</span></span>
+  <span class="ap"><span class="at">040</span><span class="av">TFW / rda (SMFA Library)</span></span>
   <span class="ap"><span class="at">336–338</span><span class="av">RDA content/media/carrier</span></span>
   <span class="ap"><span class="at">655</span><span class="av">Zines / lcgft</span></span>
 </div>
@@ -278,9 +278,9 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <div class="row r2">
       <div class="field">
-        <label><span class="marc">100 $e</span>Relator term</label>
-        <select id="f100e" onchange="update()">
-          <option value="artist">artist</option><option value="author">author</option>
+        <label><span class="marc">100 $e</span>Relator term(s)</label>
+        <select id="f100e" multiple size="4" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
+          <option value="artist">artist</option><option value="author" selected>author</option>
           <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
           <option value="compiler">compiler</option><option value="composer">composer</option>
           <option value="designer">designer</option><option value="editor">editor</option>
@@ -290,6 +290,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
           <option value="writer of introduction">writer of introduction</option>
           <option value="writer of preface">writer of preface</option>
         </select>
+        <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple roles.</div>
       </div>
       <div class="field">
         <label><span class="marc">110 $a</span>Corporate / group name</label>
@@ -434,6 +435,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <label><input type="checkbox" value="facsimiles" onchange="update()"> facsimiles</label>
         <label><input type="checkbox" value="charts" onchange="update()"> charts</label>
       </div>
+      <div class="hint">These also populate the 008/18-21 Ills fixed field positions automatically.</div>
     </div>
     <div class="field">
       <label><span class="marc">300 $c</span>Dimensions</label>
@@ -443,31 +445,28 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 </div>
 
-<!-- LDR/008 fixed -->
+<!-- Bibliography / index -->
 <div class="section">
-  <div class="sh"><span class="stag pnk">LDR / 008</span><span class="stitle">Fixed field options</span></div>
+  <div class="sh"><span class="stag pnk">008</span><span class="stitle">Bibliography / index</span></div>
   <div class="sb">
     <div class="field">
-      <label>008/24 Cont — bibliography</label>
+      <label>Bibliography</label>
       <div class="check-g">
-        <label><input type="checkbox" id="cont-bib" onchange="update()"> Includes bibliography (codes "b" in Cont/008/24)</label>
+        <label><input type="checkbox" id="cont-bib" onchange="update()"> Includes bibliography</label>
       </div>
-      <div class="hint">Uncommon in zines — check only if the zine includes a list of references or sources.</div>
+      <div class="hint">Uncommon in zines — check only if the zine includes a list of references or sources. Codes "b" in 008/24 Cont.</div>
     </div>
     <div class="field" style="margin-top:0.6rem">
-      <label>008/31 Indx — index</label>
+      <label>Index</label>
       <div class="check-g">
-        <label><input type="checkbox" id="has-indx" onchange="update()"> Includes index (codes "1" in Indx/008/31)</label>
+        <label><input type="checkbox" id="has-indx" onchange="update()"> Includes index</label>
       </div>
-      <div class="hint">Uncommon in zines — check only if the zine has a formal index. Bibliography goes in Cont (008/24); index goes here in Indx (008/31). Both also control the 504/500 note.</div>
+      <div class="hint">Uncommon in zines — check only if the zine has a formal index. Codes "1" in 008/31 Indx.</div>
     </div>
-    <div class="field" style="margin-top:0.6rem">
-      <label>008/18-21 Ills — illustrations coded in 008</label>
-      <div class="check-g">
-        <label><input type="checkbox" id="ills-a" onchange="update()"> Illustrations (a)</label>
-        <label><input type="checkbox" id="ills-b" onchange="update()"> Maps (b)</label>
-        <label><input type="checkbox" id="ills-c" onchange="update()"> Portraits (c)</label>
-      </div>
+    <div class="field" style="margin-top:0.8rem">
+      <label><span class="marc">504/500 $a</span>Note <span class="atag">auto</span></label>
+      <input type="text" id="f504prev" readonly placeholder="Auto-filled from checkboxes above">
+      <div class="hint">Bib refs alone or with index → 504. Index alone → 500.</div>
     </div>
   </div>
 </div>
@@ -481,9 +480,10 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <textarea id="f520" placeholder="Brief description of content, themes, or purpose of the zine..." oninput="update()"></textarea>
     </div>
     <div class="field">
-      <label><span class="marc">500 $a</span>General note</label>
-      <input type="text" id="f500a" placeholder="e.g. Title from cover; issued as part of a series; includes colophon; printed in an edition of 50" oninput="update()">
-      <div class="hint">Use for anything worth noting that doesn't fit another field — source of title, edition context, colophon details, distribution notes, etc.</div>
+      <label><span class="marc">500 $a</span>General notes</label>
+      <div id="extra500-wrap"></div>
+      <button class="add-btn" onclick="addExtra500()" style="margin-top:4px">+ Add note</button>
+      <div class="hint" style="margin-top:5px">Use for anything worth noting that doesn't fit another field — source of title, edition context, colophon details, print run size, distribution notes, etc.</div>
     </div>
     <div class="field">
       <label><span class="marc">500 $a</span>Artist / creator website</label>
@@ -534,7 +534,14 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <div id="zst-wrap"></div>
     <button class="add-btn" onclick="addZst()">+ Add subject term</button>
-    <div class="hint" style="margin-top:6px">The <em>Zines</em> genre heading is added automatically. Each term you enter here outputs as <code style="font-family:var(--mono);font-size:0.65rem">650 _7 $2 zst</code>.</div>
+    <div class="hint" style="margin-top:6px">The <em>Zines</em> genre heading is added automatically. Each term outputs as <code style="font-family:var(--mono);font-size:0.65rem">650 _7 $2 zst</code>.</div>
+
+    <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2)">
+      <div style="font-size:0.75rem;font-weight:500;color:var(--ink2);font-family:var(--sans);margin-bottom:4px">Term not found in the thesaurus?</div>
+      <div style="font-size:0.72rem;color:var(--ink3);font-family:var(--sans);line-height:1.5;margin-bottom:8px">Enter it here. These output as <code style="font-family:var(--mono);font-size:0.65rem">650 _4</code> (source not specified) so cataloging staff can identify them for authority work during review.</div>
+      <div id="nonzst-wrap"></div>
+      <button class="add-btn" onclick="addNonZst()">+ Add term not in thesaurus</button>
+    </div>
   </div>
 </div>
 
@@ -575,7 +582,7 @@ const RELATORS=[
   ['writer of preface','writer of preface']
 ];
 
-let subjects=[],zstTerms=[],ax700=[],ax710=[],marcOutput='';
+let subjects=[],zstTerms=[],nonZstTerms=[],extra500s=[],ax700=[],ax710=[],marcOutput='';
 
 function relOpts(sel=''){
   return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');
@@ -594,13 +601,36 @@ function renderZst(){
 
 function renderSubjects(){}
 
-function addAx700(name='',rel='illustrator'){ax700.push({id:Date.now()+Math.random(),name,rel});renderAx700();}
+function addExtra500(val=''){extra500s.push({id:Date.now()+Math.random(),val});renderExtra500();}
+function renderExtra500(){
+  const w=document.getElementById('extra500-wrap');if(!w) return;w.innerHTML='';
+  extra500s.forEach((s,i)=>{
+    const r=document.createElement('div');r.className='sub-row';
+    r.innerHTML=`<input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Note text" oninput="extra500s[${i}].val=this.value;update()" style="flex:1">
+    <button class="xbtn" onclick="extra500s.splice(${i},1);renderExtra500();update()">&#x2715;</button>`;
+    w.appendChild(r);
+  });
+}
+
+function addNonZst(val=''){nonZstTerms.push({id:Date.now()+Math.random(),val});renderNonZst();}
+function renderNonZst(){
+  const w=document.getElementById('nonzst-wrap');if(!w) return;w.innerHTML='';
+  nonZstTerms.forEach((s,i)=>{
+    const r=document.createElement('div');r.className='sub-row';
+    r.innerHTML=`<input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="e.g. Queer theory" oninput="nonZstTerms[${i}].val=this.value;update()" style="flex:1">
+    <button class="xbtn" onclick="nonZstTerms.splice(${i},1);renderNonZst();update()">&#x2715;</button>`;
+    w.appendChild(r);
+  });
+}
+
+function addAx700(name='',rels=['illustrator']){ax700.push({id:Date.now()+Math.random(),name,rels});renderAx700();}
 function renderAx700(){
   const w=document.getElementById('ax700-wrap');w.innerHTML='';
   ax700.forEach((a,i)=>{
     const r=document.createElement('div');r.className='ax-row';
+    const selOpts=RELATORS.map(([val,lbl])=>`<option value="${val}"${(a.rels||[]).includes(val)?' selected':''}>${lbl}</option>`).join('');
     r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Last, First" oninput="ax700[${i}].name=this.value;update()">
-    <select class="rel-sel" onchange="ax700[${i}].rel=this.value;update()">${relOpts(a.rel)}</select>
+    <select class="rel-sel" multiple size="3" onchange="ax700[${i}].rels=Array.from(this.selectedOptions).map(o=>o.value);update()" style="font-family:var(--sans);font-size:0.8rem">${selOpts}</select>
     <button class="xbtn" onclick="ax700.splice(${i},1);renderAx700();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
@@ -732,7 +762,14 @@ function buildLines(){
   const dt=dateType();
   const hasBib=cb('cont-bib');
   const hasIndx=cb('has-indx');
-  const ills008=[(cb('ills-a')?'a':' '),(cb('ills-b')?'b':' '),(cb('ills-c')?'c':' '),' '].join('');
+  // Derive 008 ills from 300 $b checkboxes (illustrations→a, maps→b, portraits→c)
+  const illVals=Array.from(document.querySelectorAll('#ill-checks input:checked')).map(c=>c.value);
+  const ills008=[
+    (illVals.some(v=>v==='illustrations'||v==='color illustrations')?'a':' '),
+    (illVals.some(v=>v==='maps')?'b':' '),
+    (illVals.some(v=>v==='portraits')?'c':' '),
+    ' '
+  ].join('');
   const isT=cb('is-translation'),isM=cb('is-multilang');
 
   let pa,pb,pc,dts,d1,d2,extraCR=null;
@@ -752,7 +789,7 @@ function buildLines(){
     d1=y.padEnd(4,' ');d2=y.padEnd(4,' ');dts='t';
     extraCR={c:copyr};
     const pr=document.getElementById('dt-cr-prev');
-    if(pr) pr.textContent=`264 _1  $a ${pa} : $b ${pb}, $c ${pc}.\n264 _4  $c ${copyr}.`;
+    if(pr) pr.textContent=`264 _1  $a ${pa} : $b ${pb}, $c ${pc}\n264 _4  $c ${copyr}.`;
   } else {
     pa=v('f264a-u').trim()||'[Place of publication not identified]';
     pb=v('f264b-u').trim()||'[Publisher not identified]';
@@ -781,9 +818,12 @@ function buildLines(){
     lines.push({tag:'041',ind:`${ind1} `,val:aval,auto:false});
   }
 
-  const auth=v('f100a').trim(),corp=v('f110a').trim(),rel=v('f100e')||'author';
-  if(corp) lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rel}.`,auto:false});
-  else if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, $e ${rel}.`,auto:false});
+  const auth=v('f100a').trim(),corp=v('f110a').trim();
+  const relSel=document.getElementById('f100e');
+  const rels100=relSel?Array.from(relSel.selectedOptions).map(o=>o.value):['author'];
+  const relStr100=rels100.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.');
+  if(corp) lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rels100.join(', ')}.`,auto:false});
+  else if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, ${relStr100}`,auto:false});
 
   const title=v('f245a').trim(),sub=v('f245b').trim(),part=v('f245n').trim(),stmtresp=v('f245c').trim();
   const ind2=v('f245ind2')||'0';
@@ -800,7 +840,9 @@ function buildLines(){
   const ed=v('f250a').trim();
   if(ed) lines.push({tag:'250',ind:'  ',val:`$a ${ed}.`,auto:false});
 
-  lines.push({tag:'264',ind:' 1',val:`$a ${pa} : $b ${pb}, $c ${pc}.`,auto:false});
+  // 264: omit trailing period after bracketed dates per ISBD/RDA
+  const pcHasBracket=/^\[/.test(pc);
+  lines.push({tag:'264',ind:' 1',val:`$a ${pa} : $b ${pb}, $c ${pc}${pcHasBracket?'':'.'}`,auto:false});
   if(extraCR) lines.push({tag:'264',ind:' 4',val:`$c ${extraCR.c}.`,auto:false});
 
   const pn=v('f300num').trim(),pt=rv('pagetype')||'pages';
@@ -820,9 +862,11 @@ function buildLines(){
   lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia $0 http://id.loc.gov/vocabulary/mediaTypes/n',auto:true});
   lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
 
-  // 500 general note
-  const g1=v('f500a').trim();
-  if(g1) lines.push({tag:'500',ind:'  ',val:`$a ${g1}`,auto:false});
+  // 500 general notes (multiple)
+  extra500s.forEach(n=>{
+    if(!n.val.trim()) return;
+    lines.push({tag:'500',ind:'  ',val:`$a ${n.val.trim()}`,auto:false});
+  });
 
   // 500 artist website
   const website=v('f500-website').trim();
@@ -878,10 +922,20 @@ function buildLines(){
     lines.push({tag:'650',ind:' 7',val:`$a ${hVal} $2 zst`,auto:false});
   });
 
+  // 650 _4 non-ZST provisional terms (source not specified, for cataloger review)
+  nonZstTerms.forEach(s=>{
+    if(!s.val.trim()) return;
+    const sv=s.val.trim();
+    const hVal=sv.endsWith('.')?sv:sv+'.';
+    lines.push({tag:'650',ind:' 4',val:`$a ${hVal}`,auto:false});
+  });
+
   // 700 / 710
   ax700.forEach(a=>{
     if(!a.name.trim()) return;
-    lines.push({tag:'700',ind:'1 ',val:`$a ${a.name.trim()}, $e ${a.rel||'contributor'}.`,auto:false});
+    const rs=a.rels&&a.rels.length?a.rels:['contributor'];
+    const relStr=rs.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.');
+    lines.push({tag:'700',ind:'1 ',val:`$a ${a.name.trim()}, ${relStr}`,auto:false});
   });
   ax710.forEach(a=>{
     if(!a.name.trim()) return;
@@ -921,13 +975,19 @@ function copyMarc(){
   });
 }
 
+function titleSlug(){
+  const t=v('f245a').trim().toLowerCase()
+    .replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'_').slice(0,40)||'marc_record';
+  return t;
+}
+
 function toMrkLine(l){
   return `=${l.tag}  ${l.ind||'  '}${l.val.replace(/\$([a-z0-9])/g,'$$$1')}`;
 }
 function exportMrk(){
   const lines=buildLines();if(!lines.length) return;
   const mrk=lines.map(toMrkLine).join('\r\n');
-  dlBlob(new Blob([mrk],{type:'text/plain;charset=utf-8'}),'marc_record.mrk');
+  dlBlob(new Blob([mrk],{type:'text/plain;charset=utf-8'}),`${titleSlug()}.mrk`);
 }
 
 function encodeStr(str){
@@ -991,7 +1051,7 @@ function exportMrc(){
   const ldrBytes=encodeStr(ldrStr);
 
   const all=new Uint8Array([...ldrBytes,...dirBytes,...dataBytes]);
-  dlBlob(new Blob([all],{type:'application/octet-stream'}),'marc_record.mrc');
+  dlBlob(new Blob([all],{type:'application/octet-stream'}),`${titleSlug()}.mrc`);
 }
 
 function dlBlob(blob,filename){
@@ -1012,14 +1072,15 @@ function resetForm(){
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
   document.getElementById('translation-extra').style.display='none';
-  zstTerms=[];ax700=[];ax710=[];subjects=[];
-  renderZst();renderAx700();renderAx710();
+  zstTerms=[];nonZstTerms=[];extra500s=[];ax700=[];ax710=[];subjects=[];
+  renderZst();renderNonZst();renderExtra500();renderAx700();renderAx710();
   updateDateUI();
   document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';
   marcOutput='';
 }
 
 addZst();
+addExtra500();
 updateDateUI();
 </script>
 </body>
