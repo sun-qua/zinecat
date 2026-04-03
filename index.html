@@ -513,7 +513,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <label>Brief description of project</label>
         <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
       </div>
-      <div class="hint">Outputs as a single 500 note: "Created for [class name and number], taught by [instructor], [semester]. [description]"</div>
+      <div class="hint">Outputs as a single 500 note: "Created for a class at the SMFA: [class name and number], taught by [instructor], [semester]. [description]"</div>
     </div>
     <div class="field">
       <label><span class="marc">504/500 $a</span>Bibliography / index note <span class="atag">auto</span></label>
@@ -878,7 +878,7 @@ function buildLines(){
   const semester=v('f500-semester').trim();
   const classdesc=v('f500-classdesc').trim();
   if(instructor||classname||semester){
-    let classNote='Created for';
+    let classNote='Created for a class at the SMFA:';
     if(classname) classNote+=` ${classname},`;
     if(instructor) classNote+=` taught by ${instructor},`;
     if(semester) classNote+=` ${semester}.`;
