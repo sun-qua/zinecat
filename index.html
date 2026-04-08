@@ -426,16 +426,55 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       </div>
     </div>
     <div class="field" style="margin-bottom:0.8rem">
-      <label><span class="marc">300 $b</span>Illustrations (select all that apply)</label>
-      <div class="check-g" id="ill-checks" style="margin-top:5px">
-        <label><input type="checkbox" value="illustrations" onchange="update()"> illustrations</label>
-        <label><input type="checkbox" value="color illustrations" onchange="update()"> color illustrations</label>
-        <label><input type="checkbox" value="portraits" onchange="update()"> portraits</label>
-        <label><input type="checkbox" value="maps" onchange="update()"> maps</label>
-        <label><input type="checkbox" value="facsimiles" onchange="update()"> facsimiles</label>
-        <label><input type="checkbox" value="charts" onchange="update()"> charts</label>
+      <label><span class="marc">300 $b</span>Illustrations</label>
+      <div style="margin-top:6px;margin-bottom:10px">
+        <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Primary illustration type</div>
+        <div id="ill-checks" style="display:flex;flex-direction:column;gap:6px">
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="The resource is primarily made up of illustrations rather than text">
+            <input type="radio" name="illprimary" value="chiefly illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">chiefly illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— resource consists mostly of illustrations, few are color</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Most illustrations are color; a few are black and white">
+            <input type="radio" name="illprimary" value="chiefly color illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">chiefly color illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— resource consists mostly of illustrations, most of which are in color</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="A mix — some illustrations are color, some are black and white">
+            <input type="radio" name="illprimary" value="illustrations (some color)" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">illustrations (some color)</strong> <span style="color:var(--ink3);font-size:0.76rem">— a mix of color and black and white</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="All illustrations are color">
+            <input type="radio" name="illprimary" value="color illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">color illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— all color</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="All illustrations are black and white">
+            <input type="radio" name="illprimary" value="illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— all black and white</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="No illustrations — leave unselected if text only">
+            <input type="radio" name="illprimary" value="" onchange="update()" style="margin-top:2px;accent-color:var(--sage)" checked>
+            <span><strong style="font-weight:500">none</strong> <span style="color:var(--ink3);font-size:0.76rem">— text only, no illustrations</span></span>
+          </label>
+        </div>
       </div>
-      <div class="hint">These also populate the 008/18-21 Ills fixed field positions automatically.</div>
+      <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Additional illustration types (select all that apply)</div>
+      <div id="ill-extra-checks" style="display:flex;flex-wrap:wrap;gap:6px 16px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes maps or cartographic content">
+          <input type="checkbox" value="maps" onchange="update()" style="accent-color:var(--sage)"> maps
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes portraits (images of people)">
+          <input type="checkbox" value="portraits" onchange="update()" style="accent-color:var(--sage)"> portraits
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes graphs, charts, or diagrams">
+          <input type="checkbox" value="charts" onchange="update()" style="accent-color:var(--sage)"> charts
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes printed music notation (not about music — actual notation on the page)">
+          <input type="checkbox" value="music" onchange="update()" style="accent-color:var(--sage)"> music
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes facsimile reproductions of documents or images">
+          <input type="checkbox" value="facsimiles" onchange="update()" style="accent-color:var(--sage)"> facsimiles
+        </label>
+      </div>
+      <div class="hint" style="margin-top:7px">Selections also populate the 008/18-21 Ills fixed field positions automatically.</div>
     </div>
     <div class="field">
       <label><span class="marc">300 $c</span>Dimensions</label>
@@ -513,7 +552,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <label>Brief description of project</label>
         <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
       </div>
-      <div class="hint">Outputs as a single 500 note: "Created for a class at the SMFA: [class name and number], taught by [instructor], [semester]. [description]"</div>
+      <div class="hint">Outputs as a single 500 note: "Created for [class name and number], taught by [instructor], [semester]. [description]"</div>
     </div>
     <div class="field">
       <label><span class="marc">504/500 $a</span>Bibliography / index note <span class="atag">auto</span></label>
@@ -684,7 +723,15 @@ function updateDateUI(){
   update();
 }
 
-function getIlls(){return Array.from(document.querySelectorAll('#ill-checks input:checked')).map(c=>c.value);}
+function getIlls(){
+  const primary=document.querySelector('input[name="illprimary"]:checked');
+  const primaryVal=primary?primary.value:'';
+  const extras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
+  const all=[];
+  if(primaryVal) all.push(primaryVal);
+  extras.forEach(e=>{ if(!all.includes(e)) all.push(e); });
+  return all;
+}
 
 // ─── 008 builder ───────────────────────────────────────────────────────────
 // Positions per MARC 21 Books format (008):
@@ -762,13 +809,15 @@ function buildLines(){
   const dt=dateType();
   const hasBib=cb('cont-bib');
   const hasIndx=cb('has-indx');
-  // Derive 008 ills from 300 $b checkboxes (illustrations→a, maps→b, portraits→c)
-  const illVals=Array.from(document.querySelectorAll('#ill-checks input:checked')).map(c=>c.value);
+  // Derive 008 ills from primary radio + additional checkboxes
+  const illPrimary=(document.querySelector('input[name="illprimary"]:checked')||{}).value||'';
+  const illExtras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
+  const illAll=[illPrimary,...illExtras].filter(Boolean);
   const ills008=[
-    (illVals.some(v=>v==='illustrations'||v==='color illustrations')?'a':' '),
-    (illVals.some(v=>v==='maps')?'b':' '),
-    (illVals.some(v=>v==='portraits')?'c':' '),
-    ' '
+    (illAll.some(v=>v.includes('illustration'))?'a':' '),
+    (illAll.some(v=>v==='maps')?'b':' '),
+    (illAll.some(v=>v==='portraits')?'c':' '),
+    (illAll.some(v=>v==='music')?'d':' '),
   ].join('');
   const isT=cb('is-translation'),isM=cb('is-multilang');
 
@@ -878,7 +927,7 @@ function buildLines(){
   const semester=v('f500-semester').trim();
   const classdesc=v('f500-classdesc').trim();
   if(instructor||classname||semester){
-    let classNote='Created for a class at the SMFA:';
+    let classNote='Created for';
     if(classname) classNote+=` ${classname},`;
     if(instructor) classNote+=` taught by ${instructor},`;
     if(semester) classNote+=` ${semester}.`;
@@ -1068,6 +1117,7 @@ function resetForm(){
   document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(e=>e.checked=false);
   document.querySelector('input[name="pagetype"][value="pages"]').checked=true;
   document.querySelector('input[name="datetype"][value="known"]').checked=true;
+  document.querySelector('input[name="illprimary"][value=""]').checked=true;
   document.getElementById('f245ind2').value='';
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
