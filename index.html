@@ -188,8 +188,24 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div id="multilang-extra" style="display:none;margin-top:8px">
       <div class="field">
         <label><span class="marc">041 $a</span>Additional language(s)</label>
-        <input type="text" id="f041-extra" placeholder="e.g. spa fre — space-separated MARC codes" oninput="update()">
-        <div class="hint">Each code becomes its own $a subfield.</div>
+        <select id="f041-extra" multiple size="5" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
+          <option value="eng">English (eng)</option>
+          <option value="fre">French (fre)</option>
+          <option value="spa">Spanish (spa)</option>
+          <option value="ger">German (ger)</option>
+          <option value="jpn">Japanese (jpn)</option>
+          <option value="chi">Chinese (chi)</option>
+          <option value="por">Portuguese (por)</option>
+          <option value="kor">Korean (kor)</option>
+          <option value="ara">Arabic (ara)</option>
+          <option value="vie">Vietnamese (vie)</option>
+          <option value="tha">Thai (tha)</option>
+          <option value="rus">Russian (rus)</option>
+          <option value="ita">Italian (ita)</option>
+          <option value="pol">Polish (pol)</option>
+          <option value="und">Undetermined (und)</option>
+        </select>
+        <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple. Each selected language becomes its own $a subfield.</div>
       </div>
     </div>
     <div id="translation-extra" style="display:none;margin-top:8px">
@@ -265,7 +281,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="field">
         <label><span class="marc">100 $a</span>Personal name</label>
         <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
-        <div class="hint">Inverted form. Leave blank if corporate body.</div>
+        <div class="hint">Inverted form. For a group or organization as primary creator, use the 710 added entry below.</div>
       </div>
       <div class="field">
         <label><span class="marc">100 ind1</span>Name type</label>
@@ -276,27 +292,20 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         </select>
       </div>
     </div>
-    <div class="row r2">
-      <div class="field">
-        <label><span class="marc">100 $e</span>Relator term(s)</label>
-        <select id="f100e" multiple size="4" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
-          <option value="artist">artist</option><option value="author" selected>author</option>
-          <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
-          <option value="compiler">compiler</option><option value="composer">composer</option>
-          <option value="designer">designer</option><option value="editor">editor</option>
-          <option value="illustrator">illustrator</option><option value="letterer">letterer</option>
-          <option value="photographer">photographer</option><option value="printmaker">printmaker</option>
-          <option value="translator">translator</option>
-          <option value="writer of introduction">writer of introduction</option>
-          <option value="writer of preface">writer of preface</option>
-        </select>
-        <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple roles.</div>
-      </div>
-      <div class="field">
-        <label><span class="marc">110 $a</span>Corporate / group name</label>
-        <input type="text" id="f110a" placeholder="Use instead of 100 if group" oninput="update()">
-        <div class="hint">Fills 110 ind1=2. Leave blank if individual.</div>
-      </div>
+    <div class="field">
+      <label><span class="marc">100 $e</span>Relator term(s)</label>
+      <select id="f100e" multiple size="4" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
+        <option value="artist">artist</option><option value="author" selected>author</option>
+        <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
+        <option value="compiler">compiler</option><option value="composer">composer</option>
+        <option value="designer">designer</option><option value="editor">editor</option>
+        <option value="illustrator">illustrator</option><option value="letterer">letterer</option>
+        <option value="photographer">photographer</option><option value="printmaker">printmaker</option>
+        <option value="translator">translator</option>
+        <option value="writer of introduction">writer of introduction</option>
+        <option value="writer of preface">writer of preface</option>
+      </select>
+      <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple roles.</div>
     </div>
   </div>
 </div>
@@ -428,53 +437,60 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div class="field" style="margin-bottom:0.8rem">
       <label><span class="marc">300 $b</span>Illustrations</label>
       <div style="margin-top:6px;margin-bottom:10px">
-        <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Primary illustration type</div>
-        <div id="ill-checks" style="display:flex;flex-direction:column;gap:6px">
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="The resource is primarily made up of illustrations rather than text">
-            <input type="radio" name="illprimary" value="chiefly illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
-            <span><strong style="font-weight:500">chiefly illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— resource consists mostly of illustrations, few are color</span></span>
+        <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Primary illustration type — select one</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="none" checked onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">no illustrations</strong></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Most illustrations are color; a few are black and white">
-            <input type="radio" name="illprimary" value="chiefly color illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
-            <span><strong style="font-weight:500">chiefly color illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— resource consists mostly of illustrations, most of which are in color</span></span>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="chiefly color illustrations" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">chiefly color illustrations</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— resource consists mostly of illustrations, most of which are color</span></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="A mix — some illustrations are color, some are black and white">
-            <input type="radio" name="illprimary" value="illustrations (some color)" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
-            <span><strong style="font-weight:500">illustrations (some color)</strong> <span style="color:var(--ink3);font-size:0.76rem">— a mix of color and black and white</span></span>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="chiefly illustrations (some color)" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">chiefly illustrations (some color)</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— resource consists mostly of illustrations, some of which are color</span></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="All illustrations are color">
-            <input type="radio" name="illprimary" value="color illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
-            <span><strong style="font-weight:500">color illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— all color</span></span>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="illustrations (chiefly color)" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">illustrations (chiefly color)</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— has illustrations, most of which are color</span></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="All illustrations are black and white">
-            <input type="radio" name="illprimary" value="illustrations" onchange="update()" style="margin-top:2px;accent-color:var(--sage)">
-            <span><strong style="font-weight:500">illustrations</strong> <span style="color:var(--ink3);font-size:0.76rem">— all black and white</span></span>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="illustrations (some color)" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">illustrations (some color)</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— has illustrations, some of which are color</span></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="No illustrations — leave unselected if text only">
-            <input type="radio" name="illprimary" value="" onchange="update()" style="margin-top:2px;accent-color:var(--sage)" checked>
-            <span><strong style="font-weight:500">none</strong> <span style="color:var(--ink3);font-size:0.76rem">— text only, no illustrations</span></span>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="color illustrations" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">color illustrations</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— all illustrations are color</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+            <input type="radio" name="illprimary" value="black and white illustrations" onchange="update()" style="margin-top:3px;accent-color:var(--sage)">
+            <span><strong style="font-weight:500">black and white illustrations</strong><span style="color:var(--ink3);font-size:0.76rem;margin-left:6px">— all illustrations are black and white</span></span>
           </label>
         </div>
       </div>
-      <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Additional illustration types (select all that apply)</div>
-      <div id="ill-extra-checks" style="display:flex;flex-wrap:wrap;gap:6px 16px">
-        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes maps or cartographic content">
-          <input type="checkbox" value="maps" onchange="update()" style="accent-color:var(--sage)"> maps
+      <div style="font-size:0.71rem;font-weight:500;color:var(--ink3);font-family:var(--sans);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Additional types (select all that apply)</div>
+      <div id="ill-extra-checks" style="display:flex;flex-wrap:wrap;gap:6px 18px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="maps" onchange="update()" style="accent-color:var(--sage)"> maps <span style="color:var(--ink3);font-size:0.72rem">(008: b)</span>
         </label>
-        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes portraits (images of people)">
-          <input type="checkbox" value="portraits" onchange="update()" style="accent-color:var(--sage)"> portraits
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="portraits" onchange="update()" style="accent-color:var(--sage)"> portraits <span style="color:var(--ink3);font-size:0.72rem">(008: c)</span>
         </label>
-        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes graphs, charts, or diagrams">
-          <input type="checkbox" value="charts" onchange="update()" style="accent-color:var(--sage)"> charts
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="charts" onchange="update()" style="accent-color:var(--sage)"> charts <span style="color:var(--ink3);font-size:0.72rem">(008: d)</span>
         </label>
-        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes printed music notation (not about music — actual notation on the page)">
-          <input type="checkbox" value="music" onchange="update()" style="accent-color:var(--sage)"> music
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="plans" onchange="update()" style="accent-color:var(--sage)"> plans <span style="color:var(--ink3);font-size:0.72rem">(008: e)</span>
         </label>
-        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer" title="Includes facsimile reproductions of documents or images">
-          <input type="checkbox" value="facsimiles" onchange="update()" style="accent-color:var(--sage)"> facsimiles
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="music" onchange="update()" style="accent-color:var(--sage)"> music <span style="color:var(--ink3);font-size:0.72rem">(008: g) — printed notation</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:0.81rem;font-family:var(--sans);color:var(--ink);cursor:pointer">
+          <input type="checkbox" value="facsimiles" onchange="update()" style="accent-color:var(--sage)"> facsimiles <span style="color:var(--ink3);font-size:0.72rem">(008: h)</span>
         </label>
       </div>
-      <div class="hint" style="margin-top:7px">Selections also populate the 008/18-21 Ills fixed field positions automatically.</div>
+      <div class="hint" style="margin-top:8px">Selections populate 008/18-21 Ills automatically. Codes applied in alphabetical order: a (illustrations), b (maps), c (portraits), d (charts), e (plans), g (music), h (facsimiles).</div>
     </div>
     <div class="field">
       <label><span class="marc">300 $c</span>Dimensions</label>
@@ -615,9 +631,11 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 const RELATORS=[
   ['artist','artist'],['author','author'],['cartographer','cartographer'],
   ['colorist','colorist'],['compiler','compiler'],['composer','composer'],
-  ['designer','designer'],['editor','editor'],['illustrator','illustrator'],
-  ['letterer','letterer'],['photographer','photographer'],['printmaker','printmaker'],
-  ['translator','translator'],['writer of introduction','writer of introduction'],
+  ['contributor','contributor'],['designer','designer'],['editor','editor'],
+  ['illustrator','illustrator'],['letterer','letterer'],['organizer','organizer'],
+  ['photographer','photographer'],['printmaker','printmaker'],['publisher','publisher'],
+  ['sponsor','sponsor'],['translator','translator'],
+  ['writer of introduction','writer of introduction'],
   ['writer of preface','writer of preface']
 ];
 
@@ -675,13 +693,14 @@ function renderAx700(){
   });
 }
 
-function addAx710(name='',rel=''){ax710.push({id:Date.now()+Math.random(),name,rel});renderAx710();}
+function addAx710(name='',rels=[]){ax710.push({id:Date.now()+Math.random(),name,rels});renderAx710();}
 function renderAx710(){
   const w=document.getElementById('ax710-wrap');w.innerHTML='';
   ax710.forEach((a,i)=>{
     const r=document.createElement('div');r.className='ax-row';
+    const selOpts=RELATORS.map(([val,lbl])=>`<option value="${val}"${(a.rels||[]).includes(val)?' selected':''}>${lbl}</option>`).join('');
     r.innerHTML=`<input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Organization name" oninput="ax710[${i}].name=this.value;update()">
-    <select class="rel-sel" onchange="ax710[${i}].rel=this.value;update()">${relOpts(a.rel)}</select>
+    <select class="rel-sel" multiple size="3" onchange="ax710[${i}].rels=Array.from(this.selectedOptions).map(o=>o.value);update()" style="font-family:var(--sans);font-size:0.8rem">${selOpts}</select>
     <button class="xbtn" onclick="ax710.splice(${i},1);renderAx710();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
@@ -725,11 +744,11 @@ function updateDateUI(){
 
 function getIlls(){
   const primary=document.querySelector('input[name="illprimary"]:checked');
-  const primaryVal=primary?primary.value:'';
+  const primaryVal=primary?primary.value:'none';
+  if(primaryVal==='none') return [];
   const extras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
-  const all=[];
-  if(primaryVal) all.push(primaryVal);
-  extras.forEach(e=>{ if(!all.includes(e)) all.push(e); });
+  const all=[primaryVal];
+  extras.forEach(e=>{if(!all.includes(e)) all.push(e);});
   return all;
 }
 
@@ -810,15 +829,20 @@ function buildLines(){
   const hasBib=cb('cont-bib');
   const hasIndx=cb('has-indx');
   // Derive 008 ills from primary radio + additional checkboxes
-  const illPrimary=(document.querySelector('input[name="illprimary"]:checked')||{}).value||'';
+  // MARC 008 Ills codes: a=illustrations, b=maps, c=portraits, d=charts, e=plans, g=music, h=facsimiles
+  const illPrimary=(document.querySelector('input[name="illprimary"]:checked')||{}).value||'none';
   const illExtras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
-  const illAll=[illPrimary,...illExtras].filter(Boolean);
-  const ills008=[
-    (illAll.some(v=>v.includes('illustration'))?'a':' '),
-    (illAll.some(v=>v==='maps')?'b':' '),
-    (illAll.some(v=>v==='portraits')?'c':' '),
-    (illAll.some(v=>v==='music')?'d':' '),
-  ].join('');
+  const hasAnyIll=illPrimary!=='none';
+  const illCodes=[];
+  if(hasAnyIll) illCodes.push('a');
+  if(illExtras.includes('maps')) illCodes.push('b');
+  if(illExtras.includes('portraits')) illCodes.push('c');
+  if(illExtras.includes('charts')) illCodes.push('d');
+  if(illExtras.includes('plans')) illCodes.push('e');
+  if(illExtras.includes('music')) illCodes.push('g');
+  if(illExtras.includes('facsimiles')) illCodes.push('h');
+  // 008/18-21: up to 4 codes in alphabetical order, blank-padded
+  const ills008=illCodes.slice(0,4).join('').padEnd(4,' ');
   const isT=cb('is-translation'),isM=cb('is-multilang');
 
   let pa,pb,pc,dts,d1,d2,extraCR=null;
@@ -843,7 +867,7 @@ function buildLines(){
     pa=v('f264a-u').trim()||'[Place of publication not identified]';
     pb=v('f264b-u').trim()||'[Publisher not identified]';
     pc='[date not identified]';
-    d1='    ';d2='    ';dts='n';
+    d1='uuuu';d2='uuuu';dts='n';
   }
 
   const lines=[];
@@ -862,21 +886,25 @@ function buildLines(){
   if(isT||isM){
     const ind1=isT?'1':'0';
     let aval=`$a ${lang}`;
-    if(isM){(v('f041-extra')||'').trim().split(/\s+/).filter(Boolean).forEach(c=>{aval+=` $a ${c}`;});}
+    if(isM){
+      const extraSel=document.getElementById('f041-extra');
+      const extraLangs=extraSel?Array.from(extraSel.selectedOptions).map(o=>o.value):[];
+      extraLangs.forEach(c=>{aval+=` $a ${c}`;});
+    }
     if(isT){const h=v('f041h');if(h) aval+=` $h ${h}`;}
     lines.push({tag:'041',ind:`${ind1} `,val:aval,auto:false});
   }
 
-  const auth=v('f100a').trim(),corp=v('f110a').trim();
+  const auth=v('f100a').trim();
   const relSel=document.getElementById('f100e');
   const rels100=relSel?Array.from(relSel.selectedOptions).map(o=>o.value):['author'];
   const relStr100=rels100.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.');
-  if(corp) lines.push({tag:'110',ind:'2 ',val:`$a ${corp}, $e ${rels100.join(', ')}.`,auto:false});
-  else if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, ${relStr100}`,auto:false});
+  if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, ${relStr100}`,auto:false});
+
+  const hasCreator=!!auth;
 
   const title=v('f245a').trim(),sub=v('f245b').trim(),part=v('f245n').trim(),stmtresp=v('f245c').trim();
   const ind2=v('f245ind2')||'0';
-  const hasCreator=!!(auth||corp);
   if(title){
     let tv=`$a ${title}`;
     if(sub) tv+=` : $b ${sub}`;
@@ -896,18 +924,19 @@ function buildLines(){
 
   const pn=v('f300num').trim(),pt=rv('pagetype')||'pages';
   const ills=getIlls(),dim=v('f300c').trim();
+  const hasIlls=ills.length>0;
   let phys;
   if(pt==='unpaged'){
     phys='$a 1 volume (unpaged)';
   } else {
     phys=pn?`$a ${pn} ${pt}`:'$a 1 volume';
   }
-  if(ills.length) phys+=` : $b ${ills.join(', ')}`;
+  if(hasIlls) phys+=` : $b ${ills.join(', ')}`;
   if(dim) phys+=` ; $c ${dim}`;
   lines.push({tag:'300',ind:'  ',val:phys,auto:false});
 
   lines.push({tag:'336',ind:'  ',val:'$a text $b txt $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/txt',auto:true});
-  lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/sti',auto:true});
+  if(hasIlls) lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/sti',auto:true});
   lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia $0 http://id.loc.gov/vocabulary/mediaTypes/n',auto:true});
   lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
 
@@ -988,8 +1017,9 @@ function buildLines(){
   });
   ax710.forEach(a=>{
     if(!a.name.trim()) return;
-    const rs=a.rel?` $e ${a.rel}.`:'';
-    lines.push({tag:'710',ind:'2 ',val:`$a ${a.name.trim()},${rs}`,auto:false});
+    const rs=a.rels&&a.rels.length?a.rels:[];
+    const relStr=rs.length?rs.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.'):'';
+    lines.push({tag:'710',ind:'2 ',val:`$a ${a.name.trim()},${relStr?' '+relStr:''}`,auto:false});
   });
 
   return lines;
@@ -1117,7 +1147,7 @@ function resetForm(){
   document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(e=>e.checked=false);
   document.querySelector('input[name="pagetype"][value="pages"]').checked=true;
   document.querySelector('input[name="datetype"][value="known"]').checked=true;
-  document.querySelector('input[name="illprimary"][value=""]').checked=true;
+  document.querySelector('input[name="illprimary"][value="none"]').checked=true;
   document.getElementById('f245ind2').value='';
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
