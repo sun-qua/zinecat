@@ -358,7 +358,13 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div class="field">
       <label><span class="marc">245 $c</span>Statement of responsibility<span class="req">*</span></label>
       <input type="text" id="f245c" placeholder="e.g. by Angela Sun ; illustrations by Robin Park" oninput="update()">
-      <div class="hint">Transcribe exactly as it appears on the source. Do not apply library case here — copy the source verbatim.</div>
+      <div class="hint">Transcribe exactly as it appears on the source — only capitalize proper nouns.</div>
+    </div>
+    <div class="field">
+      <div class="check-g">
+        <label><input type="checkbox" id="is-cover-title" onchange="update()"> Title taken from cover (no title page present)</label>
+      </div>
+      <div class="hint">If checked, adds a 500 note: "Cover title." and sets 245 ind1 to reflect no title page.</div>
     </div>
   </div>
 </div>
@@ -546,12 +552,12 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="hint">Outputs as: Creator's website: [url]</div>
     </div>
     <div class="field">
-      <label><span class="marc">500 $a</span>Class project note (SMFA / Tufts)</label>
+      <label><span class="marc">500 $a</span>SMFA class project note</label>
       <div class="hint" style="margin-bottom:6px;font-style:normal;color:var(--ink2)">Fill in if this zine was created as part of a course. Leave all blank if not applicable.</div>
       <div class="row r2" style="margin-bottom:8px">
         <div class="field">
           <label>Instructor name</label>
-          <input type="text" id="f500-instructor" placeholder="e.g. Prof. Jane Smith" oninput="update()">
+          <input type="text" id="f500-instructor" placeholder="e.g. Jane Smith" oninput="update()">
         </div>
         <div class="field">
           <label>Class name and course number</label>
@@ -568,7 +574,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
         <label>Brief description of project</label>
         <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
       </div>
-      <div class="hint">Outputs as a single 500 note: "Created for [class name and number], taught by [instructor], [semester]. [description]"</div>
+      <div class="hint">Outputs as: "Created for [class name and number], taught by [instructor], [semester], School of the Museum of Fine Arts at Tufts University. [description]"</div>
     </div>
     <div class="field">
       <label><span class="marc">504/500 $a</span>Bibliography / index note <span class="atag">auto</span></label>
@@ -582,6 +588,12 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 <div class="section">
   <div class="sh"><span class="stag grn">6XX</span><span class="stitle">Subject headings</span></div>
   <div class="sb">
+    <div class="field" style="margin-bottom:12px">
+      <div class="check-g">
+        <label><input type="checkbox" id="is-riso" onchange="update()" style="accent-color:var(--sage)"> Risograph printed</label>
+      </div>
+      <div class="hint">If checked, adds <code style="font-family:var(--mono);font-size:0.65rem">655 _7 $a Risographs. $2 lcgft</code> to the record.</div>
+    </div>
     <div style="background:var(--sage-lt);border:1.5px solid var(--sage-md);border-radius:var(--r);padding:10px 12px;margin-bottom:12px">
       <div style="font-size:0.78rem;font-weight:500;color:var(--sage-dk);font-family:var(--sans);margin-bottom:6px">How to assign subject headings</div>
       <div style="font-size:0.75rem;color:var(--ink2);font-family:var(--sans);line-height:1.6;margin-bottom:10px">Note any keywords from the donation form, the zine's summary, cover, or table of contents. Then look up matching terms in the Zine Subject Thesaurus and copy them into the fields below. LCSH headings will be added by cataloging staff during review.</div>
@@ -746,10 +758,23 @@ function getIlls(){
   const primary=document.querySelector('input[name="illprimary"]:checked');
   const primaryVal=primary?primary.value:'none';
   if(primaryVal==='none') return [];
+  // Remap "chiefly" values for 300 $b — the chiefly note goes in a 500 instead
+  const remapped={
+    'chiefly color illustrations':'color illustrations',
+    'chiefly illustrations (some color)':'illustrations (some color)'
+  };
+  const val300=remapped[primaryVal]||primaryVal;
   const extras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
-  const all=[primaryVal];
+  const all=[val300];
   extras.forEach(e=>{if(!all.includes(e)) all.push(e);});
   return all;
+}
+
+function getChieflyNote(){
+  const primary=document.querySelector('input[name="illprimary"]:checked');
+  const v=primary?primary.value:'none';
+  if(v==='chiefly color illustrations'||v==='chiefly illustrations (some color)') return 'Chiefly illustrations.';
+  return '';
 }
 
 // ─── 008 builder ───────────────────────────────────────────────────────────
@@ -940,6 +965,13 @@ function buildLines(){
   lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia $0 http://id.loc.gov/vocabulary/mediaTypes/n',auto:true});
   lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
 
+  // 500 chiefly illustrations note
+  const chieflyNote=getChieflyNote();
+  if(chieflyNote) lines.push({tag:'500',ind:'  ',val:`$a ${chieflyNote}`,auto:false});
+
+  // 500 cover title note
+  if(cb('is-cover-title')) lines.push({tag:'500',ind:'  ',val:'$a Cover title.',auto:false});
+
   // 500 general notes (multiple)
   extra500s.forEach(n=>{
     if(!n.val.trim()) return;
@@ -959,8 +991,8 @@ function buildLines(){
     let classNote='Created for';
     if(classname) classNote+=` ${classname},`;
     if(instructor) classNote+=` taught by ${instructor},`;
-    if(semester) classNote+=` ${semester}.`;
-    else classNote=classNote.replace(/,$/,'.');
+    if(semester) classNote+=` ${semester},`;
+    classNote+=' School of the Museum of Fine Arts at Tufts University.';
     if(classdesc) classNote+=` ${classdesc}`;
     if(!/[.!?]$/.test(classNote)) classNote+='.';
     lines.push({tag:'500',ind:'  ',val:`$a ${classNote}`,auto:false});
@@ -991,6 +1023,9 @@ function buildLines(){
 
   // 655 Zines lcgft — always
   lines.push({tag:'655',ind:' 7',val:'$a Zines. $2 lcgft',auto:true});
+
+  // 655 Risographs lcgft — if checked
+  if(cb('is-riso')) lines.push({tag:'655',ind:' 7',val:'$a Risographs. $2 lcgft',auto:false});
 
   // 650 _7 ZST subject terms entered by student
   zstTerms.forEach(s=>{
