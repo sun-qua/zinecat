@@ -552,29 +552,60 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="hint">Outputs as: Creator's website: [url]</div>
     </div>
     <div class="field">
-      <label><span class="marc">500 $a</span>SMFA class project note</label>
-      <div class="hint" style="margin-bottom:6px;font-style:normal;color:var(--ink2)">Fill in if this zine was created as part of a course. Leave all blank if not applicable.</div>
-      <div class="row r2" style="margin-bottom:8px">
-        <div class="field">
-          <label>Instructor name</label>
-          <input type="text" id="f500-instructor" placeholder="e.g. Jane Smith" oninput="update()">
-        </div>
-        <div class="field">
-          <label>Class name and course number</label>
-          <input type="text" id="f500-classname" placeholder="e.g. Bookmaking and Publication SMFA-0101" oninput="update()">
+      <label><span class="marc">500 $a</span>Provenance notes</label>
+      <div class="hint" style="margin-bottom:10px;font-style:normal;color:var(--ink2)">Check one or both if applicable. Leave unchecked if this zine was not created as part of a class or workshop.</div>
+
+      <!-- SMFA class -->
+      <div style="border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer;margin-bottom:8px">
+          <input type="checkbox" id="is-smfa-class" onchange="toggleSmfaClass();update()" style="accent-color:var(--sage)">
+          <strong style="font-weight:500">Created as part of an SMFA class</strong>
+        </label>
+        <div id="smfa-class-fields" style="display:none">
+          <div class="row r2" style="margin-bottom:8px">
+            <div class="field">
+              <label>Instructor name</label>
+              <input type="text" id="f500-instructor" placeholder="e.g. Jane Smith" oninput="update()">
+            </div>
+            <div class="field">
+              <label>Class name and course number</label>
+              <input type="text" id="f500-classname" placeholder="e.g. Bookmaking and Publication SMFA-0101" oninput="update()">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label>Semester / year</label>
+            <input type="text" id="f500-semester" placeholder="e.g. Spring 2024" oninput="update()">
+          </div>
+          <div class="field">
+            <label>Brief description of project</label>
+            <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
+          </div>
+          <div class="hint">Outputs as: "Created for [class name and number], taught by [instructor], [semester], School of the Museum of Fine Arts at Tufts University. [description]"</div>
         </div>
       </div>
-      <div class="row r2" style="margin-bottom:8px">
-        <div class="field">
-          <label>Semester / year</label>
-          <input type="text" id="f500-semester" placeholder="e.g. Spring 2024" oninput="update()">
+
+      <!-- Tisch workshop -->
+      <div style="border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:0.82rem;font-family:var(--sans);color:var(--ink);cursor:pointer;margin-bottom:8px">
+          <input type="checkbox" id="is-tisch-workshop" onchange="toggleTischWorkshop();update()" style="accent-color:var(--sage)">
+          <strong style="font-weight:500">Created at a Tisch Library workshop</strong>
+        </label>
+        <div id="tisch-workshop-fields" style="display:none">
+          <div class="field" style="margin-bottom:8px">
+            <label>Workshop name / location</label>
+            <input type="text" id="f500-tisch-name" placeholder="e.g. Envisioning Futures: A Zine-Making and Oral History Workshop at the BLOOM Center" oninput="update()">
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label>Instructor(s)</label>
+            <input type="text" id="f500-tisch-instructor" placeholder="e.g. Gabby Womack and Joanna Gray" oninput="update()">
+          </div>
+          <div class="field">
+            <label>Workshop date</label>
+            <input type="date" id="f500-tisch-date" onchange="update()" style="font-family:var(--sans);font-size:0.87rem;padding:7px 10px;border:1.5px solid var(--border2);border-radius:var(--r);background:var(--cream);color:var(--ink);width:auto">
+          </div>
+          <div class="hint" style="margin-top:4px">Outputs as: "Created for [workshop name], taught by [instructor(s)], Tisch Library at Tufts University, [Month Day, Year]."</div>
         </div>
       </div>
-      <div class="field">
-        <label>Brief description of project</label>
-        <textarea id="f500-classdesc" placeholder="e.g. Created as part of a zine-making assignment exploring personal narrative." oninput="update()" style="min-height:48px"></textarea>
-      </div>
-      <div class="hint">Outputs as: "Created for [class name and number], taught by [instructor], [semester], School of the Museum of Fine Arts at Tufts University. [description]"</div>
     </div>
     <div class="field">
       <label><span class="marc">504/500 $a</span>Bibliography / index note <span class="atag">auto</span></label>
@@ -722,6 +753,22 @@ function v(id){return(document.getElementById(id)||{}).value||'';}
 function rv(name){const e=document.querySelector(`input[name="${name}"]:checked`);return e?e.value:'';}
 function cb(id){const e=document.getElementById(id);return!!(e&&e.checked);}
 function dateType(){return rv('datetype')||'known';}
+
+function toggleSmfaClass(){
+  document.getElementById('smfa-class-fields').style.display=cb('is-smfa-class')?'block':'none';
+  update();
+}
+function toggleTischWorkshop(){
+  document.getElementById('tisch-workshop-fields').style.display=cb('is-tisch-workshop')?'block':'none';
+  update();
+}
+
+function formatTischDate(val){
+  if(!val) return '';
+  const [y,m,d]=val.split('-').map(Number);
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${months[m-1]} ${d}, ${y}`;
+}
 
 function toggle041(){
   document.getElementById('translation-extra').style.display=cb('is-translation')?'block':'none';
@@ -982,20 +1029,35 @@ function buildLines(){
   const website=v('f500-website').trim();
   if(website) lines.push({tag:'500',ind:'  ',val:`$a Creator's website: ${website}`,auto:false});
 
-  // 500 class project note
-  const instructor=v('f500-instructor').trim();
-  const classname=v('f500-classname').trim();
-  const semester=v('f500-semester').trim();
-  const classdesc=v('f500-classdesc').trim();
-  if(instructor||classname||semester){
-    let classNote='Created for';
-    if(classname) classNote+=` ${classname},`;
-    if(instructor) classNote+=` taught by ${instructor},`;
-    if(semester) classNote+=` ${semester},`;
-    classNote+=' School of the Museum of Fine Arts at Tufts University.';
-    if(classdesc) classNote+=` ${classdesc}`;
-    if(!/[.!?]$/.test(classNote)) classNote+='.';
-    lines.push({tag:'500',ind:'  ',val:`$a ${classNote}`,auto:false});
+  // 500 SMFA class project note
+  if(cb('is-smfa-class')){
+    const instructor=v('f500-instructor').trim();
+    const classname=v('f500-classname').trim();
+    const semester=v('f500-semester').trim();
+    const classdesc=v('f500-classdesc').trim();
+    if(instructor||classname||semester){
+      let classNote='Created for';
+      if(classname) classNote+=` ${classname},`;
+      if(instructor) classNote+=` taught by ${instructor},`;
+      if(semester) classNote+=` ${semester},`;
+      classNote+=' School of the Museum of Fine Arts at Tufts University.';
+      if(classdesc) classNote+=` ${classdesc}`;
+      if(!/[.!?]$/.test(classNote)) classNote+='.';
+      lines.push({tag:'500',ind:'  ',val:`$a ${classNote}`,auto:false});
+    }
+  }
+
+  // 500 Tisch Library workshop note
+  if(cb('is-tisch-workshop')){
+    const tischName=v('f500-tisch-name').trim();
+    const tischInstr=v('f500-tisch-instructor').trim();
+    const tischDate=formatTischDate(v('f500-tisch-date'));
+    let tischNote='Created for';
+    tischNote+=tischName?` ${tischName},`:' [workshop name],';
+    if(tischInstr) tischNote+=` taught by ${tischInstr},`;
+    tischNote+=' Tisch Library at Tufts University';
+    tischNote+=tischDate?`, ${tischDate}.`:'.';
+    lines.push({tag:'500',ind:'  ',val:`$a ${tischNote}`,auto:false});
   }
 
   // 504 / 500 bibliography and index notes
@@ -1056,6 +1118,33 @@ function buildLines(){
     const relStr=rs.length?rs.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.'):'';
     lines.push({tag:'710',ind:'2 ',val:`$a ${a.name.trim()},${relStr?' '+relStr:''}`,auto:false});
   });
+
+  // 710 auto entry for Tisch Library workshop
+  if(cb('is-tisch-workshop')){
+    const tischName=v('f500-tisch-name').trim();
+    const tischDateRaw=v('f500-tisch-date');
+    // Format date as YYYY Month DD for $d, e.g. 2026 September 23
+    let tisch710date='';
+    if(tischDateRaw){
+      const [y,m,d]=tischDateRaw.split('-').map(Number);
+      const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      tisch710date=`${y} ${months[m-1]} ${d}`;
+    }
+    let tisch710=`$a Tisch Library.`;
+    if(tischName) tisch710+=` $b ${tischName}`;
+    if(tisch710date) tisch710+=` $d (${tisch710date})`;
+    lines.push({tag:'710',ind:'2 ',val:tisch710,auto:false});
+  }
+
+  // 710 auto entry for SMFA class
+  if(cb('is-smfa-class')){
+    const classname=v('f500-classname').trim();
+    const semester=v('f500-semester').trim();
+    let smfa710=`$a Tufts University. $b School of the Museum of Fine Arts.`;
+    if(classname) smfa710+=` $b ${classname}`;
+    if(semester) smfa710+=` $d (${semester})`;
+    lines.push({tag:'710',ind:'2 ',val:smfa710,auto:false});
+  }
 
   return lines;
 }
@@ -1187,6 +1276,8 @@ function resetForm(){
   document.getElementById('f504prev').value='';
   document.getElementById('multilang-extra').style.display='none';
   document.getElementById('translation-extra').style.display='none';
+  document.getElementById('smfa-class-fields').style.display='none';
+  document.getElementById('tisch-workshop-fields').style.display='none';
   zstTerms=[];nonZstTerms=[];extra500s=[];ax700=[];ax710=[];subjects=[];
   renderZst();renderNonZst();renderExtra500();renderAx700();renderAx710();
   updateDateUI();
