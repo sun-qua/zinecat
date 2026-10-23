@@ -277,35 +277,48 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 <div class="section">
   <div class="sh"><span class="stag grn">1XX</span><span class="stitle">Creator / author <span style="font-family:var(--sans);font-weight:400;font-size:0.72rem;color:var(--ink3)">(main entry)</span></span></div>
   <div class="sb">
-    <div class="row r2">
-      <div class="field">
-        <label><span class="marc">100 $a</span>Personal name</label>
-        <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
-        <div class="hint">Inverted form. For a group or organization as primary creator, use the 710 added entry below.</div>
-      </div>
-      <div class="field">
-        <label><span class="marc">100 ind1</span>Name type</label>
-        <select id="f100type" onchange="update()">
-          <option value="1">1 — Surname</option>
-          <option value="0">0 — Forename / single name</option>
-          <option value="3">3 — Family name</option>
-        </select>
-      </div>
-    </div>
     <div class="field">
-      <label><span class="marc">100 $e</span>Relator term(s)</label>
-      <select id="f100e" multiple size="4" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
-        <option value="artist">artist</option><option value="author" selected>author</option>
-        <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
-        <option value="compiler">compiler</option><option value="composer">composer</option>
-        <option value="designer">designer</option><option value="editor">editor</option>
-        <option value="illustrator">illustrator</option><option value="letterer">letterer</option>
-        <option value="photographer">photographer</option><option value="printmaker">printmaker</option>
-        <option value="translator">translator</option>
-        <option value="writer of introduction">writer of introduction</option>
-        <option value="writer of preface">writer of preface</option>
-      </select>
-      <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple roles.</div>
+      <label>Check donation form: does this creator wish to remain anonymous in catalog records?<span class="req">*</span></label>
+      <div class="radio-g" style="margin-top:6px">
+        <label><input type="radio" name="creatoranon" value="no" onchange="toggleAnonCreator()"> No — include name in record</label>
+        <label><input type="radio" name="creatoranon" value="yes" onchange="toggleAnonCreator()"> Yes — creator wishes to remain anonymous</label>
+      </div>
+      <div class="hint" style="margin-top:4px">Check the donation form before proceeding. This field is required.</div>
+    </div>
+    <div id="anon-notice" style="display:none;margin-top:8px;padding:8px 10px;background:var(--gold-lt);border:1px solid #e0c878;border-radius:var(--r);font-size:0.75rem;color:#7a5800;font-family:var(--sans)">
+      Creator has requested anonymity. No 100 field will be added to this record.
+    </div>
+    <div id="creator-fields" style="display:none;margin-top:8px">
+      <div class="row r2" style="margin-bottom:8px">
+        <div class="field">
+          <label><span class="marc">100 $a</span>Personal name</label>
+          <input type="text" id="f100a" placeholder="Lastname, Firstname" oninput="update()">
+          <div class="hint">Inverted form. For a group or organization, use the 710 added entry below.</div>
+        </div>
+        <div class="field">
+          <label><span class="marc">100 ind1</span>Name type</label>
+          <select id="f100type" onchange="update()">
+            <option value="1">1 — Surname</option>
+            <option value="0">0 — Forename / single name</option>
+            <option value="3">3 — Family name</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="marc">100 $e</span>Relator term(s)</label>
+        <select id="f100e" multiple size="4" onchange="update()" style="font-family:var(--sans);font-size:0.84rem">
+          <option value="artist">artist</option><option value="author" selected>author</option>
+          <option value="cartographer">cartographer</option><option value="colorist">colorist</option>
+          <option value="compiler">compiler</option><option value="composer">composer</option>
+          <option value="designer">designer</option><option value="editor">editor</option>
+          <option value="illustrator">illustrator</option><option value="letterer">letterer</option>
+          <option value="photographer">photographer</option><option value="printmaker">printmaker</option>
+          <option value="translator">translator</option>
+          <option value="writer of introduction">writer of introduction</option>
+          <option value="writer of preface">writer of preface</option>
+        </select>
+        <div class="hint">Ctrl+click (Windows) or Cmd+click (Mac) to select multiple roles.</div>
+      </div>
     </div>
   </div>
 </div>
@@ -754,6 +767,13 @@ function rv(name){const e=document.querySelector(`input[name="${name}"]:checked`
 function cb(id){const e=document.getElementById(id);return!!(e&&e.checked);}
 function dateType(){return rv('datetype')||'known';}
 
+function toggleAnonCreator(){
+  const val=rv('creatoranon');
+  document.getElementById('creator-fields').style.display=val==='no'?'block':'none';
+  document.getElementById('anon-notice').style.display=val==='yes'?'block':'none';
+  update();
+}
+
 function toggleSmfaClass(){
   document.getElementById('smfa-class-fields').style.display=cb('is-smfa-class')?'block':'none';
   update();
@@ -930,7 +950,7 @@ function buildLines(){
     const cy=v('f264c-c').trim();
     const y=cy.replace(/\D/g,'').slice(0,4);
     pc=y?`[${y}]`:'[date not identified]';
-    const copyr=y?`\u00a9${y}`:'[copyright date not identified]';
+    const copyr=y?`©${y}`:'[copyright date not identified]';
     d1=y.padEnd(4,' ');d2=y.padEnd(4,' ');dts='t';
     extraCR={c:copyr};
     const pr=document.getElementById('dt-cr-prev');
@@ -967,11 +987,14 @@ function buildLines(){
     lines.push({tag:'041',ind:`${ind1} `,val:aval,auto:false});
   }
 
-  const auth=v('f100a').trim();
-  const relSel=document.getElementById('f100e');
-  const rels100=relSel?Array.from(relSel.selectedOptions).map(o=>o.value):['author'];
-  const relStr100=rels100.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.');
-  if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, ${relStr100}`,auto:false});
+  const creatorAnon=rv('creatoranon');
+  const auth=(creatorAnon==='yes')?'':v('f100a').trim();
+  if(creatorAnon!=='yes'){
+    const relSel=document.getElementById('f100e');
+    const rels100=relSel?Array.from(relSel.selectedOptions).map(o=>o.value):['author'];
+    const relStr100=rels100.map(r=>`$e ${r},`).join(' ').replace(/,$/,'.');
+    if(auth) lines.push({tag:'100',ind:`${v('f100type')||'1'} `,val:`$a ${auth}, ${relStr100}`,auto:false});
+  }
 
   const hasCreator=!!auth;
 
@@ -1278,6 +1301,8 @@ function resetForm(){
   document.getElementById('translation-extra').style.display='none';
   document.getElementById('smfa-class-fields').style.display='none';
   document.getElementById('tisch-workshop-fields').style.display='none';
+  document.getElementById('creator-fields').style.display='none';
+  document.getElementById('anon-notice').style.display='none';
   zstTerms=[];nonZstTerms=[];extra500s=[];ax700=[];ax710=[];subjects=[];
   renderZst();renderNonZst();renderExtra500();renderAx700();renderAx710();
   updateDateUI();
