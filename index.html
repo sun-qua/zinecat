@@ -377,7 +377,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="check-g">
         <label><input type="checkbox" id="is-cover-title" onchange="update()"> Title taken from cover (no title page present)</label>
       </div>
-      <div class="hint">If checked, adds a 500 note: "Cover title." and sets 245 ind1 to reflect no title page.</div>
+      <div class="hint">If checked, adds a 500 note: "Cover title."</div>
     </div>
   </div>
 </div>
@@ -440,7 +440,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
       <div class="field">
         <label><span class="marc">300 $a</span>Number</label>
         <input type="text" id="f300num" placeholder="e.g. 24" oninput="update()">
-        <div class="hint">Leave blank if selecting "1 volume (unpaged)".</div>
+        <div class="hint">Leave blank if selecting "1 volume (unpaged)" or "1 print".</div>
       </div>
       <div class="field">
         <label>&nbsp;</label>
@@ -450,6 +450,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
           <label><input type="radio" name="pagetype" value="unnumbered pages" onchange="togglePageNum();update()"> unnumbered pages</label>
           <label><input type="radio" name="pagetype" value="unnumbered leaves" onchange="togglePageNum();update()"> unnumbered leaves</label>
           <label><input type="radio" name="pagetype" value="unpaged" onchange="togglePageNum();update()"> 1 volume (unpaged)</label>
+          <label><input type="radio" name="pagetype" value="print" onchange="togglePageNum();update()"> 1 print</label>
         </div>
       </div>
     </div>
@@ -648,7 +649,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
     <div class="hint" style="margin-top:6px">The <em>Zines</em> genre heading is added automatically. Each term outputs as <code style="font-family:var(--mono);font-size:0.65rem">650 _7 $2 zst</code>.</div>
 
     <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2)">
-      <div style="font-size:0.75rem;font-weight:500;color:var(--ink2);font-family:var(--sans);margin-bottom:4px">Term not found in the thesaurus?</div>
+      <div style="font-size:0.75rem;font-weight:500;color:var(--ink2);font-family:var(--sans);margin-bottom:4px">LGBTQIA+ and gender terms: Homosaurus</div>
+      <div style="font-size:0.72rem;color:var(--ink3);font-family:var(--sans);line-height:1.5;margin-bottom:8px">If the zine deals with LGBTQIA+ topics, look up matching terms in Homosaurus and copy them below.</div>
+      <a href="https://homosaurus.org" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--rose);color:#fff;text-decoration:none;padding:7px 14px;border-radius:var(--r);font-size:0.78rem;font-family:var(--sans);font-weight:500;transition:background 0.15s;margin-bottom:10px" onmouseover="this.style.background='var(--rose-dk)'" onmouseout="this.style.background='var(--rose)'">Open Homosaurus &#8599;</a>
+      <div id="homo-wrap"></div>
+      <button class="add-btn" onclick="addHomo()">+ Add Homosaurus term</button>
+      <div class="hint" style="margin-top:6px">Each term outputs as <code style="font-family:var(--mono);font-size:0.65rem">650 _7 $2 homoit</code>.</div>
+    </div>
+
+    <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2)">
+      <div style="font-size:0.75rem;font-weight:500;color:var(--ink2);font-family:var(--sans);margin-bottom:4px">Term not found in either thesaurus?</div>
       <div style="font-size:0.72rem;color:var(--ink3);font-family:var(--sans);line-height:1.5;margin-bottom:8px">Enter it here. These output as <code style="font-family:var(--mono);font-size:0.65rem">650 _4</code> (source not specified) so cataloging staff can identify them for authority work during review.</div>
       <div id="nonzst-wrap"></div>
       <button class="add-btn" onclick="addNonZst()">+ Add term not in thesaurus</button>
@@ -695,7 +705,7 @@ const RELATORS=[
   ['writer of preface','writer of preface']
 ];
 
-let subjects=[],zstTerms=[],nonZstTerms=[],extra500s=[],ax700=[],ax710=[],marcOutput='';
+let subjects=[],zstTerms=[],homoTerms=[],nonZstTerms=[],extra500s=[],ax700=[],ax710=[],marcOutput='';
 
 function relOpts(sel=''){
   return RELATORS.map(([v,l])=>`<option value="${v}"${v===sel?' selected':''}>${l}</option>`).join('');
@@ -721,6 +731,17 @@ function renderExtra500(){
     const r=document.createElement('div');r.className='sub-row';
     r.innerHTML=`<input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="Note text" oninput="extra500s[${i}].val=this.value;update()" style="flex:1">
     <button class="xbtn" onclick="extra500s.splice(${i},1);renderExtra500();update()">&#x2715;</button>`;
+    w.appendChild(r);
+  });
+}
+
+function addHomo(val=''){homoTerms.push({id:Date.now()+Math.random(),val});renderHomo();}
+function renderHomo(){
+  const w=document.getElementById('homo-wrap');if(!w) return;w.innerHTML='';
+  homoTerms.forEach((s,i)=>{
+    const r=document.createElement('div');r.className='sub-row';
+    r.innerHTML=`<input type="text" value="${s.val.replace(/"/g,'&quot;')}" placeholder="e.g. Gender-affirming care" oninput="homoTerms[${i}].val=this.value;update()" style="flex:1">
+    <button class="xbtn" onclick="homoTerms.splice(${i},1);renderHomo();update()">&#x2715;</button>`;
     w.appendChild(r);
   });
 }
@@ -800,8 +821,8 @@ function togglePageNum(){
   const pt=rv('pagetype')||'pages';
   const numField=document.getElementById('f300num');
   if(numField){
-    numField.disabled=pt==='unpaged';
-    numField.style.opacity=pt==='unpaged'?'0.4':'1';
+    numField.disabled=(pt==='unpaged'||pt==='print');
+    numField.style.opacity=(pt==='unpaged'||pt==='print')?'0.4':'1';
   }
   update();
 }
@@ -827,8 +848,12 @@ function getIlls(){
   if(primaryVal==='none') return [];
   // Remap "chiefly" values for 300 $b — the chiefly note goes in a 500 instead
   const remapped={
-    'chiefly color illustrations':'color illustrations',
-    'chiefly illustrations (some color)':'illustrations (some color)'
+    'chiefly color illustrations':'color',
+    'chiefly illustrations (some color)':'some color',
+    'illustrations (chiefly color)':'chiefly color',
+    'illustrations (some color)':'some color',
+    'color illustrations':'color',
+    'black and white illustrations':'black and white'
   };
   const val300=remapped[primaryVal]||primaryVal;
   const extras=Array.from(document.querySelectorAll('#ill-extra-checks input:checked')).map(c=>c.value);
@@ -1023,6 +1048,8 @@ function buildLines(){
   let phys;
   if(pt==='unpaged'){
     phys='$a 1 volume (unpaged)';
+  } else if(pt==='print'){
+    phys='$a 1 print';
   } else {
     phys=pn?`$a ${pn} ${pt}`:'$a 1 volume';
   }
@@ -1033,7 +1060,8 @@ function buildLines(){
   lines.push({tag:'336',ind:'  ',val:'$a text $b txt $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/txt',auto:true});
   if(hasIlls) lines.push({tag:'336',ind:'  ',val:'$a still image $b sti $2 rdacontent $0 http://id.loc.gov/vocabulary/contentTypes/sti',auto:true});
   lines.push({tag:'337',ind:'  ',val:'$a unmediated $b n $2 rdamedia $0 http://id.loc.gov/vocabulary/mediaTypes/n',auto:true});
-  lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
+  if(pt==='print') lines.push({tag:'338',ind:'  ',val:'$a sheet $b nb $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nb',auto:true});
+  else lines.push({tag:'338',ind:'  ',val:'$a volume $b nc $2 rdacarrier $0 http://id.loc.gov/vocabulary/carriers/nc',auto:true});
 
   // 500 chiefly illustrations note
   const chieflyNote=getChieflyNote();
@@ -1118,6 +1146,14 @@ function buildLines(){
     const sv=s.val.trim();
     const hVal=sv.endsWith('.')?sv:sv+'.';
     lines.push({tag:'650',ind:' 7',val:`$a ${hVal} $2 zst`,auto:false});
+  });
+
+  // 650 _7 Homosaurus terms entered by student
+  homoTerms.forEach(s=>{
+    if(!s.val.trim()) return;
+    const sv=s.val.trim();
+    const hVal=sv.endsWith('.')?sv:sv+'.';
+    lines.push({tag:'650',ind:' 7',val:`$a ${hVal} $2 homoit`,auto:false});
   });
 
   // 650 _4 non-ZST provisional terms (source not specified, for cataloger review)
@@ -1303,8 +1339,8 @@ function resetForm(){
   document.getElementById('tisch-workshop-fields').style.display='none';
   document.getElementById('creator-fields').style.display='none';
   document.getElementById('anon-notice').style.display='none';
-  zstTerms=[];nonZstTerms=[];extra500s=[];ax700=[];ax710=[];subjects=[];
-  renderZst();renderNonZst();renderExtra500();renderAx700();renderAx710();
+  zstTerms=[];homoTerms=[];nonZstTerms=[];extra500s=[];ax700=[];ax710=[];subjects=[];
+  renderZst();renderHomo();renderNonZst();renderExtra500();renderAx700();renderAx710();
   updateDateUI();
   document.getElementById('marc-preview').innerHTML='<span class="empty-st">Fill in fields to preview your record</span>';
   marcOutput='';
